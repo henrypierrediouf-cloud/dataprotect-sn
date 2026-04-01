@@ -267,7 +267,6 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
   .stats-inner{grid-template-columns:1fr 1fr}
   .ressources-grid{grid-template-columns:1fr}
 }
-
 [data-nav],[data-article],[data-reg],[data-filter],[data-accordion],[data-faq],[data-letter]{cursor:pointer}
 .nav-links a{cursor:pointer}
 .dark-toggle{background:none;border:1px solid var(--border);border-radius:20px;padding:.28rem .7rem;cursor:pointer;font-size:.8rem;color:var(--text);font-family:'DM Sans',sans-serif;transition:.2s}
@@ -299,8 +298,6 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
 .tgl input:disabled+.tgl-s{opacity:.6;cursor:not-allowed}
 .cm-btns{display:flex;gap:.5rem;margin-top:.9rem;flex-wrap:wrap}
 @media(max-width:600px){.ck-inner{flex-direction:column}}
-
-
 #chatbot-bubble{position:fixed;bottom:1.5rem;right:1.5rem;z-index:500;display:flex;flex-direction:column;align-items:flex-end;gap:.75rem}
 #chatbot-btn{width:54px;height:54px;border-radius:50%;background:var(--green);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(26,107,58,.4);font-size:1.3rem}
 #chatbot-window{width:340px;height:480px;background:var(--white);border:1px solid var(--border);border-radius:18px;display:none;flex-direction:column;overflow:hidden;box-shadow:0 12px 50px rgba(0,0,0,.15)}
@@ -326,7 +323,6 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
 .chat-input:focus{border-color:var(--green)}
 .chat-send{background:var(--green);color:#fff;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:.9rem;flex-shrink:0}
 @media(max-width:768px){#chatbot-window{width:calc(100vw - 2rem)}}
-
 </style>
 </head>
 <body>
@@ -920,54 +916,9 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
 </section>
 </div>
 
-
-<div id="chatbot-bubble">
-  <div id="chatbot-window">
-    <div class="chat-header">
-      <div><div class="chat-name">🤖 Assistant DataProtect SN</div><div class="chat-status">En ligne · IA</div></div>
-      <button class="chat-close" id="chatClose">✕</button>
-    </div>
-    <div class="chat-messages" id="chatMessages">
-      <div class="chat-msg bot">👋 Bonjour ! Je suis l'assistant spécialisé en protection des données au Sénégal. Posez vos questions sur la Loi 2008-12, le RGPD, vos droits ou la conformité.</div>
-    </div>
-    <div class="chat-sugs" id="chatSugs">
-      <button class="chat-sug" data-sug="Quels sont mes droits sur mes données ?">Mes droits</button>
-      <button class="chat-sug" data-sug="Dois-je déclarer mon entreprise à la CDP ?">Déclaration CDP</button>
-      <button class="chat-sug" data-sug="Le RGPD s'applique-t-il au Sénégal ?">RGPD & SN</button>
-      <button class="chat-sug" data-sug="Qu'est-ce qu'un DPO ?">Le DPO</button>
-    </div>
-    <div class="chat-input-wrap">
-      <input type="text" class="chat-input" id="chatInput" placeholder="Votre question...">
-      <button class="chat-send" id="chatSend">➤</button>
-    </div>
-  </div>
-  <button id="chatbot-btn">💬</button>
-</div>
-<div id="cookie-banner">
-  <div class="ck-inner">
-    <div class="ck-text">
-      <h4>🍪 Ce site utilise des cookies</h4>
-      <p>Conformément à la <strong>Loi 2008-12</strong> et au <strong>RGPD Art. 7</strong>, votre consentement explicite est requis. Sans votre accord, seuls les cookies nécessaires au fonctionnement sont actifs.</p>
-    </div>
-    <div class="ck-btns">
-      <button class="btn-ck-set" id="ck-custom">Personnaliser</button>
-      <button class="btn-ck-no" id="ck-refuse">Refuser</button>
-      <button class="btn-ck-ok" id="ck-accept">Accepter</button>
-    </div>
-  </div>
-</div>
-<div id="cookie-modal">
-  <div class="cm-box">
-    <h3>Gérer mes cookies</h3>
-    <p style="font-size:.76rem;color:var(--muted);margin-bottom:.8rem">Art. 48 Loi 2008-12 & Art. 7 RGPD — Choisissez les cookies que vous autorisez.</p>
-    <div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">🔒 Nécessaires</span><label class="tgl"><input type="checkbox" checked disabled><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Indispensables au fonctionnement. Non désactivables.</div></div>
-    <div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">📊 Analytiques</span><label class="tgl"><input type="checkbox" id="ck-analytics"><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Comprendre l'usage du site. Données anonymisées.</div></div>
-    <div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">🎯 Personnalisation</span><label class="tgl"><input type="checkbox" id="ck-perso"><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Mémoriser vos préférences (mode sombre, etc.).</div></div>
-    <div style="background:var(--green-light);border-radius:8px;padding:.55rem .85rem;font-size:.74rem;color:var(--green-dark);margin-top:.5rem">Responsable : Henry Pierre Diouf — <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3058555e424940595542425554595f455670575d51595c1e535f5d">[email&#160;protected]</a></div>
-    <div class="cm-btns"><button class="btn-ck-no" id="ck-modal-refuse">Refuser tout</button><button class="btn-ck-ok" id="ck-modal-save">Enregistrer</button><button class="btn-ck-ok" id="ck-modal-accept">Accepter tout</button></div>
-  </div>
-</div>
-
+<div id="chatbot-bubble"><div id="chatbot-window"><div class="chat-header"><div><div class="chat-name">Assistant DataProtect SN</div><div class="chat-status">En ligne</div></div><button class="chat-close" id="chatClose">X</button></div><div class="chat-messages" id="chatMessages"><div class="chat-msg bot">Bonjour ! Je suis votre assistant specialise en protection des donnees. Posez vos questions sur la Loi 2008-12, le RGPD, vos droits.</div></div><div class="chat-sugs" id="chatSugs"><button class="chat-sug" data-sug="Quels sont mes droits sur mes donnees ?">Mes droits</button><button class="chat-sug" data-sug="Dois-je declarer mon entreprise a la CDP ?">Declaration CDP</button><button class="chat-sug" data-sug="Qu'est-ce qu'un DPO ?">Le DPO</button></div><div class="chat-input-wrap"><input type="text" class="chat-input" id="chatInput" placeholder="Votre question..."><button class="chat-send" id="chatSend">OK</button></div></div><button id="chatbot-btn">Chat</button></div>
+<div id="cookie-banner"><div class="ck-inner"><div class="ck-text"><h4>Ce site utilise des cookies</h4><p>Conformement a la <strong>Loi 2008-12</strong> et au <strong>RGPD Art. 7</strong>, votre consentement est requis avant toute utilisation de cookies non essentiels.</p></div><div class="ck-btns"><button class="btn-ck-set" id="ck-custom">Personnaliser</button><button class="btn-ck-no" id="ck-refuse">Refuser</button><button class="btn-ck-ok" id="ck-accept">Accepter</button></div></div></div>
+<div id="cookie-modal"><div class="cm-box"><h3>Mes preferences cookies</h3><p style="font-size:.76rem;color:var(--muted);margin-bottom:.8rem">Art. 48 Loi 2008-12 et Art. 7 RGPD</p><div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">Necessaires</span><label class="tgl"><input type="checkbox" checked disabled><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Indispensables au fonctionnement.</div></div><div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">Analytiques</span><label class="tgl"><input type="checkbox" id="ck-analytics"><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Comprendre l'usage du site.</div></div><div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">Personnalisation</span><label class="tgl"><input type="checkbox" id="ck-perso"><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Memoriser vos preferences.</div></div><div class="cm-btns"><button class="btn-ck-no" id="ck-modal-refuse">Refuser</button><button class="btn-ck-ok" id="ck-modal-save">Enregistrer</button><button class="btn-ck-ok" id="ck-modal-accept">Accepter tout</button></div></div></div>
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
@@ -994,11 +945,11 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
   </div>
   <div class="footer-legal">
     Ce site est fourni à titre informatif et éducatif. Il ne constitue pas un conseil juridique. Pour toute question spécifique, consultez un professionnel qualifié ou la CDP (www.cdp.sn). Les contenus de veille sont sourcés et vérifiés — voir les articles pour les sources originales.
-    <div style="margin-top:.5rem"><button id="ck-manage-btn" style="background:none;border:none;color:rgba(255,255,255,.4);font-size:.7rem;cursor:pointer;text-decoration:underline">🍪 Gérer mes cookies</button></div>
+    <div style="margin-top:.5rem"><button id="ck-manage-btn" style="background:none;border:none;color:rgba(255,255,255,.4);font-size:.7rem;cursor:pointer;text-decoration:underline">Gerer mes cookies</button></div>
 </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 
 // ===== NAVIGATION =====
 function showPage(id) {
@@ -1199,16 +1150,16 @@ function showArticle(id) {
 
 // ===== QUIZ =====
 const quizData = [
-  {q:"Quel est le numéro et la date de la loi sénégalaise sur la protection des données ?",options:["Loi n°2004-05 du 6 janvier 2004","Loi n°2008-12 du 25 janvier 2008","Loi n°2011-01 du 24 février 2011","Loi n°2016-29 du 8 novembre 2016"],correct:1,explanation:"La Loi n°2008-12 du 25 janvier 2008 est le texte fondateur. Elle a créé la CDP et définit les droits fondamentaux des citoyens sénégalais."},
-  {q:"Quelle est l'autorité de contrôle chargée de la protection des données au Sénégal ?",options:["La CNIL","L'ARTP","La CDP (Commission des Données Personnelles)","Le Ministère de la Justice"],correct:2,explanation:"La CDP est l'autorité administrative indépendante créée par la Loi 2008-12. Elle reçoit les déclarations, instruit les plaintes et prononce des sanctions jusqu'à 10 millions FCFA."},
-  {q:"Selon la Loi 2008-12, quelle formalité une entreprise doit-elle accomplir avant de traiter des données ?",options:["Aucune formalité","Une notification par email","Une déclaration préalable ou autorisation auprès de la CDP","Un enregistrement au Tribunal"],correct:2,explanation:"Selon l'article 18 de la Loi 2008-12, tout traitement doit faire l'objet d'une déclaration préalable. Les traitements sensibles nécessitent une autorisation spéciale de la CDP."},
-  {q:"Quelle est la sanction pécuniaire maximale que peut prononcer la CDP ?",options:["1 million FCFA","5 millions FCFA","10 millions FCFA","50 millions FCFA"],correct:2,explanation:"La CDP peut prononcer des sanctions jusqu'à 10 millions de FCFA. Des poursuites pénales peuvent aussi être engagées pour les violations les plus graves."},
-  {q:"Quelles données sont considérées comme sensibles par la Loi 2008-12 ?",options:["Noms et prénoms","Données de santé, biométriques et opinions politiques","Adresses email professionnelles","Numéros de téléphone"],correct:1,explanation:"L'article 46 protège les données sensibles : santé, biométrie, génétique, opinions politiques/religieuses, données judiciaires. Leur traitement nécessite une autorisation spéciale de la CDP."},
-  {q:"Depuis quelle date le RGPD est-il applicable en Europe ?",options:["25 mai 2016","25 mai 2018","25 janvier 2020","1er janvier 2021"],correct:1,explanation:"Le RGPD (Règlement UE 2016/679) est entré en application le 25 mai 2018. Il renforce la protection des données dans toute l'UE et remplace la directive 95/46/CE."},
-  {q:"Quelle est l'amende maximale du RGPD pour les violations les plus graves ?",options:["100 000 euros","1 million euros","20 millions euros ou 4% du CA mondial","50 millions euros"],correct:2,explanation:"Le RGPD prévoit jusqu'à 20M euros ou 4% du chiffre d'affaires mondial annuel pour les violations les plus graves (Art. 83.5)."},
-  {q:"Le RGPD s'applique-t-il à une entreprise sénégalaise traitant des données de résidents européens ?",options:["Non, seulement aux entreprises de l'UE","Oui, le RGPD a une portée extraterritoriale","Seulement si elle a un bureau en Europe","Non, jamais"],correct:1,explanation:"Selon l'article 3 du RGPD, le règlement s'applique à toute organisation mondiale traitant des données de personnes résidant dans l'UE. C'est le principe d'extraterritorialité."},
-  {q:"Quel droit est prévu par le RGPD mais pas encore par la Loi 2008-12 ?",options:["Le droit d'accès","Le droit de rectification","Le droit à la portabilité des données","Le droit d'opposition"],correct:2,explanation:"Le droit à la portabilité (Art. 20 RGPD) permet de recevoir ses données dans un format lisible. Ce droit n'existe pas encore dans la Loi 2008-12 mais est prévu dans la réforme en cours."},
-  {q:"Qu'est-ce qu'une AIPD (Analyse d'Impact sur la Protection des Données) ?",options:["Un rapport annuel à la CDP","Une évaluation préalable des risques pour les traitements à fort impact","Un formulaire d'inscription","Un audit financier"],correct:1,explanation:"L'AIPD (Art. 35 RGPD) est obligatoire avant tout traitement à risque élevé. Elle analyse les risques et les mesures pour les atténuer. C'est une mission clé du DPO."}
+  {q:"Quel est le numero et la date de la loi senegalaise sur la protection des donnees ?",options:["Loi 2004-05","Loi 2008-12 du 25 janvier 2008","Loi 2011-01","Loi 2016-29"],correct:1,explanation:"La Loi 2008-12 du 25 janvier 2008 est le texte fondateur. Elle a cree la CDP."},
+  {q:"Quelle autorite controle la protection des donnees au Senegal ?",options:["La CNIL","L'ARTP","La CDP","Le Ministere de la Justice"],correct:2,explanation:"La CDP est l'autorite independante creee par la Loi 2008-12."},
+  {q:"Quelle formalite avant de traiter des donnees personnelles au Senegal ?",options:["Aucune","Un email","Une declaration prealable a la CDP","Un enregistrement au Tribunal"],correct:2,explanation:"L'article 18 de la Loi 2008-12 impose une declaration prealable a la CDP."},
+  {q:"Sanction maximale de la CDP ?",options:["1 million FCFA","5 millions FCFA","10 millions FCFA","50 millions FCFA"],correct:2,explanation:"La CDP peut prononcer des sanctions jusqu'a 10 millions de FCFA."},
+  {q:"Quelles donnees sont sensibles selon la Loi 2008-12 ?",options:["Noms","Donnees de sante et biometriques","Emails","Telephones"],correct:1,explanation:"L'article 46 protege les donnees sensibles : sante, biometrie, opinions politiques."},
+  {q:"Depuis quand le RGPD est applicable en Europe ?",options:["25 mai 2016","25 mai 2018","25 janvier 2020","1er janvier 2021"],correct:1,explanation:"Le RGPD est entre en application le 25 mai 2018."},
+  {q:"Amende maximale RGPD pour violations graves ?",options:["100 000 euros","1 million euros","20 millions euros ou 4% du CA mondial","50 millions euros"],correct:2,explanation:"Art. 83.5 RGPD : jusqu'a 20M euros ou 4% du CA mondial."},
+  {q:"Le RGPD s'applique-t-il a une entreprise senegalaise traitant des donnees europeennes ?",options:["Non","Oui, portee extraterritoriale","Seulement avec bureau en Europe","Non, jamais"],correct:1,explanation:"Art. 3 RGPD : s'applique a toute organisation mondiale traitant des donnees de residents UE."},
+  {q:"Quel droit existe dans le RGPD mais pas dans la Loi 2008-12 ?",options:["Droit d'acces","Droit de rectification","Droit a la portabilite","Droit d'opposition"],correct:2,explanation:"Le droit a la portabilite (Art. 20 RGPD) n'existe pas encore dans la Loi 2008-12."},
+  {q:"Qu'est-ce qu'une AIPD ?",options:["Rapport annuel a la CDP","Evaluation prealable des risques","Formulaire d'inscription","Audit financier"],correct:1,explanation:"L'AIPD (Art. 35 RGPD) est obligatoire avant tout traitement a risque eleve."}
 ];
 
 let currentQ = 0, score = 0, answered = false, quizInitialized = false;
@@ -1277,7 +1228,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// LISTENER NAVIGATION
+// LISTENER PRINCIPAL
 document.addEventListener('click', function(e) {
   var t;
   t = e.target.closest ? e.target.closest('[data-nav]') : null;
@@ -1298,9 +1249,9 @@ document.addEventListener('click', function(e) {
   if(t && t.dataset.letter) { document.querySelectorAll('.alpha-btn').forEach(function(b){b.classList.remove('active');}); t.classList.add('active'); currentLetter=t.dataset.letter; var s=document.getElementById('glossaireSearch'); renderGlossaire(currentLetter, s?s.value:''); return; }
   if(e.target.id==='darkToggle') { var isDark=document.documentElement.getAttribute('data-theme')==='dark'; applyTheme(!isDark); return; }
   t = e.target.closest ? e.target.closest('[data-nl-btn]') : null;
-  if(t) { var prenom=document.getElementById('nl-prenom'); var nlEmail=document.getElementById('nl-email'); if(!prenom||!prenom.value.trim()||!nlEmail||!nlEmail.value.trim()){showToast('Entrez votre prénom et email.');return;} t.textContent='Envoi...'; t.disabled=true; fetch('https://dataprotect-sn.onrender.com/api/newsletter',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prenom:prenom.value.trim(),email:nlEmail.value.trim()})}).then(function(r){return r.json();}).then(function(data){t.textContent=data.success?'✓ Inscription confirmée !':'Email déjà inscrit';t.style.background=data.success?'#b8e6c8':'#f5c842';if(data.success){prenom.value='';nlEmail.value='';}setTimeout(function(){t.textContent="S'abonner gratuitement";t.style.background='';t.disabled=false;},3000);}).catch(function(){t.textContent="S'abonner gratuitement";t.disabled=false;}); return; }
+  if(t) { var prenom=document.getElementById('nl-prenom'); var nlEmail=document.getElementById('nl-email'); if(!prenom||!prenom.value.trim()||!nlEmail||!nlEmail.value.trim()){showToast('Entrez votre prenom et email.');return;} t.textContent='Envoi...'; t.disabled=true; fetch('/api/newsletter',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prenom:prenom.value.trim(),email:nlEmail.value.trim()})}).then(function(r){return r.json();}).then(function(data){t.textContent=data.success?'Inscription confirmee !':'Email deja inscrit';t.style.background=data.success?'#b8e6c8':'#f5c842';if(data.success){prenom.value='';nlEmail.value='';}setTimeout(function(){t.textContent='S\'abonner';t.style.background='';t.disabled=false;},3000);}).catch(function(){t.textContent='S\'abonner';t.disabled=false;}); return; }
   t = e.target.closest ? e.target.closest('[data-contact-btn]') : null;
-  if(t) { var nom=document.getElementById('c-nom'); var email=document.getElementById('c-email'); var org=document.getElementById('c-org'); var besoin=document.getElementById('c-besoin'); var msg=document.getElementById('c-message'); if(!nom||!nom.value.trim()||!email||!email.value.trim()||!msg||!msg.value.trim()){showToast('Remplissez nom, email et message.');return;} t.textContent='Envoi...'; t.disabled=true; fetch('https://dataprotect-sn.onrender.com/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nom:nom.value.trim(),email:email.value.trim(),organisation:org?org.value:'',type_besoin:besoin?besoin.value:'',message:msg.value.trim()})}).then(function(r){return r.json();}).then(function(data){t.textContent='✓ Message envoyé !';t.style.background='#2d8a52';if(nom)nom.value='';if(email)email.value='';if(org)org.value='';if(besoin)besoin.value='';if(msg)msg.value='';setTimeout(function(){t.textContent='Envoyer le message';t.style.background='';t.disabled=false;},4000);}).catch(function(){t.textContent='Envoyer le message';t.disabled=false;showToast('Erreur serveur.');return; }); return; }
+  if(t) { var nom=document.getElementById('c-nom'); var email=document.getElementById('c-email'); var org=document.getElementById('c-org'); var besoin=document.getElementById('c-besoin'); var msg=document.getElementById('c-message'); if(!nom||!nom.value.trim()||!email||!email.value.trim()||!msg||!msg.value.trim()){showToast('Remplissez nom, email et message.');return;} t.textContent='Envoi...'; t.disabled=true; fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nom:nom.value.trim(),email:email.value.trim(),organisation:org?org.value:'',type_besoin:besoin?besoin.value:'',message:msg.value.trim()})}).then(function(r){return r.json();}).then(function(data){t.textContent='Message envoye !';t.style.background='#2d8a52';if(nom)nom.value='';if(email)email.value='';if(org)org.value='';if(besoin)besoin.value='';if(msg)msg.value='';setTimeout(function(){t.textContent='Envoyer';t.style.background='';t.disabled=false;},4000);}).catch(function(){t.textContent='Envoyer';t.disabled=false;showToast('Erreur serveur.');}); return; }
   t = e.target.closest ? e.target.closest('[data-answer]') : null;
   if(t && t.dataset.answer !== undefined) { answerQuiz(parseInt(t.dataset.answer)); return; }
   t = e.target.closest ? e.target.closest('[data-quiz-next]') : null;
@@ -1308,50 +1259,35 @@ document.addEventListener('click', function(e) {
   t = e.target.closest ? e.target.closest('[data-quiz-restart]') : null;
   if(t) { currentQ=0; score=0; answered=false; renderQuiz(); return; }
   t = e.target.closest ? e.target.closest('.res-dl') : null;
-  if(t && !t.getAttribute('href')) { showToast('📥 Document disponible prochainement !'); return; }
-  // Chatbot
+  if(t && !t.getAttribute('href')) { showToast('Document disponible prochainement !'); return; }
   if(e.target.closest && e.target.closest('#chatbot-btn') && !e.target.closest('#chatbot-window')) { var cw=document.getElementById('chatbot-window'); if(cw){chatOpen=!chatOpen;cw.classList.toggle('open',chatOpen);if(chatOpen){var ci=document.getElementById('chatInput');if(ci)ci.focus();}} return; }
   if(e.target.id==='chatClose'){chatOpen=false;var cw2=document.getElementById('chatbot-window');if(cw2)cw2.classList.remove('open');return;}
   if(e.target.id==='chatSend'){sendChat();return;}
   t = e.target.closest ? e.target.closest('[data-sug]') : null;
   if(t){var ci2=document.getElementById('chatInput');if(ci2){ci2.value=t.dataset.sug;sendChat();}return;}
-  // Cookies
   if(e.target.id==='ck-accept'||e.target.id==='ck-modal-accept'){savePref(true,true);return;}
   if(e.target.id==='ck-refuse'||e.target.id==='ck-modal-refuse'){savePref(false,false);return;}
   if(e.target.id==='ck-custom'||e.target.id==='ck-manage-btn'){showCkModal();return;}
   if(e.target.id==='ck-modal-save'){var a2=document.getElementById('ck-analytics');var p2=document.getElementById('ck-perso');savePref(a2&&a2.checked,p2&&p2.checked);return;}
   if(e.target===document.getElementById('cookie-modal')){hideCkModal();return;}
 });
-
-document.addEventListener('keydown',function(e){
-  if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='chatInput')sendChat();
-});
-
-// DARK MODE
-function applyTheme(dark){
-  document.documentElement.setAttribute('data-theme',dark?'dark':'');
-  try{localStorage.setItem('theme',dark?'dark':'light');}catch(er){}
-  var btn=document.getElementById('darkToggle');
-  if(btn)btn.innerHTML=dark?'☀️ Jour':'🌙 Nuit';
-}
+document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='chatInput')sendChat();});
+function applyTheme(dark){document.documentElement.setAttribute('data-theme',dark?'dark':'');try{localStorage.setItem('theme',dark?'dark':'light');}catch(er){}var btn=document.getElementById('darkToggle');if(btn)btn.innerHTML=dark?'Jour':'Nuit';}
 try{if(localStorage.getItem('theme')==='dark')applyTheme(true);}catch(er){}
-
-// CHATBOT
-var chatHistory=[], chatOpen=false;
+var chatHistory=[],chatOpen=false;
 function addChatMsg(text,role){var msgs=document.getElementById('chatMessages');if(!msgs)return;var d=document.createElement('div');d.className='chat-msg '+role;d.innerHTML=text.replace(/\n/g,'<br>');msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
 function showTyping(){var msgs=document.getElementById('chatMessages');if(!msgs)return;var d=document.createElement('div');d.className='chat-msg typing';d.id='typingDot';d.innerHTML='<div class="typing-dots"><span></span><span></span><span></span></div>';msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
 function removeTyping(){var t=document.getElementById('typingDot');if(t)t.remove();}
-async function sendChat(){var inp=document.getElementById('chatInput');if(!inp)return;var text=inp.value.trim();if(!text)return;inp.value='';var sugs=document.getElementById('chatSugs');if(sugs)sugs.style.display='none';addChatMsg(text,'user');chatHistory.push({role:'user',content:text});showTyping();try{var res=await fetch('https://dataprotect-sn.onrender.com/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory.slice(-6)})});var data=await res.json();removeTyping();var reply=data.reply||data.detail||'Désolé, une erreur est survenue.';chatHistory.push({role:'assistant',content:reply});addChatMsg(reply,'bot');}catch(err){removeTyping();addChatMsg('Erreur de connexion. Vérifiez que le serveur tourne.','bot');}}
-
-// COOKIES
+async function sendChat(){var inp=document.getElementById('chatInput');if(!inp)return;var text=inp.value.trim();if(!text)return;inp.value='';var sugs=document.getElementById('chatSugs');if(sugs)sugs.style.display='none';addChatMsg(text,'user');chatHistory.push({role:'user',content:text});showTyping();try{var res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory.slice(-6)})});var data=await res.json();removeTyping();var reply=data.reply||data.detail||'Desole, une erreur.';chatHistory.push({role:'assistant',content:reply});addChatMsg(reply,'bot');}catch(err){removeTyping();addChatMsg('Erreur de connexion.','bot');}}
 function setCookie(n,v,d){var e=new Date();e.setTime(e.getTime()+(d*864e5));document.cookie=n+'='+v+';expires='+e.toUTCString()+';path=/;SameSite=Lax';}
 function getCookie(n){var a=document.cookie.split(';');for(var i=0;i<a.length;i++){var c=a[i].trim();if(c.startsWith(n+'='))return c.substring(n.length+1);}return null;}
 function showCkBanner(){var b=document.getElementById('cookie-banner');if(b)b.classList.add('show');}
 function hideCkBanner(){var b=document.getElementById('cookie-banner');if(b)b.classList.remove('show');}
-function showCkModal(){var c=getCookie('dp_consent');if(c){try{var p=JSON.parse(c);var at=document.getElementById('ck-analytics');var pt=document.getElementById('ck-perso');if(at)at.checked=p.a||false;if(pt)pt.checked=p.p||false;}catch(er){}}var m=document.getElementById('cookie-modal');if(m)m.classList.add('show');}
+function showCkModal(){var m=document.getElementById('cookie-modal');if(m)m.classList.add('show');}
 function hideCkModal(){var m=document.getElementById('cookie-modal');if(m)m.classList.remove('show');}
-function savePref(a,p){setCookie('dp_consent',JSON.stringify({n:true,a:a,p:p}),365);hideCkBanner();hideCkModal();showToast('Préférences cookies enregistrées !');}
+function savePref(a,p){setCookie('dp_consent',JSON.stringify({n:true,a:a,p:p}),365);hideCkBanner();hideCkModal();showToast('Preferences cookies enregistrees !');}
 if(!getCookie('dp_consent')){setTimeout(showCkBanner,1500);}
-
-// TOAST
-function showToast(msg){var t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1a6b3a;color:#fff;padding:.7rem 1.4rem;border-radius
+function showToast(msg){var t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1a6b3a;color:#fff;padding:.7rem 1.4rem;border-radius:100px;font-size:.86rem;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none';document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';setTimeout(function(){t.style.opacity='0';},3000);}
+</script>
+</body>
+</html>
