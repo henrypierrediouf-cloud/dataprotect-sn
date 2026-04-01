@@ -897,7 +897,7 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
         <div class="tarif-item"><span>Audit de conformité</span><span class="tarif-price">Sur devis</span></div>
         <div class="tarif-item"><span>DPO externe (mensuel)</span><span class="tarif-price">Sur devis</span></div>
         <div class="tarif-item"><span>Formation (demi-journée)</span><span class="tarif-price">Sur devis</span></div>
-        <div class="tarif-item"><span>Politique de confidentialité</span><span class="tarif-price">Sur devis</span></div>
+        <div class="tarif-item"><span><a data-nav="politique-confidentialite" style="cursor:pointer;color:rgba(255,255,255,.6);text-decoration:none">Politique de confidentialité</a></span><span class="tarif-price">Sur devis</span></div>
         <div class="tarif-item"><span>AIPD complète</span><span class="tarif-price">Sur devis</span></div>
       </div>
       <div class="info-card">
@@ -916,9 +916,56 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
 </section>
 </div>
 
-<div id="chatbot-bubble"><div id="chatbot-window"><div class="chat-header"><div><div class="chat-name">Assistant DataProtect SN</div><div class="chat-status">En ligne</div></div><button class="chat-close" id="chatClose">X</button></div><div class="chat-messages" id="chatMessages"><div class="chat-msg bot">Bonjour ! Je suis votre assistant specialise en protection des donnees. Posez vos questions sur la Loi 2008-12, le RGPD, vos droits.</div></div><div class="chat-sugs" id="chatSugs"><button class="chat-sug" data-sug="Quels sont mes droits sur mes donnees ?">Mes droits</button><button class="chat-sug" data-sug="Dois-je declarer mon entreprise a la CDP ?">Declaration CDP</button><button class="chat-sug" data-sug="Qu'est-ce qu'un DPO ?">Le DPO</button></div><div class="chat-input-wrap"><input type="text" class="chat-input" id="chatInput" placeholder="Votre question..."><button class="chat-send" id="chatSend">OK</button></div></div><button id="chatbot-btn">Chat</button></div>
+<div id="chatbot-bubble"><div id="chatbot-window"><div class="chat-header"><div><div class="chat-name">Assistant DataProtect SN</div><div class="chat-status">En ligne</div></div><button class="chat-close" id="chatClose">X</button></div><div class="chat-messages" id="chatMessages"><div class="chat-msg bot">Bonjour ! Je suis votre assistant specialise en protection des donnees. Posez vos questions sur la Loi 2008-12, le RGPD, vos droits.</div></div><div class="chat-sugs" id="chatSugs"><button class="chat-sug" data-sug="Quels sont mes droits sur mes donnees ?">Mes droits</button><button class="chat-sug" data-sug="Dois-je declarer mon entreprise a la CDP ?">Declaration CDP</button><button class="chat-sug" data-sug="Qu'est-ce qu'un DPO ?">Le DPO</button></div><div class="chat-input-wrap"><input type="text" class="chat-input" id="chatInput" placeholder="Votre question..."><button class="chat-send" id="chatSend">OK</button></div></div><button id="chatbot-btn" title="Assistant IA DataProtect"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z"/><path d="M9 12l2 2 4-4"/></svg></button></div>
 <div id="cookie-banner"><div class="ck-inner"><div class="ck-text"><h4>Ce site utilise des cookies</h4><p>Conformement a la <strong>Loi 2008-12</strong> et au <strong>RGPD Art. 7</strong>, votre consentement est requis avant toute utilisation de cookies non essentiels.</p></div><div class="ck-btns"><button class="btn-ck-set" id="ck-custom">Personnaliser</button><button class="btn-ck-no" id="ck-refuse">Refuser</button><button class="btn-ck-ok" id="ck-accept">Accepter</button></div></div></div>
 <div id="cookie-modal"><div class="cm-box"><h3>Mes preferences cookies</h3><p style="font-size:.76rem;color:var(--muted);margin-bottom:.8rem">Art. 48 Loi 2008-12 et Art. 7 RGPD</p><div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">Necessaires</span><label class="tgl"><input type="checkbox" checked disabled><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Indispensables au fonctionnement.</div></div><div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">Analytiques</span><label class="tgl"><input type="checkbox" id="ck-analytics"><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Comprendre l'usage du site.</div></div><div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">Personnalisation</span><label class="tgl"><input type="checkbox" id="ck-perso"><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Memoriser vos preferences.</div></div><div class="cm-btns"><button class="btn-ck-no" id="ck-modal-refuse">Refuser</button><button class="btn-ck-ok" id="ck-modal-save">Enregistrer</button><button class="btn-ck-ok" id="ck-modal-accept">Accepter tout</button></div></div></div>
+
+<!-- PAGE POLITIQUE DE CONFIDENTIALITE -->
+<div class="page" id="page-politique-confidentialite">
+<section><div class="container" style="max-width:800px">
+  <div class="section-label">Légal</div>
+  <h2 class="section-title"><a data-nav="politique-confidentialite" style="cursor:pointer;color:rgba(255,255,255,.6);text-decoration:none">Politique de confidentialité</a></h2>
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-top:1.5rem;line-height:1.8;color:var(--text)">
+    <p><em>Dernière mise à jour : Avril 2026</em></p>
+    <h3 style="color:var(--green);margin:1.5rem 0 .5rem">1. Responsable du traitement</h3>
+    <p>Henry Pierre Diouf — DPO M2, La Plateforme Numérique, Marseille<br>Email : henrypierrediouf@gmail.com | Tel : +33 7 53 65 61 31</p>
+    <h3 style="color:var(--green);margin:1.5rem 0 .5rem">2. Données collectées</h3>
+    <p>Nous collectons uniquement les données que vous nous fournissez volontairement : nom, email, organisation, message (formulaire de contact) et email, prénom (newsletter). Ces données sont collectées sur la base de votre consentement explicite (Art. 7 RGPD / Art. 18 Loi 2008-12).</p>
+    <h3 style="color:var(--green);margin:1.5rem 0 .5rem">3. Finalités du traitement</h3>
+    <p>Vos données sont utilisées exclusivement pour : répondre à vos demandes de contact, vous envoyer la newsletter DataProtect SN, améliorer nos services.</p>
+    <h3 style="color:var(--green);margin:1.5rem 0 .5rem">4. Conservation des données</h3>
+    <p>Données de contact : 3 ans à compter du dernier contact. Données newsletter : jusqu'au désabonnement.</p>
+    <h3 style="color:var(--green);margin:1.5rem 0 .5rem">5. Vos droits</h3>
+    <p>Conformément à l'Art. 48 de la Loi 2008-12 et aux Art. 15-22 du RGPD, vous disposez des droits d'accès, rectification, effacement, opposition et portabilité. Pour les exercer : henrypierrediouf@gmail.com</p>
+    <h3 style="color:var(--green);margin:1.5rem 0 .5rem">6. Cookies</h3>
+    <p>Ce site utilise des cookies strictement nécessaires au fonctionnement, et des cookies analytiques et de personnalisation soumis à votre consentement. Vous pouvez gérer vos préférences via le bouton "Gérer mes cookies" en bas de page.</p>
+    <h3 style="color:var(--green);margin:1.5rem 0 .5rem">7. Autorité de contrôle</h3>
+    <p>Vous pouvez introduire une réclamation auprès de la CDP Sénégal (cdp.sn) ou de la CNIL (cnil.fr) si vous estimez que vos droits ne sont pas respectés.</p>
+  </div>
+</div></section>
+</div>
+
+
+<!-- PAGE MENTIONS LEGALES -->
+<div class="page" id="page-mentions-legales">
+<section><div class="container" style="max-width:800px">
+  <div class="section-label">Légal</div>
+  <h2 class="section-title"><a data-nav="mentions-legales" style="cursor:pointer;color:rgba(255,255,255,.6);text-decoration:none">Mentions légales</a></h2>
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-top:1.5rem;line-height:1.8;color:var(--text)">
+    <h3 style="color:var(--green);margin:0 0 .5rem">Éditeur du site</h3>
+    <p><strong>Henry Pierre Diouf</strong><br>Délégué à la Protection des Données — Master 2<br>La Plateforme Numérique, Marseille, France<br>Email : henrypierrediouf@gmail.com<br>Téléphone : +33 7 53 65 61 31</p>
+    <h3 style="color:var(--green);margin:1.5rem 0 .5rem">Hébergement</h3>
+    <p>Ce site est hébergé par <strong>Render Services Inc.</strong><br>440 N Barranca Ave #4133, Covina, CA 91723, USA<br>render.com</p>
+    <h3 style="color:var(--green);margin:1.5rem 0 .5rem">Propriété intellectuelle</h3>
+    <p>L'ensemble du contenu de ce site (textes, analyses juridiques, articles de veille) est la propriété exclusive de Henry Pierre Diouf. Toute reproduction sans autorisation préalable est interdite.</p>
+    <h3 style="color:var(--green);margin:1.5rem 0 .5rem">Limitation de responsabilité</h3>
+    <p>Les informations publiées sur ce site ont une vocation pédagogique et informative. Elles ne constituent pas un conseil juridique. Pour toute situation spécifique, consultez un professionnel qualifié.</p>
+    <h3 style="color:var(--green);margin:1.5rem 0 .5rem">Droit applicable</h3>
+    <p>Ce site est soumis au droit sénégalais (Loi 2008-12) et au droit français. Tout litige relève de la compétence des tribunaux de Marseille, France.</p>
+  </div>
+</div></section>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
@@ -950,6 +997,7 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
 </footer>
 
 <script>
+
 
 // ===== NAVIGATION =====
 function showPage(id) {
@@ -1288,6 +1336,7 @@ function hideCkModal(){var m=document.getElementById('cookie-modal');if(m)m.clas
 function savePref(a,p){setCookie('dp_consent',JSON.stringify({n:true,a:a,p:p}),365);hideCkBanner();hideCkModal();showToast('Preferences cookies enregistrees !');}
 if(!getCookie('dp_consent')){setTimeout(showCkBanner,1500);}
 function showToast(msg){var t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1a6b3a;color:#fff;padding:.7rem 1.4rem;border-radius:100px;font-size:.86rem;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none';document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';setTimeout(function(){t.style.opacity='0';},3000);}
+
 </script>
 </body>
 </html>

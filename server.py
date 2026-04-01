@@ -20,7 +20,10 @@ ADMIN_PASSWORD_CLAIR = "dataprotect2025"
 # ============================================================
 
 BASE_DIR = pathlib.Path(__file__).parent.resolve()
-DB_PATH  = str(BASE_DIR / "database.db")
+# Sur Render : utilise /data pour persistance, sinon dossier local
+import os as _os2
+_data_dir = "/data" if _os2.path.exists("/data") else str(BASE_DIR)
+DB_PATH = _os2.path.join(_data_dir, "database.db")
 ADMIN_PASSWORD = hashlib.sha256(ADMIN_PASSWORD_CLAIR.encode()).hexdigest()
 tokens = set()
 

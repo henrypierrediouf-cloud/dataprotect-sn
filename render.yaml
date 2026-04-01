@@ -2,8 +2,14 @@ services:
   - type: web
     name: dataprotect-senegal
     runtime: python
-    buildCommand: pip install fastapi uvicorn pydantic python-multipart
+    buildCommand: pip install -r requirements.txt
     startCommand: python server.py
+    disk:
+      name: dataprotect-db
+      mountPath: /data
+      sizeGB: 1
     envVars:
       - key: PORT
-        value: 8080
+        value: 10000
+      - key: COHERE_API_KEY
+        sync: false
