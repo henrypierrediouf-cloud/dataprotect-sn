@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: dataprotect-senegal
+    runtime: python
+    buildCommand: pip install fastapi uvicorn pydantic python-multipart
+    startCommand: python server.py
+    envVars:
+      - key: PORT
+        value: 8080

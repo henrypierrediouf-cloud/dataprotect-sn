@@ -1,0 +1,8 @@
+f=open("server.py",encoding="utf-8")
+c=f.read()
+f.close()
+c=c.replace('"command-r"','"command-r-plus-08-2024"')
+f=open("server.py","w",encoding="utf-8")
+f.write(c)
+f.close()
+print("OK")

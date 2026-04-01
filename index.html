@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataProtect Sénégal — Protection des Données Personnelles</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1a6b3a;--green-dark:#0d3d20;--green-light:#e8f5ee;
+  --gold:#c8960e;--gold-light:#fef9e5;--gold-bright:#f5d060;
+  --red:#b91c1c;--red-light:#fde8e8;
+  --blue:#185ea5;--blue-light:#e8f0fe;
+  --text:#111;--muted:#555;--muted2:#888;
+  --bg:#f6f3ee;--white:#fff;--border:#e0dbd0;--border2:#ccc;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.7;overflow-x:hidden}
+
+/* ===== NAV ===== */
+nav{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-logo{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:700;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap;cursor:pointer}
+.logo-accent{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:.85rem;font-weight:500;transition:color .2s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{color:var(--green)}
+.nav-cta{background:var(--green)!important;color:var(--white)!important;padding:.35rem 1rem;border-radius:100px;font-size:.82rem!important}
+.nav-cta:hover{opacity:.85}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{width:22px;height:2px;background:var(--text);border-radius:2px;transition:.3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;top:60px;left:0;right:0;background:var(--white);border-bottom:1px solid var(--border);padding:1.5rem;z-index:199;flex-direction:column;gap:1rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{text-decoration:none;color:var(--text);font-size:1rem;font-weight:500;padding:.5rem 0;border-bottom:1px solid var(--border)}
+.mobile-menu a:last-child{border-bottom:none}
+
+/* ===== PAGES ===== */
+.page{display:none}
+.page.active{display:block}
+
+/* ===== HERO ===== */
+.hero{background:var(--green);color:var(--white);padding:4rem 1.5rem 5rem;position:relative;overflow:hidden}
+.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;padding:.3rem .85rem;border-radius:100px;border:1px solid rgba(255,255,255,.2);margin-bottom:1.25rem;width:fit-content}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(2.2rem,4.5vw,3.6rem);font-weight:700;line-height:1.08;margin-bottom:1.25rem;letter-spacing:-.025em}
+.hero h1 em{font-style:italic;color:var(--gold-bright)}
+.hero-sub{font-size:.98rem;line-height:1.7;color:rgba(255,255,255,.78);max-width:420px;margin-bottom:2rem}
+.hero-btns{display:flex;gap:.75rem;flex-wrap:wrap}
+.btn-gold{background:var(--gold-bright);color:#111;padding:.65rem 1.5rem;border-radius:100px;text-decoration:none;font-weight:500;font-size:.88rem;transition:transform .2s,opacity .2s;cursor:pointer;border:none;font-family:'DM Sans',sans-serif}
+.btn-gold:hover{transform:translateY(-1px);opacity:.9}
+.btn-ghost-w{background:transparent;color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.3);padding:.65rem 1.5rem;border-radius:100px;text-decoration:none;font-size:.88rem;transition:background .2s;cursor:pointer;font-family:'DM Sans',sans-serif}
+.btn-ghost-w:hover{background:rgba(255,255,255,.1)}
+.hero-cards{display:flex;flex-direction:column;gap:.85rem}
+.hero-stat-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:1rem}
+.hsc-num{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;color:var(--gold-bright);min-width:80px;line-height:1}
+.hsc-label{font-size:.82rem;color:rgba(255,255,255,.72);line-height:1.4;padding-top:2px}
+.hero-bg{position:absolute;top:-100px;right:-100px;width:500px;height:500px;border-radius:50%;border:1px solid rgba(255,255,255,.05);pointer-events:none}
+
+/* ===== CONTAINER / SECTION ===== */
+.container{max-width:1100px;margin:0 auto;padding:0 1.5rem}
+section{padding:4rem 1.5rem}
+.section-label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green);font-weight:500;margin-bottom:.6rem}
+.section-title{font-family:'Fraunces',serif;font-size:clamp(1.7rem,3vw,2.5rem);font-weight:700;line-height:1.15;letter-spacing:-.02em;margin-bottom:.9rem}
+.section-intro{color:var(--muted);max-width:560px;font-size:.95rem;margin-bottom:2.5rem}
+
+/* ===== STATS BAR ===== */
+.stats-bar{background:var(--green-dark);color:var(--white);padding:1.5rem}
+.stats-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center}
+.stat-item-num{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;color:var(--gold-bright);line-height:1}
+.stat-item-label{font-size:.76rem;color:rgba(255,255,255,.6);margin-top:.3rem;line-height:1.3}
+
+/* ===== PILLARS ===== */
+.pillars-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.25rem}
+.pillar-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:1.75rem;transition:transform .25s,box-shadow .25s;cursor:pointer}
+.pillar-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.07)}
+.pillar-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:1.1rem}
+.pi-green{background:var(--green-light)}
+.pi-gold{background:var(--gold-light)}
+.pi-red{background:var(--red-light)}
+.pi-blue{background:var(--blue-light)}
+.pillar-card h3{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;margin-bottom:.5rem;letter-spacing:-.01em}
+.pillar-card p{font-size:.87rem;color:var(--muted);line-height:1.6}
+.pillar-link{display:inline-block;margin-top:1rem;font-size:.8rem;color:var(--green);font-weight:500;text-decoration:none;cursor:pointer}
+.pillar-link:hover{text-decoration:underline}
+
+/* ===== BLOG ===== */
+.blog-layout{display:grid;grid-template-columns:1fr 360px;gap:2.5rem;align-items:start}
+.blog-list{display:flex;flex-direction:column;gap:1.25rem}
+.article-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.5rem;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.article-card:hover{border-color:var(--green);box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.article-top{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;flex-wrap:wrap}
+.badge{font-size:.68rem;font-weight:500;padding:.22rem .6rem;border-radius:6px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.b-cdp{background:var(--green-light);color:var(--green)}
+.b-loi{background:#e6f1ff;color:#1247a5}
+.b-rgpd{background:var(--gold-light);color:#7a5800}
+.b-tech{background:#f0e8ff;color:#6b21a8}
+.b-afrique{background:#e8fff0;color:#166534}
+.b-new{background:var(--red-light);color:var(--red);font-size:.65rem}
+.article-title{font-weight:500;font-size:.95rem;margin-bottom:.5rem;line-height:1.4}
+.article-excerpt{font-size:.84rem;color:var(--muted);line-height:1.6;margin-bottom:.75rem}
+.article-meta{display:flex;align-items:center;gap:.75rem;font-size:.77rem;color:var(--muted2)}
+.article-meta span{display:flex;align-items:center;gap:3px}
+.read-more{font-size:.8rem;color:var(--green);font-weight:500;cursor:pointer;text-decoration:none}
+.read-more:hover{text-decoration:underline}
+
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;gap:1.25rem;position:sticky;top:80px}
+.sidebar-box{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.5rem}
+.sidebar-box h4{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:600;margin-bottom:1rem}
+.newsletter-box{background:var(--green);color:var(--white);border-radius:14px;padding:1.5rem}
+.newsletter-box h4{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--white);margin-bottom:.5rem}
+.newsletter-box p{font-size:.82rem;color:rgba(255,255,255,.72);margin-bottom:1rem}
+.nl-input{width:100%;padding:.6rem .9rem;border:none;border-radius:8px;font-size:.85rem;margin-bottom:.6rem;font-family:'DM Sans',sans-serif;outline:none}
+.nl-input:last-of-type{margin-bottom:.75rem}
+.nl-btn{width:100%;padding:.65rem;background:var(--gold-bright);color:#111;border:none;border-radius:8px;font-size:.88rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .2s}
+.nl-btn:hover{opacity:.88}
+.nl-note{font-size:.7rem;color:rgba(255,255,255,.5);margin-top:.6rem}
+.quick-links{display:flex;flex-direction:column;gap:.5rem}
+.quick-link{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--text);font-size:.85rem;padding:.5rem 0;border-bottom:1px solid var(--border)}
+.quick-link:last-child{border-bottom:none}
+.quick-link:hover{color:var(--green)}
+.ql-arrow{color:var(--green);font-size:.9rem}
+.tag-cloud{display:flex;flex-wrap:wrap;gap:.4rem}
+.tag-pill{padding:.28rem .7rem;border-radius:20px;font-size:.75rem;background:var(--bg);border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:.15s}
+.tag-pill:hover{background:var(--green-light);border-color:var(--green);color:var(--green)}
+
+/* ===== ARTICLE PAGE ===== */
+.article-page{max-width:800px;margin:0 auto}
+.article-back{display:inline-flex;align-items:center;gap:6px;color:var(--green);font-size:.85rem;cursor:pointer;margin-bottom:1.5rem;text-decoration:none;font-weight:500}
+.article-back:hover{text-decoration:underline}
+.article-header{margin-bottom:2rem}
+.article-header .article-top{margin-bottom:1rem}
+.article-header h1{font-family:'Fraunces',serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;line-height:1.2;margin-bottom:.75rem;letter-spacing:-.02em}
+.article-header .article-meta{font-size:.82rem;color:var(--muted2)}
+.article-intro{font-size:1.05rem;color:var(--muted);line-height:1.75;margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid var(--border)}
+.article-body h2{font-family:'Fraunces',serif;font-size:1.35rem;font-weight:600;margin:2rem 0 .75rem;letter-spacing:-.01em}
+.article-body h3{font-size:1.05rem;font-weight:500;margin:1.5rem 0 .5rem}
+.article-body p{margin-bottom:1rem;color:#222;font-size:.95rem;line-height:1.75}
+.article-body ul{margin:0 0 1rem 1.25rem}
+.article-body li{margin-bottom:.4rem;font-size:.95rem;color:#222}
+.callout{background:var(--green-light);border-left:3px solid var(--green);border-radius:0 10px 10px 0;padding:1rem 1.25rem;margin:1.5rem 0}
+.callout p{margin:0;font-size:.9rem;color:var(--green-dark)}
+.callout strong{color:var(--green)}
+.article-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.88rem}
+.article-table th{background:var(--green);color:var(--white);padding:.7rem 1rem;text-align:left;font-weight:500}
+.article-table td{padding:.65rem 1rem;border-bottom:1px solid var(--border)}
+.article-table tr:nth-child(even) td{background:#fafaf8}
+.source-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;margin-top:2rem;font-size:.8rem;color:var(--muted2)}
+.source-box strong{color:var(--muted)}
+
+/* ===== RESSOURCES ===== */
+.ressources-filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem}
+.filter-btn{padding:.35rem .9rem;border-radius:20px;font-size:.8rem;border:1px solid var(--border);background:var(--white);cursor:pointer;transition:.15s;font-family:'DM Sans',sans-serif;color:var(--muted)}
+.filter-btn:hover,.filter-btn.active{background:var(--green);color:var(--white);border-color:var(--green)}
+.ressources-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem}
+.res-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.5rem;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative}
+.res-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.07)}
+.res-icon{font-size:1.75rem;margin-bottom:.9rem}
+.res-card h4{font-weight:500;font-size:.95rem;margin-bottom:.4rem;line-height:1.35}
+.res-card p{font-size:.82rem;color:var(--muted);line-height:1.5;margin-bottom:.9rem}
+.res-meta{display:flex;align-items:center;justify-content:space-between}
+.res-type{font-size:.72rem;background:var(--bg);border:1px solid var(--border);padding:.2rem .55rem;border-radius:6px;color:var(--muted2)}
+.res-dl{font-size:.8rem;color:var(--green);font-weight:500}
+.res-badge-new{position:absolute;top:12px;right:12px;background:var(--red);color:var(--white);font-size:.65rem;padding:.2rem .5rem;border-radius:6px;font-weight:500}
+
+/* ===== GUIDE PAGE ===== */
+.guide-steps{display:flex;flex-direction:column;gap:1rem;margin-bottom:2rem}
+.guide-step{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.step-header{display:flex;align-items:center;gap:1rem;padding:1.25rem 1.5rem;cursor:pointer}
+.step-num{width:34px;height:34px;border-radius:50%;background:var(--green);color:var(--white);font-family:'Fraunces',serif;font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-weight:500;font-size:.95rem;flex:1}
+.step-chevron{color:var(--muted2);font-size:.9rem;transition:transform .2s}
+.guide-step.open .step-chevron{transform:rotate(180deg)}
+.step-body{display:none;padding:0 1.5rem 1.25rem 4rem;font-size:.88rem;color:var(--muted);line-height:1.65}
+.guide-step.open .step-body{display:block}
+
+/* ===== QUIZ ===== */
+.quiz-container{max-width:680px;margin:0 auto}
+.quiz-progress{height:4px;background:var(--border);border-radius:2px;margin-bottom:2rem;overflow:hidden}
+.quiz-bar{height:100%;background:var(--green);border-radius:2px;transition:width .4s}
+.quiz-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:2rem}
+.quiz-q{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:600;margin-bottom:1.5rem;line-height:1.4}
+.quiz-options{display:flex;flex-direction:column;gap:.75rem}
+.quiz-option{padding:1rem 1.25rem;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-size:.92rem;transition:.15s;text-align:left;background:var(--white);font-family:'DM Sans',sans-serif}
+.quiz-option:hover{border-color:var(--green);background:var(--green-light)}
+.quiz-option.correct{border-color:var(--green);background:var(--green-light);color:var(--green-dark)}
+.quiz-option.wrong{border-color:var(--red);background:var(--red-light);color:var(--red)}
+.quiz-explanation{margin-top:1.25rem;padding:1rem;background:var(--bg);border-radius:10px;font-size:.85rem;color:var(--muted);line-height:1.6}
+.quiz-nav{display:flex;justify-content:flex-end;margin-top:1.5rem}
+.quiz-result{text-align:center;padding:2rem}
+.quiz-score{font-family:'Fraunces',serif;font-size:3rem;font-weight:700;color:var(--green);line-height:1;margin-bottom:.5rem}
+.quiz-result-msg{font-size:1rem;color:var(--muted);margin-bottom:1.5rem}
+
+/* ===== COMPARATIF ===== */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.compare-card{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.compare-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border)}
+.compare-header h3{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:600}
+.compare-header p{font-size:.8rem;color:var(--muted);margin-top:.2rem}
+.compare-body{padding:1.25rem 1.5rem}
+.compare-row{display:flex;gap:.75rem;margin-bottom:.75rem;font-size:.87rem;line-height:1.5}
+.compare-row:last-child{margin-bottom:0}
+.cr-label{color:var(--muted2);min-width:100px;flex-shrink:0}
+.cr-val{color:var(--text);font-weight:500}
+.compare-match{background:var(--green-light);border:1px solid #b2d9bf;border-radius:10px;padding:1rem 1.25rem;margin-top:1.5rem;font-size:.85rem;color:var(--green-dark);grid-column:1/-1}
+
+/* ===== ABOUT ===== */
+.about-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:3rem;align-items:start}
+.about-visual{background:var(--green-light);border-radius:18px;padding:2.5rem 2rem;text-align:center}
+.avatar{width:72px;height:72px;border-radius:50%;background:var(--green);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;margin:0 auto 1.25rem}
+.cred-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:.85rem 1.1rem;font-size:.85rem;color:var(--text);margin-bottom:.7rem;text-align:left}
+.cred-card strong{color:var(--green);display:block;font-size:.72rem;letter-spacing:.04em;margin-bottom:2px}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.5rem}
+.tag-g{padding:.28rem .75rem;border-radius:8px;font-size:.78rem;font-weight:500;background:var(--green-light);color:var(--green);border:1px solid #c3e0cc}
+
+/* ===== CONTACT ===== */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
+.contact-form{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:2rem}
+.contact-form h3{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:600;margin-bottom:1.5rem}
+.form-group{margin-bottom:1rem}
+.form-group label{display:block;font-size:.82rem;font-weight:500;margin-bottom:.35rem;color:var(--muted)}
+.form-input{width:100%;padding:.65rem .9rem;border:1px solid var(--border2);border-radius:8px;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--green)}
+.form-select{width:100%;padding:.65rem .9rem;border:1px solid var(--border2);border-radius:8px;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;background:var(--white);cursor:pointer}
+textarea.form-input{min-height:110px;resize:vertical}
+.form-submit{width:100%;padding:.75rem;background:var(--green);color:var(--white);border:none;border-radius:10px;font-size:.92rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .2s;margin-top:.25rem}
+.form-submit:hover{opacity:.88}
+.contact-info{display:flex;flex-direction:column;gap:1.25rem}
+.info-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.5rem}
+.info-card h4{font-weight:500;font-size:.95rem;margin-bottom:.35rem}
+.info-card p{font-size:.85rem;color:var(--muted);line-height:1.6}
+.info-icon{font-size:1.25rem;margin-bottom:.6rem}
+.tarif-item{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--border);font-size:.85rem}
+.tarif-item:last-child{border-bottom:none}
+.tarif-price{font-weight:500;color:var(--green)}
+
+/* ===== FOOTER ===== */
+footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1.5rem}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:2.5rem}
+.footer-brand{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:.5rem}
+.footer-tagline{font-size:.82rem;line-height:1.6;margin-bottom:1rem}
+.footer-legal{font-size:.72rem;color:rgba(255,255,255,.35);border-top:1px solid rgba(255,255,255,.1);padding-top:1.5rem;margin-top:1.5rem;max-width:1100px;margin-left:auto;margin-right:auto}
+.footer-col h5{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:.85rem}
+.footer-col a{display:block;color:rgba(255,255,255,.6);font-size:.83rem;text-decoration:none;margin-bottom:.4rem;cursor:pointer}
+.footer-col a:hover{color:rgba(255,255,255,.9)}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-cards{display:none}
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
+  .blog-layout{grid-template-columns:1fr}
+  .sidebar{position:static}
+  .about-layout{grid-template-columns:1fr}
+  .about-visual{display:none}
+  .compare-grid{grid-template-columns:1fr}
+  .contact-layout{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr}
+  .hero{padding:3rem 1.25rem 3.5rem}
+}
+@media(max-width:480px){
+  .stats-inner{grid-template-columns:1fr 1fr}
+  .ressources-grid{grid-template-columns:1fr}
+}
+
+[data-nav],[data-article],[data-reg],[data-filter],[data-accordion],[data-faq],[data-letter]{cursor:pointer}
+.nav-links a{cursor:pointer}
+.dark-toggle{background:none;border:1px solid var(--border);border-radius:20px;padding:.28rem .7rem;cursor:pointer;font-size:.8rem;color:var(--text);font-family:'DM Sans',sans-serif;transition:.2s}
+.dark-toggle:hover{background:var(--bg)}
+#cookie-banner{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:2px solid var(--green);padding:1rem 1.5rem;z-index:9999;display:none;box-shadow:0 -4px 20px rgba(0,0,0,.1)}
+#cookie-banner.show{display:block}
+.ck-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}
+.ck-text{flex:1;min-width:240px}
+.ck-text h4{font-size:.92rem;font-weight:600;color:var(--green);margin-bottom:.2rem}
+.ck-text p{font-size:.78rem;color:var(--muted);line-height:1.5}
+.ck-btns{display:flex;gap:.45rem;flex-wrap:wrap;flex-shrink:0}
+.btn-ck-ok{background:var(--green);color:#fff;border:none;padding:.48rem 1rem;border-radius:100px;font-size:.82rem;font-weight:500;cursor:pointer}
+.btn-ck-no{background:var(--white);color:var(--muted);border:1px solid var(--border);padding:.48rem 1rem;border-radius:100px;font-size:.82rem;cursor:pointer}
+.btn-ck-set{background:none;border:none;color:var(--green);font-size:.78rem;cursor:pointer;text-decoration:underline}
+#cookie-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10000;align-items:center;justify-content:center}
+#cookie-modal.show{display:flex}
+.cm-box{background:var(--white);border-radius:16px;padding:1.75rem;max-width:480px;width:90%;max-height:85vh;overflow-y:auto}
+.cm-box h3{font-size:1.05rem;font-weight:700;color:var(--green);margin-bottom:.6rem}
+.cm-cat{border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;margin-bottom:.5rem}
+.cm-cat-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.25rem}
+.cm-cat-title{font-size:.86rem;font-weight:500}
+.cm-cat-desc{font-size:.75rem;color:var(--muted);line-height:1.5}
+.tgl{position:relative;width:40px;height:21px;flex-shrink:0}
+.tgl input{opacity:0;width:0;height:0;position:absolute}
+.tgl-s{position:absolute;inset:0;background:#ccc;border-radius:21px;cursor:pointer;transition:.25s}
+.tgl-s:before{position:absolute;content:'';height:15px;width:15px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.25s}
+.tgl input:checked+.tgl-s{background:var(--green)}
+.tgl input:checked+.tgl-s:before{transform:translateX(19px)}
+.tgl input:disabled+.tgl-s{opacity:.6;cursor:not-allowed}
+.cm-btns{display:flex;gap:.5rem;margin-top:.9rem;flex-wrap:wrap}
+@media(max-width:600px){.ck-inner{flex-direction:column}}
+
+
+#chatbot-bubble{position:fixed;bottom:1.5rem;right:1.5rem;z-index:500;display:flex;flex-direction:column;align-items:flex-end;gap:.75rem}
+#chatbot-btn{width:54px;height:54px;border-radius:50%;background:var(--green);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(26,107,58,.4);font-size:1.3rem}
+#chatbot-window{width:340px;height:480px;background:var(--white);border:1px solid var(--border);border-radius:18px;display:none;flex-direction:column;overflow:hidden;box-shadow:0 12px 50px rgba(0,0,0,.15)}
+#chatbot-window.open{display:flex}
+.chat-header{background:var(--green);color:#fff;padding:.9rem 1.1rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.chat-name{font-weight:500;font-size:.9rem}
+.chat-status{font-size:.7rem;color:rgba(255,255,255,.7)}
+.chat-close{background:none;border:none;color:rgba(255,255,255,.8);cursor:pointer;font-size:1.1rem}
+.chat-messages{flex:1;overflow-y:auto;padding:.9rem;display:flex;flex-direction:column;gap:.6rem}
+.chat-msg{max-width:85%;padding:.6rem .85rem;border-radius:12px;font-size:.85rem;line-height:1.5}
+.chat-msg.bot{background:var(--bg);color:var(--text);align-self:flex-start}
+.chat-msg.user{background:var(--green);color:#fff;align-self:flex-end}
+.chat-msg.typing{background:var(--bg);padding:.7rem .9rem;align-self:flex-start}
+.typing-dots{display:flex;gap:4px}
+.typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--muted2);animation:dot 1.2s ease infinite}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes dot{0%,80%,100%{transform:scale(.8);opacity:.5}40%{transform:scale(1);opacity:1}}
+.chat-sugs{display:flex;flex-wrap:wrap;gap:.35rem;padding:.4rem .9rem 0}
+.chat-sug{background:var(--green-light);color:var(--green);border:1px solid #b2d9bf;border-radius:20px;padding:.25rem .65rem;font-size:.75rem;cursor:pointer}
+.chat-input-wrap{display:flex;gap:.45rem;padding:.65rem .9rem;border-top:1px solid var(--border);flex-shrink:0}
+.chat-input{flex:1;border:1px solid var(--border);border-radius:20px;padding:.45rem .85rem;font-size:.85rem;outline:none;background:var(--bg);color:var(--text)}
+.chat-input:focus{border-color:var(--green)}
+.chat-send{background:var(--green);color:#fff;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:.9rem;flex-shrink:0}
+@media(max-width:768px){#chatbot-window{width:calc(100vw - 2rem)}}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" data-nav="home">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#1a6b3a"/><path d="M6 7h8M6 10h6M6 13h4" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+    DataProtect<span class="logo-accent">SN</span>
+  </a>
+  <ul class="nav-links">
+    <li><a data-nav="home" id="nav-home" class="active">Accueil</a></li>
+    <li><a data-nav="blog" id="nav-blog">Veille juridique</a></li>
+    <li><a data-nav="guide" id="nav-guide">Guide citoyen</a></li>
+    <li><a data-nav="ressources" id="nav-ressources">Ressources</a></li>
+    <li><a data-nav="comparatif" id="nav-comparatif">RGPD vs Loi SN</a></li>
+    <li><a data-nav="about" id="nav-about">À propos</a></li>
+    <li><a data-nav="contact" id="nav-contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" data-toggle-menu="1">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a data-nav="home">🏠 Accueil</a>
+  <a data-nav="blog">📰 Veille juridique</a>
+  <a data-nav="guide">📖 Guide citoyen</a>
+  <a data-nav="ressources">📂 Ressources</a>
+  <a data-nav="comparatif">⚖️ RGPD vs Loi SN</a>
+  <a data-nav="about">👤 À propos</a>
+  <a data-nav="contact">✉️ Contact</a>
+</div>
+
+<!-- =================== PAGE ACCUEIL =================== -->
+<div class="page active" id="page-home">
+
+  <div class="hero">
+    <div class="hero-inner container">
+      <div>
+        <div class="hero-tag"><span style="width:7px;height:7px;border-radius:50%;background:var(--gold-bright);display:inline-block"></span>Sénégal · Protection des données</div>
+        <h1>Vos données,<br><em>vos droits.</em><br>Protégés.</h1>
+        <p class="hero-sub">Sensibilisation, veille juridique sourcée et conformité RGPD pour les citoyens, entreprises et institutions du Sénégal.</p>
+        <div class="hero-btns">
+          <button class="btn-gold" data-nav="guide">Découvrir le guide citoyen</button>
+          <button class="btn-ghost-w" data-nav="blog">Voir la veille juridique →</button>
+        </div>
+      </div>
+      <div class="hero-cards">
+        <div class="hero-stat-card">
+          <div class="hsc-num">105</div>
+          <div class="hsc-label">Dossiers traités par la CDP au T1 2025 — en hausse constante</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hsc-num">1,15 Md€</div>
+          <div class="hsc-label">Amendes RGPD en Europe en 2025 — TikTok, Google, Shein dans le viseur</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hsc-num">2008</div>
+          <div class="hsc-label">Le Sénégal légifère dès 2008, parmi les premiers en Afrique</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-bg"></div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div><div class="stat-item-num">2008</div><div class="stat-item-label">Loi n°2008-12 — texte fondateur</div></div>
+      <div><div class="stat-item-num">105</div><div class="stat-item-label">Dossiers CDP · T1 2025</div></div>
+      <div><div class="stat-item-num">10 M FCFA</div><div class="stat-item-label">Amende max CDP actuelle</div></div>
+      <div><div class="stat-item-num">39/55</div><div class="stat-item-label">Pays africains avec loi data</div></div>
+    </div>
+  </div>
+
+  <section style="background:var(--white)">
+    <div class="container">
+      <div class="section-label">Nos missions</div>
+      <h2 class="section-title">Tout ce que couvre <br>notre plateforme</h2>
+      <p class="section-intro">Un espace de référence sur la protection des données personnelles, adapté au contexte sénégalais et aux enjeux africains.</p>
+      <div class="pillars-grid">
+        <div class="pillar-card" data-nav="guide">
+          <div class="pillar-icon pi-green">🛡️</div>
+          <h3>Guide citoyen</h3>
+          <p>Vos droits d'accès, de rectification, d'opposition et d'effacement expliqués simplement. Quiz interactif inclus.</p>
+          <span class="pillar-link">Accéder au guide →</span>
+        </div>
+        <div class="pillar-card" data-nav="blog">
+          <div class="pillar-icon pi-gold">⚖️</div>
+          <h3>Veille juridique & tech</h3>
+          <p>Décisions de la CDP, évolutions législatives africaines, RGPD et IA Act — sourcées et vérifiées régulièrement.</p>
+          <span class="pillar-link">Lire la veille →</span>
+        </div>
+        <div class="pillar-card" data-nav="comparatif">
+          <div class="pillar-icon pi-red">🇪🇺</div>
+          <h3>RGPD vs Loi sénégalaise</h3>
+          <p>Comparatif détaillé entre le règlement européen et la Loi 2008-12. Indispensable pour les entreprises qui exportent vers l'UE.</p>
+          <span class="pillar-link">Voir le comparatif →</span>
+        </div>
+        <div class="pillar-card" data-nav="contact">
+          <div class="pillar-icon pi-blue">📋</div>
+          <h3>Accompagnement DPO</h3>
+          <p>Mise en conformité, registre des traitements, AIPD, politique de confidentialité. Expert DPO certifié M2.</p>
+          <span class="pillar-link">Me contacter →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-label">Actualités récentes</div>
+      <h2 class="section-title">Dernières nouvelles vérifiées</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem;margin-bottom:2rem">
+        <div class="article-card" data-article="a1">
+          <div class="article-top"><span class="badge b-cdp">CDP</span><span class="badge b-new">Nouveau</span></div>
+          <div class="article-title">T2 2025 — Wave Digital Finance sanctionnée, Yassir Sénégal contrôlé sur site</div>
+          <div class="article-meta"><span>Juillet 2025</span><span>5 min</span></div>
+        </div>
+        <div class="article-card" data-article="a2">
+          <div class="article-top"><span class="badge b-rgpd">RGPD</span></div>
+          <div class="article-title">Bilan RGPD 2025 : 1,15 milliard d'€ d'amendes — TikTok, Google, Shein dans le viseur</div>
+          <div class="article-meta"><span>Jan. 2026</span><span>7 min</span></div>
+        </div>
+        <div class="article-card" data-article="a3">
+          <div class="article-top"><span class="badge b-tech">IA Act</span></div>
+          <div class="article-title">IA Act : la CNIL devient autorité de régulation de l'IA depuis août 2025. Impacts pour le Sénégal.</div>
+          <div class="article-meta"><span>Oct. 2025</span><span>6 min</span></div>
+        </div>
+      </div>
+      <button class="btn-gold" data-nav="blog">Voir toute la veille →</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- =================== PAGE BLOG =================== -->
+<div class="page" id="page-blog">
+<section>
+<div class="container">
+  <div class="section-label">Veille juridique & technologique</div>
+  <h2 class="section-title">Toutes les actualités</h2>
+  <div class="blog-layout">
+    <div>
+      <div class="blog-list">
+
+        <div class="article-card" data-article="a1">
+          <div class="article-top"><span class="badge b-cdp">CDP · Officiel</span><span class="badge b-new">Récent</span></div>
+          <div class="article-title">T2 2025 — La CDP traite 96 dossiers : Wave Digital Finance rejetée, Yassir Sénégal contrôlé</div>
+          <div class="article-excerpt">Au 2e trimestre 2025, la CDP a enregistré 5 plaintes, 4 signalements et mené 6 missions de contrôle sur site. La fintech Wave Digital Finance a fait l'objet d'un rejet partiel concernant un partage de données avec l'ARTP.</div>
+          <div class="article-meta"><span>📅 Juillet 2025</span><span>⏱ 5 min</span><span>Source : Seneweb / CDP</span></div>
+          <span class="read-more">Lire l'article →</span>
+        </div>
+
+        <div class="article-card" data-article="a4">
+          <div class="article-top"><span class="badge b-cdp">CDP · Officiel</span></div>
+          <div class="article-title">T1 2025 — 105 dossiers traités, focus sur la protection de l'enfance numérique et la santé</div>
+          <div class="article-excerpt">Au premier trimestre 2025, la CDP a traité 83 déclarations, 19 demandes d'autorisation et 3 réinscriptions. Une tendance à la hausse de la conformité qui s'accélère dans les secteurs de la santé et des télécoms.</div>
+          <div class="article-meta"><span>📅 Avril 2025</span><span>⏱ 4 min</span><span>Source : Dakar Actu / CDP</span></div>
+          <span class="read-more">Lire l'article →</span>
+        </div>
+
+        <div class="article-card" data-article="a5">
+          <div class="article-top"><span class="badge b-afrique">Afrique</span></div>
+          <div class="article-title">La CDP signe un accord avec Paradigm Initiative lors du RAPDP à Abuja</div>
+          <div class="article-excerpt">En marge de l'Assemblée générale du Réseau Africain des Autorités de Protection des Données (RAPDP), la CDP du Sénégal a signé un protocole de coopération avec l'ONG panafricaine Paradigm Initiative pour renforcer l'éducation numérique.</div>
+          <div class="article-meta"><span>📅 Mai 2025</span><span>⏱ 3 min</span><span>Source : WeAreTech Africa</span></div>
+          <span class="read-more">Lire l'article →</span>
+        </div>
+
+        <div class="article-card" data-article="a2">
+          <div class="article-top"><span class="badge b-rgpd">RGPD · Europe</span></div>
+          <div class="article-title">Bilan RGPD 2025 : 1,15 milliard d'euros d'amendes — TikTok (530M€), Google (325M€), Shein (150M€)</div>
+          <div class="article-excerpt">L'année 2025 marque un record absolu pour les sanctions RGPD. Les trois géants numériques cumulent à eux seuls plus d'un milliard d'euros. Ce bilan traduit une posture des autorités de plus en plus offensive face aux manquements organisationnels.</div>
+          <div class="article-meta"><span>📅 Jan. 2026</span><span>⏱ 7 min</span><span>Source : RGPD Kit / Digitemis</span></div>
+          <span class="read-more">Lire l'article →</span>
+        </div>
+
+        <div class="article-card" data-article="a3">
+          <div class="article-top"><span class="badge b-tech">IA Act</span></div>
+          <div class="article-title">IA Act : la CNIL régule désormais les systèmes d'IA à haut risque depuis août 2025</div>
+          <div class="article-excerpt">Depuis août 2025, la CNIL est officiellement l'autorité nationale de régulation de l'intelligence artificielle en France, au titre de l'IA Act européen. Ce changement a des implications directes pour les entreprises sénégalaises exportant vers l'UE.</div>
+          <div class="article-meta"><span>📅 Oct. 2025</span><span>⏱ 6 min</span><span>Source : FD Conseil / CNIL</span></div>
+          <span class="read-more">Lire l'article →</span>
+        </div>
+
+        <div class="article-card" data-article="a6">
+          <div class="article-top"><span class="badge b-loi">Législation SN</span></div>
+          <div class="article-title">Réforme de la Loi 2008-12 : ce que prévoit le projet en discussion depuis 2022</div>
+          <div class="article-excerpt">Un projet de loi est en discussion depuis 2022 pour mettre à jour la Loi 2008-12 : consentement explicite, droit à l'oubli, portabilité des données et amendes pouvant atteindre 2% du chiffre d'affaires pour les violations graves.</div>
+          <div class="article-meta"><span>📅 Déc. 2025</span><span>⏱ 8 min</span><span>Source : Move-On-Up / Analyse</span></div>
+          <span class="read-more">Lire l'article →</span>
+        </div>
+
+      </div>
+    </div>
+    <div class="sidebar">
+      <div class="newsletter-box">
+        <h4>📬 Recevoir la veille</h4>
+        <p>Actualités CDP, RGPD et droit numérique africain chaque semaine.</p>
+        <input class="nl-input" type="text" id="nl-prenom" placeholder="Votre prénom">
+        <input class="nl-input" type="email" id="nl-email" placeholder="votre@email.com">
+        <button class="nl-btn" data-nl-btn="1">S'abonner gratuitement</button>
+        <p class="nl-note">🔒 Vos données ne seront jamais cédées. Loi 2008-12 respectée.</p>
+      </div>
+      <div class="sidebar-box">
+        <h4>Liens officiels</h4>
+        <div class="quick-links">
+          <a class="quick-link" href="https://www.cdp.sn" target="_blank">🏛️ CDP Sénégal — site officiel<span class="ql-arrow">↗</span></a>
+          <a class="quick-link" href="https://www.cnil.fr" target="_blank">🇫🇷 CNIL — autorité française<span class="ql-arrow">↗</span></a>
+          <a class="quick-link" href="https://edpb.europa.eu" target="_blank">🇪🇺 CEPD — autorité européenne<span class="ql-arrow">↗</span></a>
+          <a class="quick-link" href="https://www.juriafrica.com/lex/loi-2008-12-25-janvier-2008-27575.htm" target="_blank">📄 Texte intégral Loi 2008-12<span class="ql-arrow">↗</span></a>
+        </div>
+      </div>
+      <div class="sidebar-box">
+        <h4>Thématiques</h4>
+        <div class="tag-cloud">
+          <span class="tag-pill">CDP Sénégal</span>
+          <span class="tag-pill">Loi 2008-12</span>
+          <span class="tag-pill">RGPD</span>
+          <span class="tag-pill">IA Act</span>
+          <span class="tag-pill">Données biométriques</span>
+          <span class="tag-pill">Fintech</span>
+          <span class="tag-pill">Santé</span>
+          <span class="tag-pill">Enfance numérique</span>
+          <span class="tag-pill">RAPDP</span>
+          <span class="tag-pill">DPO</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+</div>
+
+<!-- =================== PAGE ARTICLE =================== -->
+<div class="page" id="page-article">
+<section>
+<div class="container">
+  <div class="article-page" id="article-content"></div>
+</div>
+</section>
+</div>
+
+<!-- =================== PAGE GUIDE CITOYEN =================== -->
+<div class="page" id="page-guide">
+<section style="background:var(--white)">
+<div class="container">
+  <div class="section-label">Guide pratique</div>
+  <h2 class="section-title">Vos droits sur vos données personnelles</h2>
+  <p class="section-intro">La Loi n°2008-12 du 25 janvier 2008 vous garantit des droits fondamentaux sur toutes les données vous concernant. Voici comment les exercer concrètement au Sénégal.</p>
+
+  <div class="callout" style="margin-bottom:2rem">
+    <p><strong>Qu'est-ce qu'une donnée à caractère personnel ?</strong> Toute information permettant d'identifier une personne, directement ou indirectement : nom, prénom, numéro de téléphone, email, photo, adresse IP, numéro CNI, données de santé, etc.</p>
+  </div>
+
+  <div class="guide-steps">
+    <div class="guide-step open">
+      <div class="step-header" data-accordion="1">
+        <div class="step-num">1</div>
+        <div class="step-title">Le droit d'accès — Savoir ce qu'on détient sur vous</div>
+        <div class="step-chevron">▼</div>
+      </div>
+      <div class="step-body">
+        <p>Vous avez le droit de demander à toute organisation (banque, opérateur télécom, employeur, hôpital…) si elle détient des données vous concernant et d'en obtenir une copie.</p>
+        <p><strong>Comment exercer ce droit ?</strong> Envoyez une demande écrite, signée et datée, au responsable de traitement ou à son représentant au Sénégal, accompagnée d'une copie de votre pièce d'identité. La réponse doit vous parvenir dans un délai raisonnable. <em>(Art. 48 du Décret d'application)</em></p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="step-header" data-accordion="1">
+        <div class="step-num">2</div>
+        <div class="step-title">Le droit de rectification — Corriger des données inexactes</div>
+        <div class="step-chevron">▼</div>
+      </div>
+      <div class="step-body">
+        <p>Si des données vous concernant sont inexactes, incomplètes ou périmées, vous pouvez exiger leur correction ou mise à jour. Ce droit est garanti par la Loi 2008-12.</p>
+        <p><strong>Exemples :</strong> adresse incorrecte dans un fichier client, état civil erroné chez un opérateur, informations obsolètes dans un dossier médical.</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="step-header" data-accordion="1">
+        <div class="step-num">3</div>
+        <div class="step-title">Le droit d'opposition — Refuser certains traitements</div>
+        <div class="step-chevron">▼</div>
+      </div>
+      <div class="step-body">
+        <p>Vous pouvez vous opposer, pour des motifs légitimes, au traitement de vos données à caractère personnel — notamment lorsque ce traitement est utilisé à des fins de prospection commerciale ou de marketing direct.</p>
+        <p><strong>Comment l'exercer ?</strong> Même procédure que le droit d'accès : demande écrite adressée au responsable de traitement. En cas de refus injustifié, vous pouvez saisir la CDP.</p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="step-header" data-accordion="1">
+        <div class="step-num">4</div>
+        <div class="step-title">Comment saisir la CDP en cas de violation ?</div>
+        <div class="step-chevron">▼</div>
+      </div>
+      <div class="step-body">
+        <p>Si vous estimez que vos droits ont été violés, vous pouvez déposer une plainte auprès de la CDP. La Commission peut prononcer des avertissements, des mises en demeure, des sanctions pécuniaires jusqu'à 10 millions de FCFA, ou suspendre un traitement.</p>
+        <p><strong>Recours :</strong> Les décisions de la CDP peuvent faire l'objet d'un recours devant la Cour d'appel de Dakar dans un délai de deux mois. <em>(Source : Loi 2008-12, Art. 39)</em></p>
+        <p>Site de la CDP : <a href="https://www.cdp.sn" target="_blank" style="color:var(--green)">www.cdp.sn</a></p>
+      </div>
+    </div>
+    <div class="guide-step">
+      <div class="step-header" data-accordion="1">
+        <div class="step-num">5</div>
+        <div class="step-title">Les obligations des entreprises envers vous</div>
+        <div class="step-chevron">▼</div>
+      </div>
+      <div class="step-body">
+        <p>Toute organisation qui collecte vos données doit respecter plusieurs principes fondamentaux issus de la Loi 2008-12 :</p>
+        <ul>
+          <li>Vous informer clairement de la finalité du traitement</li>
+          <li>Obtenir votre consentement pour les traitements sensibles</li>
+          <li>Conserver vos données uniquement le temps nécessaire</li>
+          <li>Sécuriser vos données contre tout accès non autorisé</li>
+          <li>Déclarer les traitements à la CDP avant leur mise en œuvre</li>
+          <li>Vous notifier en cas de violation de vos données</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem">
+    <div class="section-label">Quiz interactif</div>
+    <h3 class="section-title" style="font-size:1.6rem">Testez vos connaissances</h3>
+    <div class="quiz-container">
+      <div class="quiz-progress"><div class="quiz-bar" id="quizBar" style="width:0%"></div></div>
+      <div class="quiz-card" id="quizCard"></div>
+    </div>
+  </div>
+</div>
+</section>
+</div>
+
+<!-- =================== PAGE RESSOURCES =================== -->
+<div class="page" id="page-ressources">
+<section>
+<div class="container">
+  <div class="section-label">Centre de ressources</div>
+  <h2 class="section-title">Documents & outils pratiques</h2>
+  <p class="section-intro">Guides, modèles et checklists pour vous aider à comprendre vos droits ou mettre votre organisation en conformité avec la Loi 2008-12 et le RGPD.</p>
+
+  <div class="ressources-filters">
+    <button class="filter-btn active" data-filter="all">Tous</button>
+    <button class="filter-btn" data-filter="guide">Guides</button>
+    <button class="filter-btn" data-filter="modele">Modèles</button>
+    <button class="filter-btn" data-filter="checklist">Checklists</button>
+    <button class="filter-btn" data-filter="loi">Textes de loi</button>
+  </div>
+
+  <div class="ressources-grid">
+    <div class="res-card" data-cat="guide">
+      <div class="res-badge-new">Nouveau</div>
+      <div class="res-icon">📖</div>
+      <h4>Guide citoyen — Vos droits en 10 points</h4>
+      <p>Comprendre la Loi 2008-12 simplement : droits d'accès, rectification, opposition, recours auprès de la CDP.</p>
+      <div class="res-meta"><span class="res-type">PDF · Gratuit</span><span class="res-dl" data-nav="guide">Accéder →</span></div>
+    </div>
+    <div class="res-card" data-cat="modele">
+      <div class="res-icon">🗂️</div>
+      <h4>Modèle de registre des traitements</h4>
+      <p>Tableau conforme à la réglementation sénégalaise. Colonnes : finalité, catégories de données, durée de conservation, destinataires, mesures de sécurité.</p>
+      <div class="res-meta"><span class="res-type">XLSX · Gratuit</span><span class="res-dl">Télécharger →</span></div>
+    </div>
+    <div class="res-card" data-cat="checklist">
+      <div class="res-icon">✅</div>
+      <h4>Checklist conformité Loi 2008-12</h4>
+      <p>30 points de contrôle pour vérifier la conformité de votre organisation à la loi sénégalaise sur la protection des données personnelles.</p>
+      <div class="res-meta"><span class="res-type">PDF · Gratuit</span><span class="res-dl">Télécharger →</span></div>
+    </div>
+    <div class="res-card" data-cat="checklist">
+      <div class="res-icon">🇪🇺</div>
+      <h4>Checklist RGPD pour entreprises sénégalaises</h4>
+      <p>Spécialement conçue pour les entreprises qui exportent vers l'UE ou traitent des données de résidents européens.</p>
+      <div class="res-meta"><span class="res-type">PDF · Gratuit</span><span class="res-dl">Télécharger →</span></div>
+    </div>
+    <div class="res-card" data-cat="modele">
+      <div class="res-icon">📜</div>
+      <h4>Modèle de politique de confidentialité</h4>
+      <p>Adapté au droit sénégalais et compatible RGPD. Personnalisable pour site web, application mobile ou service en ligne.</p>
+      <div class="res-meta"><span class="res-type">DOCX · Gratuit</span><span class="res-dl">Télécharger →</span></div>
+    </div>
+    <div class="res-card" data-cat="modele">
+      <div class="res-icon">⚠️</div>
+      <h4>Modèle d'Analyse d'Impact (AIPD)</h4>
+      <p>Méthode et modèle pour les traitements présentant un risque élevé pour les droits et libertés des personnes concernées.</p>
+      <div class="res-meta"><span class="res-type">DOCX · Gratuit</span><span class="res-dl">Télécharger →</span></div>
+    </div>
+    <div class="res-card" data-cat="loi">
+      <div class="res-icon">📋</div>
+      <h4>Texte intégral — Loi n°2008-12</h4>
+      <p>La loi du 25 janvier 2008 sur la protection des données à caractère personnel au Sénégal, version complète et annotée.</p>
+      <div class="res-meta"><span class="res-type">PDF · Officiel</span><a class="res-dl" href="https://www.afapdp.org/wp-content/uploads/2018/05/Senegal-texte-de-loi-2008.pdf" target="_blank">Télécharger →</a></div>
+    </div>
+    <div class="res-card" data-cat="guide">
+      <div class="res-icon">🌍</div>
+      <h4>Panorama africain des lois data</h4>
+      <p>Comparatif Sénégal, Maroc, Rwanda, Kenya, Nigeria, Tunisie, Ghana — 39 des 55 pays africains disposent d'une loi en 2025.</p>
+      <div class="res-meta"><span class="res-type">PDF · Gratuit</span><span class="res-dl">Télécharger →</span></div>
+    </div>
+    <div class="res-card" data-cat="guide">
+      <div class="res-icon">🤖</div>
+      <h4>Guide IA & protection des données</h4>
+      <p>Comment l'IA Act européen (en vigueur depuis 2025) affecte les entreprises sénégalaises qui utilisent ou exportent des systèmes d'IA vers l'UE.</p>
+      <div class="res-meta"><span class="res-type">PDF · Gratuit</span><span class="res-dl">Télécharger →</span></div>
+    </div>
+  </div>
+</div>
+</section>
+</div>
+
+<!-- =================== PAGE COMPARATIF =================== -->
+<div class="page" id="page-comparatif">
+<section>
+<div class="container">
+  <div class="section-label">Analyse comparative</div>
+  <h2 class="section-title">RGPD vs Loi 2008-12 du Sénégal</h2>
+  <p class="section-intro">Un comparatif sourcé entre le règlement européen (RGPD) et la loi sénégalaise sur la protection des données personnelles. Essentiel pour toute entreprise sénégalaise opérant avec des partenaires européens.</p>
+
+  <div class="compare-grid">
+    <div class="compare-card">
+      <div class="compare-header">
+        <h3>🇸🇳 Loi n°2008-12 — Sénégal</h3>
+        <p>Promulguée le 25 janvier 2008 · Autorité : CDP</p>
+      </div>
+      <div class="compare-body">
+        <div class="compare-row"><span class="cr-label">Entrée en vigueur</span><span class="cr-val">25 janvier 2008 (CDP active depuis fév. 2013)</span></div>
+        <div class="compare-row"><span class="cr-label">Autorité de contrôle</span><span class="cr-val">Commission des Données Personnelles (CDP) — Dakar</span></div>
+        <div class="compare-row"><span class="cr-label">Amende maximale</span><span class="cr-val">10 millions FCFA (~15 200 €)</span></div>
+        <div class="compare-row"><span class="cr-label">Sanction pénale</span><span class="cr-val">Oui — renvoi au Code pénal et loi sur la cybercriminalité</span></div>
+        <div class="compare-row"><span class="cr-label">DPO obligatoire ?</span><span class="cr-val">Non — recommandé, pas obligatoire</span></div>
+        <div class="compare-row"><span class="cr-label">Formalité préalable</span><span class="cr-val">Déclaration ou autorisation auprès de la CDP</span></div>
+        <div class="compare-row"><span class="cr-label">Droit à l'oubli</span><span class="cr-val">Non prévu explicitement (projet de réforme en cours)</span></div>
+        <div class="compare-row"><span class="cr-label">Portabilité</span><span class="cr-val">Non prévue (en discussion dans la réforme)</span></div>
+        <div class="compare-row"><span class="cr-label">Inspiration</span><span class="cr-val">Convention 108 du Conseil de l'Europe + modèle CNIL</span></div>
+      </div>
+    </div>
+    <div class="compare-card">
+      <div class="compare-header">
+        <h3>🇪🇺 RGPD — Règlement européen</h3>
+        <p>En vigueur depuis le 25 mai 2018 · Autorité : CEPD + CNIL</p>
+      </div>
+      <div class="compare-body">
+        <div class="compare-row"><span class="cr-label">Entrée en vigueur</span><span class="cr-val">25 mai 2018 (adopté en avril 2016)</span></div>
+        <div class="compare-row"><span class="cr-label">Autorité de contrôle</span><span class="cr-val">CEPD (UE) + autorité nationale (ex : CNIL en France)</span></div>
+        <div class="compare-row"><span class="cr-label">Amende maximale</span><span class="cr-val">20 M€ ou 4% du CA mondial (le plus élevé)</span></div>
+        <div class="compare-row"><span class="cr-label">Sanction pénale</span><span class="cr-val">Selon les États membres — possible</span></div>
+        <div class="compare-row"><span class="cr-label">DPO obligatoire ?</span><span class="cr-val">Oui, pour certaines catégories d'organisations</span></div>
+        <div class="compare-row"><span class="cr-label">Formalité préalable</span><span class="cr-val">Pas de déclaration — accountability (responsabilité démontrée)</span></div>
+        <div class="compare-row"><span class="cr-label">Droit à l'oubli</span><span class="cr-val">✅ Oui — Art. 17 du RGPD</span></div>
+        <div class="compare-row"><span class="cr-label">Portabilité</span><span class="cr-val">✅ Oui — Art. 20 du RGPD</span></div>
+        <div class="compare-row"><span class="cr-label">Champ d'application</span><span class="cr-val">Extra-territorial — s'applique à tout acteur traitant des données de résidents UE</span></div>
+      </div>
+    </div>
+    <div class="compare-match">
+      <strong>⚡ Point clé pour les entreprises sénégalaises :</strong> Le RGPD s'applique à vous dès que vous traitez des données de résidents européens — même si vous êtes basé à Dakar. Les amendes peuvent atteindre 4% de votre chiffre d'affaires mondial. La conformité à la Loi 2008-12 ne suffit pas. <a data-nav="contact" style="color:var(--green);font-weight:500;cursor:pointer">Contactez-nous pour un audit →</a>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem">
+    <h3 class="section-title" style="font-size:1.5rem">Points communs essentiels</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-top:1.5rem">
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.25rem">
+        <div style="font-size:1.3rem;margin-bottom:.6rem">🎯</div>
+        <h4 style="font-size:.92rem;font-weight:500;margin-bottom:.3rem">Finalité déterminée</h4>
+        <p style="font-size:.82rem;color:var(--muted)">Les données ne peuvent être collectées que pour une finalité précise, légitime et explicitement définie.</p>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.25rem">
+        <div style="font-size:1.3rem;margin-bottom:.6rem">📏</div>
+        <h4 style="font-size:.92rem;font-weight:500;margin-bottom:.3rem">Minimisation des données</h4>
+        <p style="font-size:.82rem;color:var(--muted)">Seules les données strictement nécessaires à la finalité peuvent être collectées et traitées.</p>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.25rem">
+        <div style="font-size:1.3rem;margin-bottom:.6rem">🔒</div>
+        <h4 style="font-size:.92rem;font-weight:500;margin-bottom:.3rem">Sécurité obligatoire</h4>
+        <p style="font-size:.82rem;color:var(--muted)">Des mesures techniques et organisationnelles appropriées doivent protéger les données contre toute atteinte.</p>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.25rem">
+        <div style="font-size:1.3rem;margin-bottom:.6rem">👤</div>
+        <h4 style="font-size:.92rem;font-weight:500;margin-bottom:.3rem">Droits des personnes</h4>
+        <p style="font-size:.82rem;color:var(--muted)">Accès, rectification et opposition sont garantis par les deux textes. Le RGPD va plus loin avec l'effacement et la portabilité.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+</div>
+
+<!-- =================== PAGE ABOUT =================== -->
+<div class="page" id="page-about">
+<section style="background:var(--white)">
+<div class="container">
+  <div class="about-layout">
+    <div class="about-visual">
+      <div class="avatar">DPO</div>
+      <div class="cred-card"><strong>Diplôme</strong>Master 2 — Délégué à la Protection des Données</div>
+      <div class="cred-card"><strong>Expertise</strong>Droit sénégalais · RGPD · Cybersécurité · IA Act</div>
+      <div class="cred-card"><strong>Autorité de référence</strong>Commission des Données Personnelles (CDP) — Sénégal</div>
+      <div class="cred-card"><strong>Langues</strong>Français · Wolof · Anglais</div>
+      <div class="cred-card"><strong>Localisation</strong>Dakar, Sénégal</div>
+    </div>
+    <div>
+      <div class="section-label">À propos</div>
+      <h2 class="section-title">Un DPO engagé pour la souveraineté numérique du Sénégal</h2>
+      <p style="color:var(--muted);margin-bottom:1rem;font-size:.95rem">Jeune diplômé d'un Master 2 en Délégué à la Protection des Données, j'ai créé cette plateforme avec une conviction forte : au Sénégal, la protection des données personnelles est un droit fondamental qui mérite d'être connu, compris et défendu par tous.</p>
+      <p style="color:var(--muted);margin-bottom:1rem;font-size:.95rem">Le Sénégal est l'un des premiers pays africains à avoir légiféré en la matière dès 2008, et premier signataire de la Convention de Malabo de 2014. Pourtant, trop peu de citoyens et d'entreprises connaissent leurs droits ou leurs obligations réelles.</p>
+      <p style="color:var(--muted);margin-bottom:1.5rem;font-size:.95rem">Cette plateforme est un pont entre la loi, la technologie et les acteurs du quotidien — citoyens, entrepreneurs, professionnels du droit, décideurs publics.</p>
+      <div class="tags-wrap">
+        <span class="tag-g">Loi 2008-12</span>
+        <span class="tag-g">CDP Sénégal</span>
+        <span class="tag-g">RGPD</span>
+        <span class="tag-g">DPO</span>
+        <span class="tag-g">AIPD</span>
+        <span class="tag-g">IA Act</span>
+        <span class="tag-g">Cybersécurité</span>
+        <span class="tag-g">Droit numérique africain</span>
+        <span class="tag-g">RAPDP</span>
+        <span class="tag-g">Convention de Malabo</span>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+</div>
+
+<!-- =================== PAGE CONTACT =================== -->
+<div class="page" id="page-contact">
+<section>
+<div class="container">
+  <div class="section-label">Contact & prestations</div>
+  <h2 class="section-title">Travaillons ensemble</h2>
+  <p class="section-intro">Audit, formation, rédaction de documents de conformité, désignation DPO externe — voici comment je peux vous accompagner.</p>
+  <div class="contact-layout">
+    <div class="contact-form">
+      <h3>Envoyer un message</h3>
+      <div class="form-group">
+        <label>Nom complet</label>
+        <input class="form-input" type="text" id="c-nom" placeholder="Votre nom et prénom">
+      </div>
+      <div class="form-group">
+        <label>Email professionnel</label>
+        <input class="form-input" type="email" id="c-email" placeholder="votre@email.com">
+      </div>
+      <div class="form-group">
+        <label>Organisation</label>
+        <input class="form-input" type="text" id="c-org" placeholder="Nom de votre entreprise ou institution">
+      </div>
+      <div class="form-group">
+        <label>Type de besoin</label>
+        <select class="form-select" id="c-besoin">
+          <option value="">Sélectionner...</option>
+          <option>Audit de conformité (Loi 2008-12)</option>
+          <option>Mise en conformité RGPD</option>
+          <option>Désignation DPO externe</option>
+          <option>Formation & sensibilisation</option>
+          <option>Rédaction politique de confidentialité</option>
+          <option>Analyse d'Impact (AIPD)</option>
+          <option>Autre demande</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Votre message</label>
+        <textarea class="form-input" id="c-message" placeholder="Décrivez votre besoin ou votre question..."></textarea>
+      </div>
+      <button class="form-submit" data-contact-btn="1">Envoyer le message</button>
+      <p style="font-size:.75rem;color:var(--muted2);margin-top:.75rem">🔒 Vos données sont traitées conformément à la Loi 2008-12. Réponse sous 48h ouvrées.</p>
+    </div>
+    <div class="contact-info">
+      <div class="info-card">
+        <div class="info-icon">💼</div>
+        <h4>Prestations proposées</h4>
+        <div class="tarif-item"><span>Audit de conformité</span><span class="tarif-price">Sur devis</span></div>
+        <div class="tarif-item"><span>DPO externe (mensuel)</span><span class="tarif-price">Sur devis</span></div>
+        <div class="tarif-item"><span>Formation (demi-journée)</span><span class="tarif-price">Sur devis</span></div>
+        <div class="tarif-item"><span>Politique de confidentialité</span><span class="tarif-price">Sur devis</span></div>
+        <div class="tarif-item"><span>AIPD complète</span><span class="tarif-price">Sur devis</span></div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🎓</div>
+        <h4>Profil & qualifications</h4>
+        <p>Master 2 Délégué à la Protection des Données · Expert Loi 2008-12 et RGPD · Basé à Dakar, intervient dans toute la sous-région CEDEAO.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🌐</div>
+        <h4>Héberger ce site</h4>
+        <p>Pas encore de domaine ? Je recommande <strong>NIC Sénégal</strong> pour un domaine <strong>.sn</strong> et <strong>OVH</strong> ou <strong>Netlify</strong> pour l'hébergement. Budget : environ 15 000–30 000 FCFA/an.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+</div>
+
+
+<div id="chatbot-bubble">
+  <div id="chatbot-window">
+    <div class="chat-header">
+      <div><div class="chat-name">🤖 Assistant DataProtect SN</div><div class="chat-status">En ligne · IA</div></div>
+      <button class="chat-close" id="chatClose">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg bot">👋 Bonjour ! Je suis l'assistant spécialisé en protection des données au Sénégal. Posez vos questions sur la Loi 2008-12, le RGPD, vos droits ou la conformité.</div>
+    </div>
+    <div class="chat-sugs" id="chatSugs">
+      <button class="chat-sug" data-sug="Quels sont mes droits sur mes données ?">Mes droits</button>
+      <button class="chat-sug" data-sug="Dois-je déclarer mon entreprise à la CDP ?">Déclaration CDP</button>
+      <button class="chat-sug" data-sug="Le RGPD s'applique-t-il au Sénégal ?">RGPD & SN</button>
+      <button class="chat-sug" data-sug="Qu'est-ce qu'un DPO ?">Le DPO</button>
+    </div>
+    <div class="chat-input-wrap">
+      <input type="text" class="chat-input" id="chatInput" placeholder="Votre question...">
+      <button class="chat-send" id="chatSend">➤</button>
+    </div>
+  </div>
+  <button id="chatbot-btn">💬</button>
+</div>
+<div id="cookie-banner">
+  <div class="ck-inner">
+    <div class="ck-text">
+      <h4>🍪 Ce site utilise des cookies</h4>
+      <p>Conformément à la <strong>Loi 2008-12</strong> et au <strong>RGPD Art. 7</strong>, votre consentement explicite est requis. Sans votre accord, seuls les cookies nécessaires au fonctionnement sont actifs.</p>
+    </div>
+    <div class="ck-btns">
+      <button class="btn-ck-set" id="ck-custom">Personnaliser</button>
+      <button class="btn-ck-no" id="ck-refuse">Refuser</button>
+      <button class="btn-ck-ok" id="ck-accept">Accepter</button>
+    </div>
+  </div>
+</div>
+<div id="cookie-modal">
+  <div class="cm-box">
+    <h3>Gérer mes cookies</h3>
+    <p style="font-size:.76rem;color:var(--muted);margin-bottom:.8rem">Art. 48 Loi 2008-12 & Art. 7 RGPD — Choisissez les cookies que vous autorisez.</p>
+    <div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">🔒 Nécessaires</span><label class="tgl"><input type="checkbox" checked disabled><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Indispensables au fonctionnement. Non désactivables.</div></div>
+    <div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">📊 Analytiques</span><label class="tgl"><input type="checkbox" id="ck-analytics"><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Comprendre l'usage du site. Données anonymisées.</div></div>
+    <div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">🎯 Personnalisation</span><label class="tgl"><input type="checkbox" id="ck-perso"><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Mémoriser vos préférences (mode sombre, etc.).</div></div>
+    <div style="background:var(--green-light);border-radius:8px;padding:.55rem .85rem;font-size:.74rem;color:var(--green-dark);margin-top:.5rem">Responsable : Henry Pierre Diouf — henrypierrediouf@gmail.com</div>
+    <div class="cm-btns"><button class="btn-ck-no" id="ck-modal-refuse">Refuser tout</button><button class="btn-ck-ok" id="ck-modal-save">Enregistrer</button><button class="btn-ck-ok" id="ck-modal-accept">Accepter tout</button></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">🇸🇳 DataProtect<span style="color:var(--gold-bright)">SN</span></div>
+      <p class="footer-tagline">Plateforme de référence sur la protection des données personnelles au Sénégal. Sensibilisation, veille juridique sourcée et conformité RGPD.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Navigation</h5>
+      <a data-nav="home">Accueil</a>
+      <a data-nav="blog">Veille juridique</a>
+      <a data-nav="guide">Guide citoyen</a>
+      <a data-nav="ressources">Ressources</a>
+      <a data-nav="comparatif">RGPD vs Loi SN</a>
+      <a data-nav="about">À propos</a>
+    </div>
+    <div class="footer-col">
+      <h5>Liens officiels</h5>
+      <a href="https://www.cdp.sn" target="_blank">CDP Sénégal</a>
+      <a href="https://www.cnil.fr" target="_blank">CNIL France</a>
+      <a href="https://edpb.europa.eu" target="_blank">CEPD (UE)</a>
+      <a href="https://www.juriafrica.com/lex/loi-2008-12-25-janvier-2008-27575.htm" target="_blank">Texte Loi 2008-12</a>
+    </div>
+  </div>
+  <div class="footer-legal">
+    Ce site est fourni à titre informatif et éducatif. Il ne constitue pas un conseil juridique. Pour toute question spécifique, consultez un professionnel qualifié ou la CDP (www.cdp.sn). Les contenus de veille sont sourcés et vérifiés — voir les articles pour les sources originales.
+    <div style="margin-top:.5rem"><button id="ck-manage-btn" style="background:none;border:none;color:rgba(255,255,255,.4);font-size:.7rem;cursor:pointer;text-decoration:underline">🍪 Gérer mes cookies</button></div>
+</div>
+</footer>
+
+<script>
+
+// ===== NAVIGATION =====
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + id);
+  if(navEl) navEl.classList.add('active');
+  window.scrollTo(0, 0);
+  if(id === 'guide' && !quizInitialized) { quizInitialized = true; renderQuiz(); }
+  // Ferme le menu mobile si ouvert
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+// ===== MOBILE MENU =====
+function toggleMenu() {
+  const m = document.getElementById('mobileMenu');
+  const h = document.getElementById('hamburger');
+  m.classList.toggle('open');
+  h.classList.toggle('open');
+}
+
+// ===== ACCORDION GUIDE =====
+function toggleStep(header) {
+  const step = header.parentElement;
+  step.classList.toggle('open');
+}
+
+// ===== RESSOURCES FILTER =====
+function filterRes(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.res-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+  });
+}
+
+// ===== ARTICLES =====
+const articles = {
+  a1: {
+    badges: ['b-cdp', 'b-new'],
+    badgeLabels: ['CDP · Officiel', 'Récent'],
+    title: 'T2 2025 — La CDP traite 96 dossiers : Wave Digital Finance rejetée, Yassir Sénégal contrôlé sur site',
+    date: 'Juillet 2025', readTime: '5 min',
+    source: 'Seneweb / Rapports trimestriels CDP Sénégal',
+    intro: "Au deuxième trimestre 2025, la Commission des Données Personnelles du Sénégal a traité 96 dossiers, maintenant un rythme soutenu d'activité. On note un rejet partiel concernant Wave Digital Finance et plusieurs missions de contrôle sur site, dont Yassir Sénégal et Elton Oil Company.",
+    body: `
+      <h2>Bilan chiffré du T2 2025</h2>
+      <p>La CDP a traité au total 96 dossiers entre avril et juin 2025, incluant 5 plaintes, 4 signalements formels et 6 missions de contrôle sur site. Ce chiffre confirme l'accélération de l'activité de l'autorité de contrôle sénégalaise, déjà observée au T1 avec 105 dossiers.</p>
+      <table class="article-table">
+        <tr><th>Type de dossier</th><th>Nombre (T2 2025)</th></tr>
+        <tr><td>Déclarations traitées</td><td>~75</td></tr>
+        <tr><td>Plaintes reçues</td><td>5</td></tr>
+        <tr><td>Signalements</td><td>4</td></tr>
+        <tr><td>Contrôles sur site</td><td>6</td></tr>
+        <tr><td>Total dossiers</td><td>96</td></tr>
+      </table>
+      <h2>Le cas Wave Digital Finance</h2>
+      <p>La fintech Wave Digital Finance, opérateur de mobile money très répandu au Sénégal, a fait l'objet d'un rejet partiel de la CDP. Le motif principal porte sur un partage de données personnelles avec l'ARTP (Autorité de Régulation des Télécommunications et des Postes) sans base légale suffisante ou sans information adéquate des utilisateurs.</p>
+      <div class="callout"><p>Ce cas illustre un enjeu croissant : les fintechs et opérateurs de mobile money collectent des volumes massifs de données (identité, géolocalisation, transactions) et leur conformité fait l'objet d'une surveillance accrue de la CDP.</p></div>
+      <h2>Contrôles sur site : qui a été visité ?</h2>
+      <p>Parmi les entités ayant fait l'objet d'un contrôle sur site au T2 2025, on retrouve Yassir Sénégal (plateforme de VTC et livraison) et Elton Oil Company. Ces contrôles concernent principalement la gestion des données des clients et des employés, ainsi que les sous-traitants auxquels ces données sont transmises.</p>
+      <h2>Ce que cela signifie pour les entreprises</h2>
+      <p>L'intensification des contrôles de la CDP envoie un signal clair au marché : la conformité n'est plus optionnelle. Toute entreprise — locale ou internationale opérant au Sénégal — peut faire l'objet d'une mission de contrôle inopiné. Les sanctions peuvent atteindre 10 millions de FCFA, auxquelles s'ajoutent des poursuites pénales potentielles.</p>
+    `
+  },
+  a2: {
+    badges: ['b-rgpd'],
+    badgeLabels: ['RGPD · Europe'],
+    title: 'Bilan RGPD 2025 : 1,15 milliard d\'euros d\'amendes — TikTok, Google, Shein dans le viseur',
+    date: 'Janvier 2026', readTime: '7 min',
+    source: 'RGPD Kit · Digitemis · Rapports CEPD 2025',
+    intro: "L'année 2025 marque un record dans l'application du RGPD : 330 amendes prononcées pour un total de 1,15 milliard d'euros. Trois noms dominent ce palmarès peu enviable : TikTok (530 M€), Google (325 M€) et Shein (150 M€). Par ailleurs, depuis août 2025, la CNIL régule officiellement les systèmes d'IA dans le cadre de l'IA Act.",
+    body: `
+      <h2>Les trois grandes condamnations de 2025</h2>
+      <table class="article-table">
+        <tr><th>Entreprise</th><th>Amende</th><th>Motif principal</th></tr>
+        <tr><td>TikTok</td><td>530 millions €</td><td>Transferts illicites de données vers la Chine, manquements au consentement</td></tr>
+        <tr><td>Google</td><td>325 millions €</td><td>Collecte de données sans base légale, non-conformité du consentement</td></tr>
+        <tr><td>Shein</td><td>150 millions €</td><td>Violations multiples, transferts de données, manque de transparence</td></tr>
+      </table>
+      <h2>Une nouvelle philosophie de sanction</h2>
+      <p>Le bilan 2025 traduit un changement d'approche des autorités européennes. Les sanctions ne visent plus uniquement des manquements spectaculaires ou des violations massives de données. Elles ciblent désormais des défaillances organisationnelles basiques : absence de base légale claire, consentement non conforme, durées de conservation excessives, sous-traitants mal encadrés.</p>
+      <div class="callout"><p><strong>Message aux entreprises sénégalaises :</strong> Le RGPD s'applique à vous dès que vous traitez des données de résidents européens — même depuis Dakar. Les amendes peuvent atteindre 4% de votre chiffre d'affaires mondial.</p></div>
+      <h2>La CNIL devient autorité de l'IA depuis août 2025</h2>
+      <p>Depuis l'entrée en application partielle de l'IA Act européen en août 2025, la CNIL a été désignée autorité nationale de supervision des systèmes d'intelligence artificielle à haut risque. Cela signifie que les entreprises sénégalaises qui utilisent ou exportent des systèmes d'IA vers l'UE doivent désormais anticiper une double conformité : RGPD + IA Act.</p>
+      <h2>Implications pour les acteurs sénégalais</h2>
+      <p>Pour les entreprises sénégalaises ayant des clients, partenaires ou employés en Europe, ce bilan 2025 est un avertissement fort. Se faire accompagner par un DPO qualifié n'est plus un luxe — c'est une protection contre des risques financiers potentiellement mortels pour une PME.</p>
+    `
+  },
+  a3: {
+    badges: ['b-tech'],
+    badgeLabels: ['IA Act'],
+    title: 'IA Act : la CNIL régule désormais les systèmes d\'IA à haut risque depuis août 2025',
+    date: 'Octobre 2025', readTime: '6 min',
+    source: 'FD Conseil · CNIL · Journal officiel UE',
+    intro: "L'IA Act européen entre progressivement en application depuis 2024. Depuis août 2025, les systèmes d'IA à haut risque sont soumis aux premières obligations concrètes. La CNIL est désignée autorité nationale de supervision en France. Ce texte a des implications directes pour les entreprises sénégalaises qui exportent ou utilisent des systèmes d'IA vers l'UE.",
+    body: `
+      <h2>Qu'est-ce que l'IA Act ?</h2>
+      <p>L'IA Act (Règlement européen sur l'intelligence artificielle) est le premier cadre légal mondial dédié à la régulation de l'IA. Adopté en 2024, il s'applique progressivement. Il classe les systèmes d'IA en quatre catégories selon leur niveau de risque : risque inacceptable (interdit), risque élevé (très encadré), risque limité et risque minimal.</p>
+      <table class="article-table">
+        <tr><th>Catégorie</th><th>Exemples</th><th>Régime</th></tr>
+        <tr><td>Risque inacceptable</td><td>Notation sociale par l'État, manipulation sublimale</td><td>Interdit</td></tr>
+        <tr><td>Risque élevé</td><td>IA dans la santé, justice, recrutement, biométrie</td><td>Très encadré — obligations strictes</td></tr>
+        <tr><td>Risque limité</td><td>Chatbots, deepfakes</td><td>Obligations de transparence</td></tr>
+        <tr><td>Risque minimal</td><td>Filtres anti-spam, recommandations simples</td><td>Pas d'obligation spécifique</td></tr>
+      </table>
+      <h2>Ce que cela change depuis août 2025</h2>
+      <p>Depuis août 2025, les premières obligations concrètes s'appliquent aux systèmes d'IA à haut risque mis sur le marché ou en service dans l'UE. Les fournisseurs doivent notamment : tenir une documentation technique complète, mettre en place des systèmes de gestion des risques, garantir la qualité des données d'entraînement, et assurer une supervision humaine effective.</p>
+      <div class="callout"><p><strong>Pour les entreprises sénégalaises :</strong> Si vous développez ou utilisez des systèmes d'IA qui traitent des données de résidents européens, ou si vous exportez des solutions IA vers l'UE, l'IA Act vous concerne directement.</p></div>
+      <h2>La CNIL, nouvelle autorité de l'IA en France</h2>
+      <p>La CNIL a été officiellement désignée comme autorité nationale de supervision de l'IA en France. Elle aura compétence pour contrôler les systèmes d'IA à haut risque, délivrer des certifications et prononcer des sanctions. Une double conformité RGPD + IA Act devient donc nécessaire pour les acteurs exportant vers la France.</p>
+    `
+  },
+  a4: {
+    badges: ['b-cdp'],
+    badgeLabels: ['CDP · Officiel'],
+    title: 'T1 2025 — 105 dossiers traités par la CDP, focus santé et enfance numérique',
+    date: 'Avril 2025', readTime: '4 min',
+    source: 'Dakar Actu · Rapports trimestriels CDP Sénégal',
+    intro: "Au premier trimestre 2025, la Commission des Données Personnelles du Sénégal a traité 105 dossiers : 83 déclarations, 19 demandes d'autorisation et 3 réinscriptions. Deux secteurs prioritaires émergent : la santé numérique et la protection des données des mineurs.",
+    body: `
+      <h2>Chiffres clés du T1 2025</h2>
+      <table class="article-table">
+        <tr><th>Catégorie</th><th>Nombre</th></tr>
+        <tr><td>Déclarations</td><td>83</td></tr>
+        <tr><td>Demandes d'autorisation</td><td>19</td></tr>
+        <tr><td>Réinscriptions</td><td>3</td></tr>
+        <tr><td><strong>Total dossiers</strong></td><td><strong>105</strong></td></tr>
+      </table>
+      <h2>Priorité : la protection des mineurs en ligne</h2>
+      <p>La CDP renforce son action dans le domaine de la protection de l'enfance numérique. Les plateformes qui collectent des données d'enfants sont soumises à une vigilance accrue. Le traitement de données de mineurs nécessite en principe le consentement parental et des mesures de protection renforcées.</p>
+      <h2>La santé numérique dans le collimateur</h2>
+      <p>Les données de santé sont considérées comme des données sensibles par la Loi 2008-12. Avec la prolifération des applications de santé et de télémedecine au Sénégal, la CDP intensifie ses contrôles dans ce secteur. Toute organisation traitant des données médicales doit obtenir une autorisation spécifique de la CDP avant la mise en œuvre du traitement.</p>
+      <div class="callout"><p><strong>Bon à savoir :</strong> Les données de santé, les données biométriques et les données relatives aux opinions politiques ou religieuses font partie des catégories sensibles soumises à un régime d'autorisation préalable (et non simple déclaration) auprès de la CDP.</p></div>
+    `
+  },
+  a5: {
+    badges: ['b-afrique'],
+    badgeLabels: ['Afrique'],
+    title: 'La CDP signe un accord de coopération avec Paradigm Initiative lors du RAPDP à Abuja',
+    date: 'Mai 2025', readTime: '3 min',
+    source: 'WeAreTech Africa',
+    intro: "En marge de l'Assemblée générale du Réseau Africain des Autorités de Protection des Données (RAPDP) à Abuja (Nigeria), la CDP du Sénégal a signé un protocole de coopération avec l'ONG panafricaine Paradigm Initiative. L'objectif : renforcer l'éducation et la sensibilisation numériques sur le continent.",
+    body: `
+      <h2>Qui est Paradigm Initiative ?</h2>
+      <p>Paradigm Initiative est une ONG panafricaine spécialisée dans les droits numériques. Elle mène des programmes d'éducation numérique et de plaidoyer pour les droits à la vie privée en Afrique, avec des bureaux dans plusieurs pays du continent.</p>
+      <h2>Le RAPDP : réseau africain des DPA</h2>
+      <p>Le Réseau Africain des Autorités de Protection des Données (RAPDP) regroupe les autorités de contrôle des pays africains ayant une loi sur la protection des données. Le Sénégal, pionnier avec sa loi de 2008, joue un rôle actif dans ce réseau. L'assemblée d'Abuja a réuni des représentants de plusieurs pays africains pour coordonner les pratiques et renforcer la coopération.</p>
+      <div class="callout"><p><strong>Contexte :</strong> En 2025, 39 pays africains sur 55 disposent d'une loi sur la protection des données personnelles. La dynamique d'harmonisation continentale s'accélère, portée notamment par la Convention de Malabo de l'Union Africaine sur la cybersécurité et la protection des données.</p></div>
+      <h2>Implications pour le Sénégal</h2>
+      <p>Cet accord renforce le positionnement du Sénégal comme référence africaine en matière de protection des données. Il ouvre aussi des opportunités de formation et de sensibilisation pour les citoyens, les entreprises et les institutions publiques sénégalaises.</p>
+    `
+  },
+  a6: {
+    badges: ['b-loi'],
+    badgeLabels: ['Législation SN'],
+    title: 'Réforme de la Loi 2008-12 : ce que prévoit le projet de loi en discussion',
+    date: 'Décembre 2025', readTime: '8 min',
+    source: 'Move-On-Up / Analyse · Sources gouvernementales',
+    intro: "Le Sénégal prépare une réforme majeure de sa loi sur la protection des données personnelles. Le projet, en discussion depuis 2022, vise à aligner la législation sénégalaise sur les standards internationaux — notamment le RGPD européen. Consentement explicite, droit à l'oubli, portabilité et amendes proportionnelles au chiffre d'affaires sont au programme.",
+    body: `
+      <h2>Pourquoi réformer la Loi 2008-12 ?</h2>
+      <p>La Loi 2008-12 a constitué une avancée majeure pour le Sénégal. Mais 17 ans après son adoption, le paysage numérique a radicalement changé. L'essor des réseaux sociaux, du mobile money, de l'IA et du cloud computing crée des défis que la loi actuelle n'anticipe pas. La CDP a mené plusieurs ateliers entre 2017 et 2024 pour préparer cette modernisation.</p>
+      <h2>Les grandes nouveautés attendues</h2>
+      <ul>
+        <li><strong>Consentement explicite :</strong> La preuve du consentement incombera à l'organisation, pas à la personne concernée.</li>
+        <li><strong>Droit à l'oubli :</strong> Les personnes pourront demander l'effacement de leurs données dans certaines conditions.</li>
+        <li><strong>Portabilité des données :</strong> Droit de récupérer ses données dans un format lisible par machine pour les transférer à un autre service.</li>
+        <li><strong>Amendes proportionnelles :</strong> Des sanctions pouvant atteindre 2% du chiffre d'affaires pour les violations graves — contre 10 millions FCFA fixe aujourd'hui.</li>
+        <li><strong>Notification de violations :</strong> Obligation de notifier la CDP et les personnes concernées dans des délais stricts en cas de fuite de données.</li>
+      </ul>
+      <div class="callout"><p><strong>Pour les entreprises :</strong> Ne pas attendre la promulgation de la nouvelle loi pour se mettre en conformité. Anticiper ces exigences dès maintenant, c'est réduire les risques futurs et se positionner favorablement face aux partenaires internationaux.</p></div>
+      <h2>Calendrier prévisionnel</h2>
+      <p>Le projet de loi est en discussion depuis 2022 et devrait être soumis à l'Assemblée nationale prochainement. En attendant, la Loi 2008-12 reste pleinement applicable et la CDP continue de l'appliquer rigoureusement.</p>
+    `
+  }
+};
+
+function showArticle(id) {
+  const a = articles[id];
+  if(!a) return;
+  const badges = a.badges.map((b,i) => `<span class="badge ${b}">${a.badgeLabels[i]}</span>`).join('');
+  document.getElementById('article-content').innerHTML = `
+    <a class="article-back" onclick="showPage('blog')">← Retour à la veille</a>
+    <div class="article-header">
+      <div class="article-top">${badges}</div>
+      <h1>${a.title}</h1>
+      <div class="article-meta"><span>📅 ${a.date}</span><span>⏱ ${a.readTime} de lecture</span></div>
+    </div>
+    <p class="article-intro">${a.intro}</p>
+    <div class="article-body">${a.body}</div>
+    <div class="source-box"><strong>Sources :</strong> ${a.source} · Les faits cités sont sourcés et vérifiés. Consultez les sources originales pour les données complètes.</div>
+  `;
+  showPage('article');
+}
+
+// ===== QUIZ =====
+const quizData = [
+  {q:"Quel est le numéro et la date de la loi sénégalaise sur la protection des données ?",options:["Loi n°2004-05 du 6 janvier 2004","Loi n°2008-12 du 25 janvier 2008","Loi n°2011-01 du 24 février 2011","Loi n°2016-29 du 8 novembre 2016"],correct:1,explanation:"La Loi n°2008-12 du 25 janvier 2008 est le texte fondateur. Elle a créé la CDP et définit les droits fondamentaux des citoyens sénégalais."},
+  {q:"Quelle est l'autorité de contrôle chargée de la protection des données au Sénégal ?",options:["La CNIL","L'ARTP","La CDP (Commission des Données Personnelles)","Le Ministère de la Justice"],correct:2,explanation:"La CDP est l'autorité administrative indépendante créée par la Loi 2008-12. Elle reçoit les déclarations, instruit les plaintes et prononce des sanctions jusqu'à 10 millions FCFA."},
+  {q:"Selon la Loi 2008-12, quelle formalité une entreprise doit-elle accomplir avant de traiter des données ?",options:["Aucune formalité","Une notification par email","Une déclaration préalable ou autorisation auprès de la CDP","Un enregistrement au Tribunal"],correct:2,explanation:"Selon l'article 18 de la Loi 2008-12, tout traitement doit faire l'objet d'une déclaration préalable. Les traitements sensibles nécessitent une autorisation spéciale de la CDP."},
+  {q:"Quelle est la sanction pécuniaire maximale que peut prononcer la CDP ?",options:["1 million FCFA","5 millions FCFA","10 millions FCFA","50 millions FCFA"],correct:2,explanation:"La CDP peut prononcer des sanctions jusqu'à 10 millions de FCFA. Des poursuites pénales peuvent aussi être engagées pour les violations les plus graves."},
+  {q:"Quelles données sont considérées comme sensibles par la Loi 2008-12 ?",options:["Noms et prénoms","Données de santé, biométriques et opinions politiques","Adresses email professionnelles","Numéros de téléphone"],correct:1,explanation:"L'article 46 protège les données sensibles : santé, biométrie, génétique, opinions politiques/religieuses, données judiciaires. Leur traitement nécessite une autorisation spéciale de la CDP."},
+  {q:"Depuis quelle date le RGPD est-il applicable en Europe ?",options:["25 mai 2016","25 mai 2018","25 janvier 2020","1er janvier 2021"],correct:1,explanation:"Le RGPD (Règlement UE 2016/679) est entré en application le 25 mai 2018. Il renforce la protection des données dans toute l'UE et remplace la directive 95/46/CE."},
+  {q:"Quelle est l'amende maximale du RGPD pour les violations les plus graves ?",options:["100 000 euros","1 million euros","20 millions euros ou 4% du CA mondial","50 millions euros"],correct:2,explanation:"Le RGPD prévoit jusqu'à 20M euros ou 4% du chiffre d'affaires mondial annuel pour les violations les plus graves (Art. 83.5)."},
+  {q:"Le RGPD s'applique-t-il à une entreprise sénégalaise traitant des données de résidents européens ?",options:["Non, seulement aux entreprises de l'UE","Oui, le RGPD a une portée extraterritoriale","Seulement si elle a un bureau en Europe","Non, jamais"],correct:1,explanation:"Selon l'article 3 du RGPD, le règlement s'applique à toute organisation mondiale traitant des données de personnes résidant dans l'UE. C'est le principe d'extraterritorialité."},
+  {q:"Quel droit est prévu par le RGPD mais pas encore par la Loi 2008-12 ?",options:["Le droit d'accès","Le droit de rectification","Le droit à la portabilité des données","Le droit d'opposition"],correct:2,explanation:"Le droit à la portabilité (Art. 20 RGPD) permet de recevoir ses données dans un format lisible. Ce droit n'existe pas encore dans la Loi 2008-12 mais est prévu dans la réforme en cours."},
+  {q:"Qu'est-ce qu'une AIPD (Analyse d'Impact sur la Protection des Données) ?",options:["Un rapport annuel à la CDP","Une évaluation préalable des risques pour les traitements à fort impact","Un formulaire d'inscription","Un audit financier"],correct:1,explanation:"L'AIPD (Art. 35 RGPD) est obligatoire avant tout traitement à risque élevé. Elle analyse les risques et les mesures pour les atténuer. C'est une mission clé du DPO."}
+];
+
+let currentQ = 0, score = 0, answered = false, quizInitialized = false;
+
+function renderQuiz() {
+  if(currentQ >= quizData.length) {
+    const pct = Math.round((score / quizData.length) * 100);
+    document.getElementById('quizCard').innerHTML = `
+      <div class="quiz-result">
+        <div class="quiz-score">${score}/${quizData.length}</div>
+        <div class="quiz-result-msg">${pct >= 80 ? '🎉 Excellent ! Vous maîtrisez bien la protection des données.' : pct >= 60 ? '👍 Bon résultat ! Quelques points à approfondir.' : '📚 Continuez à explorer nos ressources pour progresser.'}</div>
+        <button class="btn-gold" onclick="currentQ=0;score=0;answered=false;renderQuiz()">Recommencer le quiz</button>
+      </div>`;
+    document.getElementById('quizBar').style.width = '100%';
+    return;
+  }
+  const q = quizData[currentQ];
+  document.getElementById('quizBar').style.width = ((currentQ / quizData.length) * 100) + '%';
+  answered = false;
+  document.getElementById('quizCard').innerHTML = `
+    <div class="quiz-q">${q.q}</div>
+    <div class="quiz-options">
+      ${q.options.map((o, i) => `<button class="quiz-option" onclick="answerQuiz(${i})">${o}</button>`).join('')}
+    </div>
+    <div id="quizExp" style="display:none" class="quiz-explanation"></div>
+    <div class="quiz-nav" id="quizNav" style="display:none">
+      <button class="btn-gold" onclick="currentQ++;renderQuiz()">${currentQ < quizData.length - 1 ? 'Question suivante →' : 'Voir mon score →'}</button>
+    </div>`;
+}
+
+function answerQuiz(idx) {
+  if(answered) return;
+  answered = true;
+  const q = quizData[currentQ];
+  const opts = document.querySelectorAll('.quiz-option');
+  opts[idx].classList.add(idx === q.correct ? 'correct' : 'wrong');
+  if(idx !== q.correct) opts[q.correct].classList.add('correct');
+  if(idx === q.correct) score++;
+  document.getElementById('quizExp').style.display = 'block';
+  document.getElementById('quizExp').textContent = q.explanation;
+  document.getElementById('quizNav').style.display = 'flex';
+}
+
+// Quiz initialized when guide page is first shown
+
+// Toast notification for resource downloads
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if(!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1a6b3a;color:#fff;padding:.75rem 1.5rem;border-radius:100px;font-size:.88rem;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;font-family:DM Sans,sans-serif';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  setTimeout(() => t.style.opacity = '0', 3000);
+}
+
+// Attach toast to all download spans
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.res-dl').forEach(el => {
+    if(!el.getAttribute('href')) {
+      el.addEventListener('click', () => showToast('📥 Document disponible prochainement — inscrivez-vous à la newsletter !'));
+    }
+  });
+});
+
+// LISTENER NAVIGATION
+document.addEventListener('click', function(e) {
+  var t;
+  t = e.target.closest ? e.target.closest('[data-nav]') : null;
+  if(t && t.dataset && t.dataset.nav) { e.preventDefault(); showPage(t.dataset.nav); return; }
+  t = e.target.closest ? e.target.closest('[data-toggle-menu]') : null;
+  if(t) { var mm=document.getElementById('mobileMenu'); var hb=document.getElementById('hamburger'); if(mm)mm.classList.toggle('open'); if(hb)hb.classList.toggle('open'); return; }
+  t = e.target.closest ? e.target.closest('[data-article]') : null;
+  if(t && t.dataset.article) { showArticle(t.dataset.article); return; }
+  t = e.target.closest ? e.target.closest('[data-reg]') : null;
+  if(t && t.dataset.reg) { document.querySelectorAll('#reg-tabs .filter-btn').forEach(function(b){b.classList.remove('active');}); t.classList.add('active'); currentReg=t.dataset.reg; renderReg(currentReg); return; }
+  t = e.target.closest ? e.target.closest('[data-accordion]') : null;
+  if(t) { t.parentElement.classList.toggle('open'); return; }
+  t = e.target.closest ? e.target.closest('[data-filter]') : null;
+  if(t && t.dataset.filter) { var cat=t.dataset.filter; document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');}); t.classList.add('active'); document.querySelectorAll('.res-card').forEach(function(c){c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none';}); return; }
+  t = e.target.closest ? e.target.closest('[data-faq]') : null;
+  if(t) { var item=t.parentElement; var wasOpen=item.classList.contains('open'); document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');}); if(!wasOpen)item.classList.add('open'); return; }
+  t = e.target.closest ? e.target.closest('[data-letter]') : null;
+  if(t && t.dataset.letter) { document.querySelectorAll('.alpha-btn').forEach(function(b){b.classList.remove('active');}); t.classList.add('active'); currentLetter=t.dataset.letter; var s=document.getElementById('glossaireSearch'); renderGlossaire(currentLetter, s?s.value:''); return; }
+  if(e.target.id==='darkToggle') { var isDark=document.documentElement.getAttribute('data-theme')==='dark'; applyTheme(!isDark); return; }
+  t = e.target.closest ? e.target.closest('[data-nl-btn]') : null;
+  if(t) { var prenom=document.getElementById('nl-prenom'); var nlEmail=document.getElementById('nl-email'); if(!prenom||!prenom.value.trim()||!nlEmail||!nlEmail.value.trim()){showToast('Entrez votre prénom et email.');return;} t.textContent='Envoi...'; t.disabled=true; fetch('http://localhost:8080/api/newsletter',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prenom:prenom.value.trim(),email:nlEmail.value.trim()})}).then(function(r){return r.json();}).then(function(data){t.textContent=data.success?'✓ Inscription confirmée !':'Email déjà inscrit';t.style.background=data.success?'#b8e6c8':'#f5c842';if(data.success){prenom.value='';nlEmail.value='';}setTimeout(function(){t.textContent="S'abonner gratuitement";t.style.background='';t.disabled=false;},3000);}).catch(function(){t.textContent="S'abonner gratuitement";t.disabled=false;}); return; }
+  t = e.target.closest ? e.target.closest('[data-contact-btn]') : null;
+  if(t) { var nom=document.getElementById('c-nom'); var email=document.getElementById('c-email'); var org=document.getElementById('c-org'); var besoin=document.getElementById('c-besoin'); var msg=document.getElementById('c-message'); if(!nom||!nom.value.trim()||!email||!email.value.trim()||!msg||!msg.value.trim()){showToast('Remplissez nom, email et message.');return;} t.textContent='Envoi...'; t.disabled=true; fetch('http://localhost:8080/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nom:nom.value.trim(),email:email.value.trim(),organisation:org?org.value:'',type_besoin:besoin?besoin.value:'',message:msg.value.trim()})}).then(function(r){return r.json();}).then(function(data){t.textContent='✓ Message envoyé !';t.style.background='#2d8a52';if(nom)nom.value='';if(email)email.value='';if(org)org.value='';if(besoin)besoin.value='';if(msg)msg.value='';setTimeout(function(){t.textContent='Envoyer le message';t.style.background='';t.disabled=false;},4000);}).catch(function(){t.textContent='Envoyer le message';t.disabled=false;showToast('Erreur serveur.');return; }); return; }
+  t = e.target.closest ? e.target.closest('[data-answer]') : null;
+  if(t && t.dataset.answer !== undefined) { answerQuiz(parseInt(t.dataset.answer)); return; }
+  t = e.target.closest ? e.target.closest('[data-quiz-next]') : null;
+  if(t) { currentQ++; renderQuiz(); return; }
+  t = e.target.closest ? e.target.closest('[data-quiz-restart]') : null;
+  if(t) { currentQ=0; score=0; answered=false; renderQuiz(); return; }
+  t = e.target.closest ? e.target.closest('.res-dl') : null;
+  if(t && !t.getAttribute('href')) { showToast('📥 Document disponible prochainement !'); return; }
+  // Chatbot
+  if(e.target.closest && e.target.closest('#chatbot-btn') && !e.target.closest('#chatbot-window')) { var cw=document.getElementById('chatbot-window'); if(cw){chatOpen=!chatOpen;cw.classList.toggle('open',chatOpen);if(chatOpen){var ci=document.getElementById('chatInput');if(ci)ci.focus();}} return; }
+  if(e.target.id==='chatClose'){chatOpen=false;var cw2=document.getElementById('chatbot-window');if(cw2)cw2.classList.remove('open');return;}
+  if(e.target.id==='chatSend'){sendChat();return;}
+  t = e.target.closest ? e.target.closest('[data-sug]') : null;
+  if(t){var ci2=document.getElementById('chatInput');if(ci2){ci2.value=t.dataset.sug;sendChat();}return;}
+  // Cookies
+  if(e.target.id==='ck-accept'||e.target.id==='ck-modal-accept'){savePref(true,true);return;}
+  if(e.target.id==='ck-refuse'||e.target.id==='ck-modal-refuse'){savePref(false,false);return;}
+  if(e.target.id==='ck-custom'||e.target.id==='ck-manage-btn'){showCkModal();return;}
+  if(e.target.id==='ck-modal-save'){var a2=document.getElementById('ck-analytics');var p2=document.getElementById('ck-perso');savePref(a2&&a2.checked,p2&&p2.checked);return;}
+  if(e.target===document.getElementById('cookie-modal')){hideCkModal();return;}
+});
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='chatInput')sendChat();
+});
+
+// DARK MODE
+function applyTheme(dark){
+  document.documentElement.setAttribute('data-theme',dark?'dark':'');
+  try{localStorage.setItem('theme',dark?'dark':'light');}catch(er){}
+  var btn=document.getElementById('darkToggle');
+  if(btn)btn.innerHTML=dark?'☀️ Jour':'🌙 Nuit';
+}
+try{if(localStorage.getItem('theme')==='dark')applyTheme(true);}catch(er){}
+
+// CHATBOT
+var chatHistory=[], chatOpen=false;
+function addChatMsg(text,role){var msgs=document.getElementById('chatMessages');if(!msgs)return;var d=document.createElement('div');d.className='chat-msg '+role;d.innerHTML=text.replace(/\n/g,'<br>');msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
+function showTyping(){var msgs=document.getElementById('chatMessages');if(!msgs)return;var d=document.createElement('div');d.className='chat-msg typing';d.id='typingDot';d.innerHTML='<div class="typing-dots"><span></span><span></span><span></span></div>';msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
+function removeTyping(){var t=document.getElementById('typingDot');if(t)t.remove();}
+async function sendChat(){var inp=document.getElementById('chatInput');if(!inp)return;var text=inp.value.trim();if(!text)return;inp.value='';var sugs=document.getElementById('chatSugs');if(sugs)sugs.style.display='none';addChatMsg(text,'user');chatHistory.push({role:'user',content:text});showTyping();try{var res=await fetch('http://localhost:8080/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory.slice(-6)})});var data=await res.json();removeTyping();var reply=data.reply||data.detail||'Désolé, une erreur est survenue.';chatHistory.push({role:'assistant',content:reply});addChatMsg(reply,'bot');}catch(err){removeTyping();addChatMsg('Erreur de connexion. Vérifiez que le serveur tourne.','bot');}}
+
+// COOKIES
+function setCookie(n,v,d){var e=new Date();e.setTime(e.getTime()+(d*864e5));document.cookie=n+'='+v+';expires='+e.toUTCString()+';path=/;SameSite=Lax';}
+function getCookie(n){var a=document.cookie.split(';');for(var i=0;i<a.length;i++){var c=a[i].trim();if(c.startsWith(n+'='))return c.substring(n.length+1);}return null;}
+function showCkBanner(){var b=document.getElementById('cookie-banner');if(b)b.classList.add('show');}
+function hideCkBanner(){var b=document.getElementById('cookie-banner');if(b)b.classList.remove('show');}
+function showCkModal(){var c=getCookie('dp_consent');if(c){try{var p=JSON.parse(c);var at=document.getElementById('ck-analytics');var pt=document.getElementById('ck-perso');if(at)at.checked=p.a||false;if(pt)pt.checked=p.p||false;}catch(er){}}var m=document.getElementById('cookie-modal');if(m)m.classList.add('show');}
+function hideCkModal(){var m=document.getElementById('cookie-modal');if(m)m.classList.remove('show');}
+function savePref(a,p){setCookie('dp_consent',JSON.stringify({n:true,a:a,p:p}),365);hideCkBanner();hideCkModal();showToast('Préférences cookies enregistrées !');}
+if(!getCookie('dp_consent')){setTimeout(showCkBanner,1500);}
+
+// TOAST
+function showToast(msg){var t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1a6b3a;color:#fff;padding:.7rem 1.4rem;border-radius:100px;font-size:.86rem;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none';document.body.appendChild(t);}t.textContent=msg;t.style.opacity='1';setTimeout(function(){t.style.opacity='0';},3000);}
+
+</script>
+</body>
+</html>
