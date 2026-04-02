@@ -10,6 +10,8 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel
 from typing import Optional
 import sqlite3, hashlib, secrets, pathlib, urllib.request, urllib.error, urllib.parse, json, re as re2
+from collections import defaultdict
+from datetime import datetime, timedelta
 
 # ============================================================
 # CONFIGURATION
@@ -28,9 +30,37 @@ DB_PATH = _os2.path.join(_data_dir, "database.db")
 ADMIN_PASSWORD = hashlib.sha256(ADMIN_PASSWORD_CLAIR.encode()).hexdigest()
 tokens = set()
 
+# Rate limiting : max 30 requetes par minute par IP
+_rate_limit = defaultdict(list)
+
+def check_rate_limit(ip: str, max_req: int = 30, window: int = 60) -> bool:
+    now = datetime.now()
+    cutoff = now - timedelta(seconds=window)
+    _rate_limit[ip] = [t for t in _rate_limit[ip] if t > cutoff]
+    if len(_rate_limit[ip]) >= max_req:
+        return False
+    _rate_limit[ip].append(now)
+    return True
+
 app = FastAPI(title="DataProtect SN API")
-app.add_middleware(CORSMiddleware, allow_origins=["*"],
-    allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+
+@app.middleware("http")
+async def security_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    return response
+ALLOWED_ORIGINS = [
+    "https://dataprotect-sn.onrender.com",
+    "http://localhost:8080",
+    "http://localhost:10000",
+]
+app.add_middleware(CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PATCH", "DELETE"],
+    allow_headers=["Content-Type", "X-Admin-Token"])
 
 def db():
     conn = sqlite3.connect(DB_PATH)
@@ -58,6 +88,13 @@ def init_db():
         categorie TEXT, badge TEXT,
         date_publication TEXT DEFAULT (datetime('now')),
         publie INTEGER DEFAULT 1, source TEXT)""")
+    c.execute("""CREATE TABLE IF NOT EXISTS sessions (
+        token TEXT PRIMARY KEY,
+        created_at TEXT DEFAULT (datetime('now')),
+        expires_at TEXT
+    )""")
+    # Nettoyer les sessions expirees
+    conn.execute("DELETE FROM sessions WHERE expires_at < datetime('now')")
     c.execute("""CREATE TABLE IF NOT EXISTS utilisateurs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         prenom TEXT NOT NULL, nom TEXT NOT NULL,
@@ -135,7 +172,10 @@ async def get_articles():
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/contact")
-async def submit_contact(form: ContactForm):
+async def submit_contact(form: ContactForm, request: Request):
+    ip = request.client.host if request.client else "unknown"
+    if not check_rate_limit(ip, max_req=5, window=60):
+        raise HTTPException(status_code=429, detail="Trop de requetes. Reessayez dans 1 minute.")
     try:
         conn = db()
         conn.execute("INSERT INTO contacts (nom,email,organisation,type_besoin,message) VALUES (?,?,?,?,?)",
@@ -184,7 +224,10 @@ async def login(creds: UserLogin):
             "user": {"prenom": row["prenom"], "nom": row["nom"], "email": row["email"]}}
 
 @app.post("/api/chat")
-async def chat(req: ChatRequest):
+async def chat(req: ChatRequest, request: Request):
+    ip = request.client.host if request.client else "unknown"
+    if not check_rate_limit(ip, max_req=10, window=60):
+        raise HTTPException(status_code=429, detail="Trop de requetes. Attendez 1 minute.")
     if not COHERE_API_KEY or COHERE_API_KEY == "METS_CLE_COHERE_ICI":
         return {"reply": "Chatbot non configure."}
     SYSTEM = "Tu es l assistant IA expert de DataProtect Senegal, fonde par Henry Pierre Diouf, DPO M2 de La Plateforme Numerique Marseille. Reponds TOUJOURS en francais (4-6 phrases). Cite les articles de loi : Loi senegalaise 2008-12, RGPD. Contact : henrypierrediouf@gmail.com"
@@ -206,15 +249,41 @@ async def chat(req: ChatRequest):
 
 def check_admin(request: Request):
     token = request.headers.get("X-Admin-Token", "")
-    if not token or token not in tokens:
+    if not token:
         raise HTTPException(status_code=403, detail="Acces refuse")
+    # Verifier en memoire d'abord (rapide)
+    if token in tokens:
+        return
+    # Puis en base (persistant apres redemarrage)
+    conn = db()
+    row = conn.execute(
+        "SELECT token FROM sessions WHERE token=? AND expires_at > datetime('now')",
+        (token,)
+    ).fetchone()
+    conn.close()
+    if not row:
+        raise HTTPException(status_code=403, detail="Session expiree. Reconnectez-vous.")
 
 @app.post("/api/admin/login")
-async def admin_login(creds: AdminLogin):
+async def admin_login(creds: AdminLogin, request: Request):
+    ip = request.client.host if request.client else "unknown"
+    if not check_rate_limit(ip, max_req=5, window=60):
+        raise HTTPException(status_code=429, detail="Trop de tentatives. Attendez 1 minute.")
     if hashlib.sha256(creds.mot_de_passe.encode()).hexdigest() != ADMIN_PASSWORD:
         raise HTTPException(status_code=403, detail="Mot de passe incorrect")
     token = secrets.token_hex(32)
     tokens.add(token)
+    # Sauvegarder en base pour persistance (expire dans 24h)
+    try:
+        conn = db()
+        conn.execute(
+            "INSERT OR REPLACE INTO sessions (token, expires_at) VALUES (?, datetime('now', '+24 hours'))",
+            (token,)
+        )
+        conn.commit()
+        conn.close()
+    except:
+        pass
     return {"success": True, "token": token}
 
 @app.get("/api/admin/stats")
