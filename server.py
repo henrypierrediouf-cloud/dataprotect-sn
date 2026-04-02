@@ -1,4 +1,4 @@
-"""
+﻿"""
 DataProtect Senegal - Serveur Backend
 FastAPI + SQLite + Chatbot IA (Groq gratuit)
 Henry Pierre Diouf, DPO M2
@@ -18,7 +18,7 @@ from datetime import datetime, timedelta
 # ============================================================
 import os as _os
 COHERE_API_KEY = _os.environ.get("COHERE_API_KEY", "METS_CLE_COHERE_ICI")
-ADMIN_PASSWORD_CLAIR = "dataprotect2025"
+ADMIN_PASSWORD_CLAIR = "he091991#"
 
 # ============================================================
 
@@ -367,3 +367,4 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 8080))
     uvicorn.run(app, host="0.0.0.0", port=port)
+
