@@ -17,6 +17,10 @@ import sqlite3, hashlib, secrets, pathlib, urllib.request, urllib.error, urllib.
 import os as _os
 COHERE_API_KEY = _os.environ.get("COHERE_API_KEY", "METS_CLE_COHERE_ICI")
 ADMIN_PASSWORD_CLAIR = "dataprotect2025"
+# DEBUG - a supprimer apres verification
+import os as _os3
+print("DEBUG COHERE KEY:", "CONFIGUREE" if _os3.environ.get("COHERE_API_KEY") else "MANQUANTE")
+print("DEBUG ENV KEYS:", [k for k in _os3.environ.keys() if 'COHERE' in k or 'API' in k])
 # ============================================================
 
 BASE_DIR = pathlib.Path(__file__).parent.resolve()
