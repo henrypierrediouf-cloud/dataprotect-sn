@@ -17,10 +17,7 @@ import sqlite3, hashlib, secrets, pathlib, urllib.request, urllib.error, urllib.
 import os as _os
 COHERE_API_KEY = _os.environ.get("COHERE_API_KEY", "METS_CLE_COHERE_ICI")
 ADMIN_PASSWORD_CLAIR = "dataprotect2025"
-# DEBUG - a supprimer apres verification
-import os as _os3
-print("DEBUG COHERE KEY:", "CONFIGUREE" if _os3.environ.get("COHERE_API_KEY") else "MANQUANTE")
-print("DEBUG ENV KEYS:", [k for k in _os3.environ.keys() if 'COHERE' in k or 'API' in k])
+
 # ============================================================
 
 BASE_DIR = pathlib.Path(__file__).parent.resolve()
@@ -196,7 +193,7 @@ async def chat(req: ChatRequest):
         for m in req.messages[:-1]:
             messages.append({"role": "USER" if m["role"] == "user" else "CHATBOT", "message": m["content"]})
         question = req.messages[-1]["content"] if req.messages else ""
-        payload = json.dumps({"model": "command-r", "preamble": SYSTEM, "chat_history": messages, "message": question, "max_tokens": 600, "temperature": 0.3}).encode("utf-8")
+        payload = json.dumps({"model": "command-r-plus-08-2024", "preamble": SYSTEM, "chat_history": messages, "message": question, "max_tokens": 600, "temperature": 0.3}).encode("utf-8")
         req_obj = urllib.request.Request("https://api.cohere.com/v1/chat", data=payload, headers={"Content-Type": "application/json", "Authorization": "Bearer " + COHERE_API_KEY, "X-Client-Name": "DataProtectSN"}, method="POST")
         with urllib.request.urlopen(req_obj, timeout=30) as response:
             data = json.loads(response.read().decode("utf-8"))
