@@ -1,4 +1,4 @@
-﻿"""
+"""
 DataProtect Senegal - Serveur Backend
 FastAPI + SQLite + Chatbot IA (Groq gratuit)
 Henry Pierre Diouf, DPO M2
@@ -18,7 +18,7 @@ from datetime import datetime, timedelta
 # ============================================================
 import os as _os
 COHERE_API_KEY = _os.environ.get("COHERE_API_KEY", "METS_CLE_COHERE_ICI")
-ADMIN_PASSWORD_CLAIR = "he091991#"
+ADMIN_PASSWORD_CLAIR = "dataprotect2025"
 
 # ============================================================
 
@@ -59,7 +59,7 @@ ALLOWED_ORIGINS = [
 app.add_middleware(CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PATCH", "DELETE"],
+    allow_methods=["GET", "POST", "PATCH", "DELETE", "HEAD"],
     allow_headers=["Content-Type", "X-Admin-Token"])
 
 def db():
@@ -142,6 +142,11 @@ class UserLogin(BaseModel):
 
 class AdminLogin(BaseModel):
     mot_de_passe: str
+
+@app.head("/")
+async def home_head():
+    from fastapi.responses import Response
+    return Response(status_code=200)
 
 @app.get("/", response_class=HTMLResponse)
 async def home():
@@ -367,4 +372,3 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 8080))
     uvicorn.run(app, host="0.0.0.0", port=port)
-
