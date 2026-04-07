@@ -162,6 +162,14 @@ async def admin_page():
         return HTMLResponse("Erreur : admin.html introuvable", status_code=404)
     return HTMLResponse(f.read_text(encoding="utf-8"))
 
+@app.get("/app.js")
+async def serve_js():
+    f = BASE_DIR / "app.js"
+    if not f.exists():
+        raise HTTPException(status_code=404, detail="app.js introuvable")
+    from fastapi.responses import FileResponse
+    return FileResponse(str(f), media_type="application/javascript")
+
 @app.get("/favicon.ico")
 async def favicon():
     return JSONResponse({})
