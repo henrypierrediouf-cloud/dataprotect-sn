@@ -25,6 +25,24 @@ function toggleMenu() {
   h.classList.toggle('open');
 }
 
+
+// ===== ARTICLE DETAIL =====
+function showArticle(id) {
+  var a = articles[id];
+  if(!a) return;
+  var badges = a.badges.map(function(b,i){ return '<span class="badge '+b+'">'+a.badgeLabels[i]+'</span>'; }).join(' ');
+  document.getElementById('article-content').innerHTML =
+    '<a class="article-back" data-nav="blog">← Retour a la veille</a>' +
+    '<div class="article-header">' +
+      '<div class="article-top">'+badges+'</div>' +
+      '<h1>'+a.title+'</h1>' +
+      '<div class="article-meta"><span>📅 '+a.date+'</span><span>⏱ '+a.readTime+'</span><span>Source : '+a.source+'</span></div>' +
+    '</div>' +
+    '<p class="article-intro">'+a.intro+'</p>' +
+    '<div class="article-body">'+a.body+'</div>';
+  showPage('article');
+}
+
 // ===== ACCORDION GUIDE =====
 function toggleStep(header) {
   const step = header.parentElement;
