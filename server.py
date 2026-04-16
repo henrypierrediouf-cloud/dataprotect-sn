@@ -17,7 +17,7 @@ from datetime import datetime, timedelta
 # CONFIGURATION
 # ============================================================
 import os as _os
-COHERE_API_KEY = _os.environ.get("COHERE_API_KEY", "METS_CLE_COHERE_ICI")
+COHERE_API_KEY = _os.environ.get("COHERE_API_KEY", "Udl7PhJv7phNXB3p5Zxk1hPz0YPjRgtxYvqm1rsu")
 ADMIN_PASSWORD_CLAIR = "dataprotect2025"
 
 # ============================================================
@@ -345,6 +345,38 @@ async def admin_create_article(article: ArticleCreate, request: Request):
         "INSERT INTO articles (titre,extrait,contenu,categorie,badge,source,publie) VALUES (?,?,?,?,?,?,?)",
         (article.titre, article.extrait, article.contenu, article.categorie,
          article.badge, article.source, article.publie))
+    conn.commit(); conn.close()
+    return {"success": True}
+
+@app.delete("/api/admin/contacts/{cid}")
+async def admin_delete_contact(cid: int, request: Request):
+    check_admin(request)
+    conn = db()
+    conn.execute("DELETE FROM contacts WHERE id=?", (cid,))
+    conn.commit(); conn.close()
+    return {"success": True}
+
+@app.delete("/api/admin/abonnes/{aid}")
+async def admin_delete_abonne(aid: int, request: Request):
+    check_admin(request)
+    conn = db()
+    conn.execute("DELETE FROM abonnes WHERE id=?", (aid,))
+    conn.commit(); conn.close()
+    return {"success": True}
+
+@app.delete("/api/admin/utilisateurs/{uid}")
+async def admin_delete_user(uid: int, request: Request):
+    check_admin(request)
+    conn = db()
+    conn.execute("DELETE FROM utilisateurs WHERE id=?", (uid,))
+    conn.commit(); conn.close()
+    return {"success": True}
+
+@app.patch("/api/admin/abonnes/{aid}/desactiver")
+async def admin_deactivate_abonne(aid: int, request: Request):
+    check_admin(request)
+    conn = db()
+    conn.execute("UPDATE abonnes SET actif=0 WHERE id=?", (aid,))
     conn.commit(); conn.close()
     return {"success": True}
 

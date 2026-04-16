@@ -107,7 +107,7 @@ tr:hover td{background:#fafaf7}
     <div class="panel active" id="panel-contacts">
       <div class="panel-header">
         <div class="panel-title">Messages reçus</div>
-        <button class="btn-sm" onclick="loadContacts()">🔄 Actualiser</button>
+        <button class="btn-sm" onclick="loadContacts()">🔄 Actualiser</button> <button class="btn-sm" style="background:#2563eb" onclick="exportCSV('contacts')">📥 Export CSV</button>
       </div>
       <div class="table-wrap">
         <table>
@@ -121,7 +121,7 @@ tr:hover td{background:#fafaf7}
     <div class="panel" id="panel-abonnes">
       <div class="panel-header">
         <div class="panel-title">Abonnés à la newsletter</div>
-        <button class="btn-sm" onclick="loadAbonnes()">🔄 Actualiser</button>
+        <button class="btn-sm" onclick="loadAbonnes()">🔄 Actualiser</button> <button class="btn-sm" style="background:#2563eb" onclick="exportCSV('abonnes')">📥 Export CSV</button>
       </div>
       <div class="table-wrap">
         <table>
@@ -261,11 +261,14 @@ async function loadContacts(){
     <tr>
       <td style="white-space:nowrap;font-size:.8rem">${c.date_envoi.slice(0,16)}</td>
       <td><strong>${c.nom}</strong></td>
-      <td><a href="mailto:${c.email}" style="color:#1a6b3a">${c.email}</a></td>
+      <td><a href="mailto:${c.email}?subject=Re: ${encodeURIComponent(c.type_besoin||'Votre demande')}&body=Bonjour ${c.nom},%0A%0A" style="color:#1a6b3a" title="Repondre par email">${c.email} ✉️</a></td>
       <td>${c.organisation||'—'}</td>
       <td><span class="badge b-muted">${c.type_besoin||'—'}</span></td>
-      <td style="max-width:220px">${c.message.slice(0,80)}${c.message.length>80?'...':''}</td>
-      <td>${c.lu?'<span class="badge b-ok">Lu</span>':'<span class="badge b-new">Non lu</span> <button class="btn-sm" onclick="markRead('+c.id+')">Marquer lu</button>'}</td>
+      <td style="max-width:200px;font-size:.82rem">${c.message.slice(0,100)}${c.message.length>100?'...':''}</td>
+      <td>
+        ${c.lu?'<span class="badge b-ok">Lu</span>':'<button class="btn-sm" onclick="markRead('+c.id+')">Marquer lu</button>'}
+        <button class="btn-danger" style="margin-left:4px" onclick="deleteContact('+c.id+')">Supprimer</button>
+      </td>
     </tr>`).join('');
 }
 
@@ -318,7 +321,10 @@ async function loadMembres(){
       <td>${u.nom}</td>
       <td><a href="mailto:${u.email}" style="color:#1a6b3a">${u.email}</a></td>
       <td><span class="badge b-muted">${u.role}</span></td>
-      <td><span class="badge ${u.actif?'b-ok':'b-new'}">${u.actif?'Actif':'Inactif'}</span></td>
+      <td>
+        <span class="badge ${u.actif?'b-ok':'b-new'}">${u.actif?'Actif':'Inactif'}</span>
+        <button class="btn-danger" style="margin-left:4px" onclick="deleteUser(${u.id})">Supprimer</button>
+      </td>
     </tr>`).join('');
 }
 
@@ -357,6 +363,68 @@ async function deleteArticle(id){
   await fetch(API+'/api/admin/articles/'+id, {method:'DELETE',headers:{'X-Admin-Token':adminToken}});
   loadArticles(); loadStats();
 }
+
+async function deleteContact(id){
+  if(!confirm('Supprimer ce message definitivement ?')) return;
+  await fetch(API+'/api/admin/contacts/'+id, {method:'DELETE',headers:{'X-Admin-Token':adminToken}});
+  loadContacts(); loadStats();
+  showNotif('Message supprime.');
+}
+
+async function deleteAbonne(id){
+  if(!confirm('Supprimer cet abonne definitivement ?')) return;
+  await fetch(API+'/api/admin/abonnes/'+id, {method:'DELETE',headers:{'X-Admin-Token':adminToken}});
+  loadAbonnes(); loadStats();
+  showNotif('Abonne supprime.');
+}
+
+async function deactivateAbonne(id){
+  if(!confirm('Desactiver cet abonne ?')) return;
+  await fetch(API+'/api/admin/abonnes/'+id+'/desactiver', {method:'PATCH',headers:{'X-Admin-Token':adminToken}});
+  loadAbonnes(); loadStats();
+  showNotif('Abonne desactive.');
+}
+
+async function deleteUser(id){
+  if(!confirm('Supprimer ce membre definitivement ?')) return;
+  await fetch(API+'/api/admin/utilisateurs/'+id, {method:'DELETE',headers:{'X-Admin-Token':adminToken}});
+  loadMembres(); loadStats();
+  showNotif('Membre supprime.');
+}
+
+function showNotif(msg){
+  var n=document.createElement('div');
+  n.style.cssText='position:fixed;top:1rem;right:1rem;background:#1a6b3a;color:#fff;padding:.75rem 1.25rem;border-radius:10px;font-size:.88rem;z-index:9999;box-shadow:0 4px 15px rgba(0,0,0,.2)';
+  n.textContent=msg;
+  document.body.appendChild(n);
+  setTimeout(function(){n.remove();},3000);
+}
+
+// Export CSV contacts
+function exportCSV(type){
+  var data, filename, headers;
+  if(type==='contacts'){
+    var rows=document.querySelectorAll('#contacts-body tr');
+    var csv='Date,Nom,Email,Organisation,Besoin,Message\n';
+    rows.forEach(function(r){
+      var cells=[...r.querySelectorAll('td')];
+      if(cells.length>0)csv+=cells.slice(0,6).map(function(c){return '"'+c.textContent.replace(/"/g,'""')+'"';}).join(',')+',\n';
+    });
+    filename='contacts.csv';
+    var blob=new Blob([csv],{type:'text/csv'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();
+  } else if(type==='abonnes'){
+    var rows2=document.querySelectorAll('#abonnes-body tr');
+    var csv2='Date,Prenom,Email\n';
+    rows2.forEach(function(r){
+      var cells=[...r.querySelectorAll('td')];
+      if(cells.length>0)csv2+=cells.slice(0,3).map(function(c){return '"'+c.textContent.replace(/"/g,'""')+'"';}).join(',')+'\n';
+    });
+    var blob2=new Blob([csv2],{type:'text/csv'});
+    var a2=document.createElement('a');a2.href=URL.createObjectURL(blob2);a2.download='abonnes.csv';a2.click();
+  }
+}
+
 </script>
 </body>
 </html>
