@@ -17,7 +17,7 @@ from datetime import datetime, timedelta
 # CONFIGURATION
 # ============================================================
 import os as _os
-COHERE_API_KEY = _os.environ.get("COHERE_API_KEY", "METS_CLE_COHERE_ICI")
+COHERE_API_KEY = _os.environ.get("COHERE_API_KEY", "Udl7PhJv7phNXB3p5Zxk1hPz0YPjRgtxYvqm1rsu")
 ADMIN_PASSWORD_CLAIR = "dataprotect2025"
 
 # ============================================================
