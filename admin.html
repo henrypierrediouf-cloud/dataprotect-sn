@@ -415,7 +415,7 @@ async function adminLogin() {
     const r = await fetch(API + '/api/admin/login', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({password: pwd})
+      body: JSON.stringify({mot_de_passe: pwd})
     });
     const d = await r.json();
     if (d.success) {
