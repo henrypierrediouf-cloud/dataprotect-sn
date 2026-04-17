@@ -17,7 +17,7 @@ from datetime import datetime, timedelta
 # CONFIGURATION
 # ============================================================
 import os as _os
-COHERE_API_KEY = _os.environ.get("COHERE_API_KEY", "Udl7PhJv7phNXB3p5Zxk1hPz0YPjRgtxYvqm1rsu")
+COHERE_API_KEY = _os.environ.get("COHERE_API_KEY", "METS_CLE_COHERE_ICI")
 ADMIN_PASSWORD_CLAIR = "dataprotect2025"
 
 # ============================================================
@@ -161,6 +161,18 @@ async def admin_page():
     if not f.exists():
         return HTMLResponse("Erreur : admin.html introuvable", status_code=404)
     return HTMLResponse(f.read_text(encoding="utf-8"))
+
+@app.get("/docs/{filename}")
+async def serve_doc(filename: str):
+    from fastapi.responses import FileResponse
+    import re
+    # Securite : nom de fichier alphanumérique seulement
+    if not re.match(r'^[\w\-]+\.html$', filename):
+        raise HTTPException(status_code=404, detail="Document introuvable")
+    f = BASE_DIR / "docs" / filename
+    if not f.exists():
+        raise HTTPException(status_code=404, detail="Document introuvable")
+    return FileResponse(str(f), media_type="text/html")
 
 @app.get("/app.js")
 async def serve_js():

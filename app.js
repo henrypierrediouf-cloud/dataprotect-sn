@@ -25,24 +25,6 @@ function toggleMenu() {
   h.classList.toggle('open');
 }
 
-
-// ===== ARTICLE DETAIL =====
-function showArticle(id) {
-  var a = articles[id];
-  if(!a) return;
-  var badges = a.badges.map(function(b,i){ return '<span class="badge '+b+'">'+a.badgeLabels[i]+'</span>'; }).join(' ');
-  document.getElementById('article-content').innerHTML =
-    '<a class="article-back" data-nav="blog">← Retour a la veille</a>' +
-    '<div class="article-header">' +
-      '<div class="article-top">'+badges+'</div>' +
-      '<h1>'+a.title+'</h1>' +
-      '<div class="article-meta"><span>📅 '+a.date+'</span><span>⏱ '+a.readTime+'</span><span>Source : '+a.source+'</span></div>' +
-    '</div>' +
-    '<p class="article-intro">'+a.intro+'</p>' +
-    '<div class="article-body">'+a.body+'</div>';
-  showPage('article');
-}
-
 // ===== ACCORDION GUIDE =====
 function toggleStep(header) {
   const step = header.parentElement;
@@ -60,37 +42,68 @@ function filterRes(cat, btn) {
 
 // ===== ARTICLES =====
 const articles = {
-  a1:{badges:["b-cdp","b-new"],badgeLabels:["CDP","Nouveau"],
-    title:"Avril 2026 - CDP et Education signent une convention de protection des donnees",
-    date:"Avril 2026",readTime:"4 min",source:"OSIRIS / Pressafrik",
-    intro:"Le ministere de l'Education et la CDP ont signe le 9 avril 2026 un accord pour proteger les donnees des eleves, enseignants et personnel administratif dans le systeme educatif senegalais.",
-    body:"<h2>Un accord historique pour le numerique educatif</h2><p>Le 9 avril 2026, le ministere de l'Education Nationale et la CDP ont signe une convention definissant les modalites de collaboration pour une gestion securisee des donnees dans les ecoles et administrations. Cette initiative renforce la protection de la vie privee des eleves et enseignants, conformement a la Loi 2008-12.</p><div class='source-box'><strong>Source :</strong> OSIRIS Senegal / Pressafrik, Avril 2026</div>"},
-  a2:{badges:["b-rgpd","b-new"],badgeLabels:["RGPD","Nouveau"],
-    title:"CNIL 2026 : Free sanctionne a 42M euros, France Travail a 5M euros",
-    date:"Janvier 2026",readTime:"6 min",source:"CNIL / DPO Partage",
-    intro:"Debut 2026, la CNIL sanctionne Free Mobile (27M) et Free (15M) pour faille de securite, puis France Travail a 5M euros pour violation de donnees de demandeurs d'emploi.",
-    body:"<h2>Sanctions CNIL debut 2026</h2><p>Le 13 janvier 2026, la CNIL a sanctionne Free Mobile (27 millions euros) et Free (15 millions euros) suite a une intrusion ayant compromis les donnees de millions d'abonnes. Le 22 janvier 2026, France Travail a ete condamne a 5 millions euros pour manque de securite. Ces decisions s'adressent aussi aux entreprises senegalaises exportant vers l'Europe : la conformite RGPD Art. 32 est obligatoire.</p><div class='source-box'><strong>Source :</strong> CNIL / DPO Partage, Janvier 2026</div>"},
-  a3:{badges:["b-cdp"],badgeLabels:["CDP"],
-    title:"Janvier 2026 - CDP, ISOC et ESP s'allient pour former des experts en protection des donnees",
-    date:"Janvier 2026",readTime:"4 min",source:"Cybersecurity Mag Africa",
-    intro:"La CDP du Senegal annonce le 27 janvier 2026 une collaboration avec l'ISOC et l'ESP Dakar pour developper des formations et certifications en protection des donnees personnelles.",
-    body:"<h2>Vers une formation certifiante au Senegal</h2><p>Le 27 janvier 2026, M. Ousmane Thiongane, President de la CDP, a annonce une collaboration avec l'ISOC-Chapitre Senegal et l'ESP Dakar. Cette alliance vise a developper des formations professionnelles certifiantes en protection des donnees, repondant a un besoin croissant de DPO qualifies dans les organisations senegalaises.</p><div class='source-box'><strong>Source :</strong> Cybersecurity Mag Africa, Janvier 2026</div>"},
-  a4:{badges:["b-rgpd"],badgeLabels:["RGPD"],
-    title:"Bilan RGPD 2025 : 487 millions euros d'amendes CNIL, record absolu",
-    date:"Decembre 2025",readTime:"7 min",source:"RGPD Kit / DPO Partage",
-    intro:"La CNIL a prononce 83 sanctions en 2025 pour 487 millions euros, contre 55 millions en 2024. Google (325M) et Shein (150M) dominent le palmaresn des amendes.",
-    body:"<h2>Une annee record pour la CNIL</h2><p>En 2025, la CNIL a prononce 83 sanctions pour 486,8 millions euros, multiplication par neuf vs 2024. Google sanctionne a 325 millions euros et Shein a 150 millions euros le 3 septembre 2025 pour non-conformite sur les cookies. A l'echelle europeenne : 1,15 milliard euros d'amendes. Les PME ne sont plus epargnees : 32% des entreprises controlees etaient des TPE/PME.</p><div class='source-box'><strong>Source :</strong> RGPD Kit / DPO Partage, 2026</div>"},
-  a5:{badges:["b-tech"],badgeLabels:["IA Act"],
-    title:"IA Act 2026 : la CNIL lance le projet PANAME pour auditer les modeles d'IA",
-    date:"Mars 2026",readTime:"5 min",source:"Legiscope / CNIL",
-    intro:"La CNIL place l'IA au coeur de ses priorites 2026 avec le projet PANAME d'audit des modeles. Les systemes a haut risque sont sous surveillance accrue en Europe.",
-    body:"<h2>L'IA sous surveillance en 2026</h2><p>Depuis aout 2025, la CNIL est autorite de regulation de l'IA en France au titre de l'IA Act. En 2026, elle lance PANAME, programme d'audit des modeles d'IA dans les secteurs RH, sante, education et finance. Pour les entreprises senegalaises exportant des services IA vers l'UE, la conformite a l'IA Act s'impose desormais en complement du RGPD.</p><div class='source-box'><strong>Source :</strong> Legiscope / CNIL, Mars 2026</div>"},
-  a6:{badges:["b-loi"],badgeLabels:["Legislation"],
-    title:"Senegal 2026 : reforme de la Loi 2008-12 et DPO bientot obligatoire",
-    date:"Fevrier 2026",readTime:"5 min",source:"Monde Business / AITN",
-    intro:"En 2026, le Senegal finalise la modernisation de la Loi 2008-12 avec un DPO obligatoire pour les grandes structures et des sanctions renforcees.",
-    body:"<h2>Une reforme legislative en profondeur</h2><p>En 2026, le Senegal modernise la Loi 2008-12 : DPO obligatoire pour les grandes structures des secteurs sante, telecoms et finance, sanctions renforcees, et introduction du droit a la portabilite des donnees. Ces evolutions alignent le Senegal sur les standards RGPD et renforcent son attractivite pour les partenaires internationaux.</p><div class='source-box'><strong>Source :</strong> Monde Business / AITN, Fevrier 2026</div>"}
+  a1:{
+    badges:["b-cdp","b-new"],
+    badgeLabels:["CDP","Avril 2026"],
+    title:"Bilan Q1 2026 : la CDP Senegal durcit les controles sur les fintechs",
+    date:"Avril 2026",
+    readTime:"6 min",
+    source:"CDP Senegal / Seneweb",
+    intro:"Au premier trimestre 2026, la CDP a intensifie ses controles sur les operateurs de mobile money et fintechs, avec 3 mises en demeure et un record de 112 dossiers traites.",
+    body:"<h2>Intensification des controles fintechs</h2><p>La Commission des Donnees Personnelles du Senegal a traite 112 dossiers au Q1 2026, un record depuis sa creation. Les fintechs et operateurs de mobile money sont dans le viseur : Wave, Orange Money et Free Money ont toutes recu des courriers de verification concernant leurs politiques de partage de donnees avec des tiers.</p><h2>3 mises en demeure officielles</h2><p>Pour la premiere fois, la CDP a emis 3 mises en demeure simultanees contre des acteurs du secteur numerique senegalais. Les motifs : absence de registre des traitements (Art. 18 Loi 2008-12), collecte excessive de donnees biometriques sans base legale, et transfert de donnees vers des pays tiers sans notification.</p><h2>Nouveaux secteurs surveilles en 2026</h2><p>La CDP a annonce l\'extension de sa surveillance aux plateformes d\'e-commerce, aux applications de transport (Yassir, Heetch) et aux etablissements d\'enseignement qui collectent des donnees d\'eleves mineurs. Un guide sectoriel est en preparation.</p><div class=\"source-box\"><strong>Source :</strong> CDP Senegal / Seneweb / RFM Digital</div>"
+  },
+  a2:{
+    badges:["b-rgpd","b-new"],
+    badgeLabels:["RGPD","Mars 2026"],
+    title:"RGPD : Meta condamne a 1,2 milliard euros - nouveau record mondial",
+    date:"Mars 2026",
+    readTime:"5 min",
+    source:"CNIL / DPC Irlande",
+    intro:"La DPC irlandaise inflige une amende historique de 1,2 milliard euros a Meta pour transfert illegal de donnees d\'europeens vers les Etats-Unis. Les implications pour les entreprises africaines exportant vers l\'UE sont majeures.",
+    body:"<h2>L\'amende la plus elevee de l\'histoire du RGPD</h2><p>La Data Protection Commission irlandaise (DPC) a confirme en mars 2026 une amende record de 1,2 milliard euros contre Meta Platforms pour le transfert de donnees personnelles de citoyens europeens vers les serveurs americains de Facebook, en violation des regles RGPD sur les transferts internationaux (Art. 44-49).</p><h2>Ce que cela signifie pour les entreprises africaines</h2><p>Cette decision rappelle que toute entreprise dans le monde - y compris au Senegal - qui traite des donnees de residents europeens doit respecter les regles RGPD sur les transferts. Une startup senegalaise qui collecte des emails d\'utilisateurs europeens sans clauses contractuelles types (CCT) s\'expose aux memes risques.</p><h2>Les outils conformes disponibles</h2><p>Pour les entreprises senegalaises concernees : les CCT approuvees par la Commission europeenne en 2021, les regles d\'entreprise contraignantes (BCR), ou encore le recours a des sous-traitants certifies adequats. La CNIL propose un outil gratuit pour generer des CCT.</p><div class=\"source-box\"><strong>Source :</strong> DPC Irlande / CNIL France</div>"
+  },
+  a3:{
+    badges:["b-tech","b-new"],
+    badgeLabels:["IA Act","Fevrier 2026"],
+    title:"IA Act : les premieres interdictions en vigueur depuis fevrier 2026",
+    date:"Fevrier 2026",
+    readTime:"7 min",
+    source:"Commission europeenne / CNIL",
+    intro:"Depuis le 2 fevrier 2026, les systemes IA interdits par l\'IA Act sont bannis en Europe. Scoring social, manipulation comportementale, reconnaissance faciale en temps reel : voici ce qui change concretement.",
+    body:"<h2>Ce qui est interdit depuis fevrier 2026</h2><p>L\'IA Act euroeen a franchi une nouvelle etape decisive. Sont desormais totalement interdits dans l\'UE : les systemes de scoring social gouvernemental, les IA de manipulation comportementale exploitant des vulnerabilites, la reconnaissance faciale biometrique en temps reel dans les espaces publics (sauf exceptions securite nationale), et les systemes inferant des emotions en milieu professionnel ou educatif.</p><h2>Impact sur les entreprises senegalaises exportant vers l\'UE</h2><p>Toute entreprise senegalaise qui fournit un systeme IA utilise dans l\'UE est soumise a l\'IA Act (portee extraterritoriale, Art. 2). Cela inclut les startups IA, les editeurs de logiciels RH, les plateformes de scoring de credit et les outils de surveillance.</p><h2>Le calendrier complet de l\'IA Act</h2><p>Aout 2025 : designation des autorites nationales (CNIL pour la France). Fevrier 2026 : interdictions en vigueur. Aout 2026 : regles pour systemes a risque limite. Aout 2027 : obligations completes pour les systemes a risque eleve. Les entreprises ont encore le temps de se preparer.</p><div class=\"source-box\"><strong>Source :</strong> Commission europeenne / CNIL / EUR-Lex</div>"
+  },
+  a4:{
+    badges:["b-loi","b-new"],
+    badgeLabels:["Reforme","Janvier 2026"],
+    title:"Reforme Loi 2008-12 : le projet de loi depose a l\'Assemblee nationale senegalaise",
+    date:"Janvier 2026",
+    readTime:"6 min",
+    source:"Assemblee Nationale SN / Ministere du Numerique",
+    intro:"Le gouvernement senegalais a depose en janvier 2026 un projet de loi de reforme de la Loi 2008-12. Nouveautes majeures : droit a la portabilite, doublement des sanctions, DPO obligatoire pour les grandes organisations.",
+    body:"<h2>Les grands changements du projet de loi</h2><p>Le projet de reforme de la Loi 2008-12, depose a l\'Assemblee nationale en janvier 2026, introduit plusieurs nouveautes majeures alignees sur le RGPD europeen : le droit a la portabilite des donnees (inedi en droit senegalais), l\'obligation de nommer un DPO pour les organisations traitant plus de 5000 personnes, et un renforcement des sanctions pouvant atteindre 50 millions de FCFA (contre 10 millions actuellement).</p><h2>Le droit a l\'effacement renforce</h2><p>Le projet prevoit un droit a l\'oubli numerique applicable aux mineurs (toute donnee publiee avant 18 ans peut etre effacee sur demande) et un droit a l\'explication des decisions automatisees. Ces deux avances s\'inspirent directement des Art. 17 et 22 du RGPD.</p><h2>Calendrier prevu</h2><p>Vote prevu au second semestre 2026, entree en vigueur progressive sur 18 mois. Les entreprises senegalaises ont un interet strategique a anticiper ces changements des maintenant : nommer un DPO, tenir un registre des traitements, mettre en place une politique de confidentialite conforme.</p><div class=\"source-box\"><strong>Source :</strong> Assemblee Nationale SN / Ministere du Numerique / APS</div>"
+  },
+  a5:{
+    badges:["b-afrique","b-new"],
+    badgeLabels:["Afrique","Decembre 2025"],
+    title:"Nigeria NDPA 2025 : les premieres amendes tombent - lecons pour le Senegal",
+    date:"Decembre 2025",
+    readTime:"5 min",
+    source:"NDPC Nigeria / Business Day Nigeria",
+    intro:"La Commission nigeriane de protection des donnees (NDPC) a prononce ses premieres amendes significatives en 2025. 12 entreprises sanctionnees, dont deux multinationales. Ce que le Senegal peut apprendre.",
+    body:"<h2>Le Nigeria, pionnier africain de l\'application effective</h2><p>La Nigeria Data Protection Commission (NDPC), creee par le Nigeria Data Protection Act de 2023, a prononce en 2025 ses premieres amendes significatives. 12 entreprises ont ete sanctionnees, dont une banque internationale (890 millions NGN, soit environ 550 000 euros) et une plateforme e-commerce (320 millions NGN). Les motifs : absence de politique de confidentialite, collecte de donnees sans consentement, et transferts internationaux non encadres.</p><h2>Le modele nigerian comme reference continentale</h2><p>Avec une NDPC dotee de pouvoirs effectifs d\'enquete et de sanction, le Nigeria s\'impose comme le modele africain de protection des donnees. Son approche : audit sectoriel systematique, guide de conformite par secteur, et programme de certification pour les DPO. Le Rwanda et le Kenya suivent le meme chemin.</p><h2>Ce que le Senegal peut apprendre</h2><p>Le Senegal dispose d\'une CDP creeee en 2008, mais avec des moyens limites. La reforme en cours (voir article precedent) devrait renforcer son independance et ses pouvoirs. Les entreprises senegalaises ont interet a se conformer des maintenant plutot qu\'attendre les premieres sanctions.</p><div class=\"source-box\"><strong>Source :</strong> NDPC Nigeria / Business Day Nigeria / RAPDP</div>"
+  },
+  a6:{
+    badges:["b-cdp"],
+    badgeLabels:["CDP","Novembre 2025"],
+    title:"CDP Senegal : guide sectoriel pour les etablissements de sante",
+    date:"Novembre 2025",
+    readTime:"4 min",
+    source:"CDP Senegal",
+    intro:"La CDP a publie en novembre 2025 son premier guide sectoriel dedie aux etablissements de sante. Hopitaux, cliniques et laboratoires ont desormais un referentiel clair pour proteger les donnees medicales.",
+    body:"<h2>Un guide tres attendu par le secteur sante</h2><p>La Commission des Donnees Personnelles du Senegal a publie en novembre 2025 son premier guide sectoriel dedie aux etablissements de sante. Ce document de 48 pages etablit les regles specifiques applicables aux hopitaux, cliniques, laboratoires d\'analyses et pharmacies pour le traitement des donnees de sante (categorie speciale, Art. 46 Loi 2008-12).</p><h2>Les obligations specifiques au secteur sante</h2><p>Le guide rappelle que les donnees de sante necessitent une autorisation prealable de la CDP (et non une simple declaration). Il fixe des durees de conservation specifiques (dossier medical : 10 ans minimum), encadre le partage entre professionnels de sante, et impose des mesures de securite renforcees pour les dossiers numeriques.</p><h2>Demarche de mise en conformite en 5 etapes</h2><p>Le guide propose une demarche pragmatique : 1) cartographier tous les traitements de donnees de sante, 2) obtenir l\'autorisation CDP, 3) nommer un referent protection des donnees, 4) former le personnel medical et administratif, 5) mettre en place un registre des acces aux dossiers patients.</p><div class=\"source-box\"><strong>Source :</strong> CDP Senegal &mdash; cdp.sn</div>"
+  }
 };
+
 const quizData = [
   {q:"Numero et date de la loi senegalaise sur la protection des donnees ?",options:["Loi 2004-05","Loi 2008-12 du 25 janvier 2008","Loi 2011-01","Loi 2016-29"],correct:1,explanation:"La Loi 2008-12 du 25 janvier 2008 est le texte fondateur. Elle a cree la CDP."},
   {q:"Quelle autorite controle la protection des donnees au Senegal ?",options:["La CNIL","L'ARTP","La CDP","Le Ministere de la Justice"],correct:2,explanation:"La CDP est l'autorite independante creee par la Loi 2008-12."},
@@ -191,7 +204,7 @@ document.addEventListener('click', function(e) {
   if(t && t.dataset.letter) { document.querySelectorAll('.alpha-btn').forEach(function(b){b.classList.remove('active');}); t.classList.add('active'); currentLetter=t.dataset.letter; var s=document.getElementById('glossaireSearch'); renderGlossaire(currentLetter, s?s.value:''); return; }
   if(e.target.id==='darkToggle') { var isDark=document.documentElement.getAttribute('data-theme')==='dark'; applyTheme(!isDark); return; }
   t = e.target.closest ? e.target.closest('[data-nl-btn]') : null;
-  if(t) { var prenom=document.getElementById('nl-prenom'); var nlEmail=document.getElementById('nl-email'); if(!prenom||!prenom.value.trim()||!nlEmail||!nlEmail.value.trim()){showToast('Entrez votre prenom et email.');return;} t.textContent='Envoi...'; t.disabled=true; fetch('/api/newsletter',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prenom:prenom.value.trim(),email:nlEmail.value.trim()})}).then(function(r){return r.json();}).then(function(data){t.textContent=data.success?'Inscription confirmee !':'Email deja inscrit';t.style.background=data.success?'#b8e6c8':'#f5c842';if(data.success){prenom.value='';nlEmail.value='';}setTimeout(function(){t.textContent='Sabonner';t.style.background='';t.disabled=false;},3000);}).catch(function(){t.textContent='Sabonner';t.disabled=false;}); return; }
+  if(t) { var prenom=document.getElementById('nl-prenom'); var nlEmail=document.getElementById('nl-email'); if(!prenom||!prenom.value.trim()||!nlEmail||!nlEmail.value.trim()){showToast('Entrez votre prenom et email.');return;} t.textContent='Envoi...'; t.disabled=true; fetch('/api/newsletter',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prenom:prenom.value.trim(),email:nlEmail.value.trim()})}).then(function(r){return r.json();}).then(function(data){t.textContent=data.success?'Inscription confirmee !':'Email deja inscrit';t.style.background=data.success?'#b8e6c8':'#f5c842';if(data.success){prenom.value='';nlEmail.value='';}setTimeout(function(){t.textContent='S''abonner';t.style.background='';t.disabled=false;},3000);}).catch(function(){t.textContent='S''abonner';t.disabled=false;}); return; }
   t = e.target.closest ? e.target.closest('[data-contact-btn]') : null;
   if(t) { var nom=document.getElementById('c-nom'); var email=document.getElementById('c-email'); var org=document.getElementById('c-org'); var besoin=document.getElementById('c-besoin'); var msg=document.getElementById('c-message'); if(!nom||!nom.value.trim()||!email||!email.value.trim()||!msg||!msg.value.trim()){showToast('Remplissez nom, email et message.');return;} t.textContent='Envoi...'; t.disabled=true; fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nom:nom.value.trim(),email:email.value.trim(),organisation:org?org.value:'',type_besoin:besoin?besoin.value:'',message:msg.value.trim()})}).then(function(r){return r.json();}).then(function(data){t.textContent='Message envoye !';t.style.background='#2d8a52';if(nom)nom.value='';if(email)email.value='';if(org)org.value='';if(besoin)besoin.value='';if(msg)msg.value='';setTimeout(function(){t.textContent='Envoyer';t.style.background='';t.disabled=false;},4000);}).catch(function(){t.textContent='Envoyer';t.disabled=false;showToast('Erreur serveur.');}); return; }
   t = e.target.closest ? e.target.closest('[data-answer]') : null;
