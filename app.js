@@ -158,11 +158,7 @@ function showToast(msg) {
 
 // Attach toast to all download spans
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.res-dl').forEach(el => {
-    if(!el.getAttribute('href')) {
-      el.addEventListener('click', () => showToast(' Document disponible prochainement - inscrivez-vous a la newsletter !'));
-    }
-  });
+  document// res-dl handled by main listener
 });
 
 
@@ -225,7 +221,7 @@ document.addEventListener('click', function(e) {
   t = e.target.closest ? e.target.closest('[data-quiz-restart]') : null;
   if(t) { currentQ=0; score=0; answered=false; renderQuiz(); return; }
   t = e.target.closest ? e.target.closest('.res-dl') : null;
-  if(t && !t.getAttribute('href')) { showToast('Document disponible prochainement !'); return; }
+  if(t) { if(!t.getAttribute('href')) { showToast('Document disponible prochainement !'); return; } else { return; } }
   if(e.target.closest && e.target.closest('#chatbot-btn') && !e.target.closest('#chatbot-window')) { var cw=document.getElementById('chatbot-window'); if(cw){chatOpen=!chatOpen;cw.classList.toggle('open',chatOpen);if(chatOpen){var ci=document.getElementById('chatInput');if(ci)ci.focus();}} return; }
   if(e.target.id==='chatClose'){chatOpen=false;var cw2=document.getElementById('chatbot-window');if(cw2)cw2.classList.remove('open');return;}
   if(e.target.id==='chatSend'){sendChat();return;}
