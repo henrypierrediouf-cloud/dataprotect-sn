@@ -8,12 +8,18 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --green:#1a6b3a;--green-dark:#0d3d20;--green-light:#e8f5ee;
-  --gold:#c8960e;--gold-light:#fef9e5;--gold-bright:#f5d060;
-  --red:#b91c1c;--red-light:#fde8e8;
-  --blue:#185ea5;--blue-light:#e8f0fe;
-  --text:#111;--muted:#555;--muted2:#888;
-  --bg:#f6f3ee;--white:#fff;--border:#e0dbd0;--border2:#ccc;
+  --green:#1a5c34;--green-dark:#0d3320;--green-light:#eaf5ef;--green-mid:#2d7a4a;
+  --gold:#b8860b;--gold-light:#fdf6e3;--gold-bright:#e8c444;
+  --red:#c0392b;--red-light:#fdecea;
+  --blue:#1a4f8a;--blue-light:#e8f0fb;
+  --text:#0f1923;--text-secondary:#2c3e50;
+  --muted:#4a5568;--muted2:#718096;
+  --bg:#f8f7f4;--bg2:#f0ede8;--white:#fff;
+  --border:#ddd8cf;--border2:#c5bfb5;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --shadow:0 4px 16px rgba(0,0,0,.08);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.12);
+  --radius:14px;--radius-sm:8px
 }
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.7;overflow-x:hidden}
@@ -323,6 +329,23 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
 .chat-input:focus{border-color:var(--green)}
 .chat-send{background:var(--green);color:#fff;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:.9rem;flex-shrink:0}
 @media(max-width:768px){#chatbot-window{width:calc(100vw - 2rem)}}
+
+/* === PREMIUM UPGRADES === */
+.navbar{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 rgba(0,0,0,.05)}
+.blog-card{box-shadow:var(--shadow-sm);transition:box-shadow .25s,transform .25s,border-color .25s}
+.blog-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px);border-color:var(--green)}
+.btn-primary{box-shadow:0 2px 8px rgba(26,92,52,.2);font-weight:600;letter-spacing:.01em;transition:all .22s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,92,52,.3)}
+.section-title{letter-spacing:-.02em;line-height:1.2}
+.section-label{letter-spacing:.08em;font-weight:700;font-size:.72rem}
+.stat-card{box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .2s}
+.stat-card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+.res-card{box-shadow:var(--shadow-sm);transition:all .25s}
+.res-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px);border-color:var(--green)}
+.form-input:focus{box-shadow:0 0 0 3px rgba(26,92,52,.12)}
+.faq-item{transition:box-shadow .2s}
+.faq-item.open{box-shadow:var(--shadow)}
+
 </style>
 </head>
 <body>
@@ -360,44 +383,27 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
 <!-- =================== PAGE ACCUEIL =================== -->
 <div class="page active" id="page-home">
 
-  <div class="hero">
-    <div class="hero-inner container">
-      <div>
-        <div class="hero-tag"><span style="width:7px;height:7px;border-radius:50%;background:var(--gold-bright);display:inline-block"></span>Sénégal · Protection des données</div>
-        <h1>Vos données,<br><em>vos droits.</em><br>Protégés.</h1>
-        <p class="hero-sub">Sensibilisation, veille juridique sourcée et conformité RGPD pour les citoyens, entreprises et institutions du Sénégal.</p>
-        <div class="hero-btns">
-          <button class="btn-gold" data-nav="guide">Découvrir le guide citoyen</button>
-          <button class="btn-ghost-w" data-nav="blog">Voir la veille juridique →</button>
-        </div>
+  <div class="hero" style="background:linear-gradient(160deg,#0d3320 0%,#1a5c34 45%,#1a4f8a 100%);min-height:86vh;display:flex;align-items:center;position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;opacity:.05;background-image:radial-gradient(circle at 20% 30%,#fff 1px,transparent 1px),radial-gradient(circle at 80% 70%,#fff 1px,transparent 1px);background-size:48px 48px;pointer-events:none"></div>
+  <div style="position:absolute;top:-120px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(232,196,68,.1) 0%,transparent 65%);pointer-events:none"></div>
+  <div class="hero-inner container" style="position:relative;z-index:1;padding:5rem 1.5rem">
+    <div style="max-width:680px">
+      <div class="hero-tag" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.9)"><span style="width:7px;height:7px;border-radius:50%;background:#4ade80;display:inline-block"></span> Plateforme de reference &mdash; Senegal</div>
+      <h1 style="font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800;color:#fff;line-height:1.08;margin:.75rem 0 1.25rem;letter-spacing:-.04em">Vos donnees,<br><span style="background:linear-gradient(135deg,#e8c444,#f5d060);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">vos droits.</span><br>Proteges.</h1>
+      <p class="hero-sub" style="color:rgba(255,255,255,.78);font-size:1.1rem;line-height:1.75;max-width:540px">La premiere plateforme senegalaise de sensibilisation a la protection des donnees personnelles. Loi 2008-12, RGPD, IA Act &mdash; expliques simplement, pour tous.</p>
+      <div class="hero-actions" style="margin-top:2rem">
+        <button data-nav="guide" class="btn-primary" style="background:#fff;color:var(--green);box-shadow:0 4px 20px rgba(0,0,0,.25);font-size:.95rem;padding:.85rem 1.9rem;font-weight:700">Decouvrir mes droits</button>
+        <button data-nav="contact" class="btn-primary" style="background:transparent;border:2px solid rgba(255,255,255,.45);color:#fff;box-shadow:none;font-size:.92rem;padding:.82rem 1.75rem">Demander un audit &rarr;</button>
       </div>
-      <div class="hero-cards">
-        <div class="hero-stat-card">
-          <div class="hsc-num">105</div>
-          <div class="hsc-label">Dossiers traités par la CDP au T1 2025 — en hausse constante</div>
-        </div>
-        <div class="hero-stat-card">
-          <div class="hsc-num">1,15 Md€</div>
-          <div class="hsc-label">Amendes RGPD en Europe en 2025 — TikTok, Google, Shein dans le viseur</div>
-        </div>
-        <div class="hero-stat-card">
-          <div class="hsc-num">2008</div>
-          <div class="hsc-label">Le Sénégal légifère dès 2008, parmi les premiers en Afrique</div>
-        </div>
+      <div style="display:flex;gap:2.5rem;margin-top:3.5rem;flex-wrap:wrap;padding-top:2rem;border-top:1px solid rgba(255,255,255,.12)">
+        <div style="color:rgba(255,255,255,.65);font-size:.82rem"><span style="color:#fff;font-weight:800;font-size:1.5rem;display:block;line-height:1.1;letter-spacing:-.03em">2008</span>Loi fondatrice</div>
+        <div style="color:rgba(255,255,255,.65);font-size:.82rem"><span style="color:#fff;font-weight:800;font-size:1.5rem;display:block;line-height:1.1;letter-spacing:-.03em">39/55</span>Pays africains</div>
+        <div style="color:rgba(255,255,255,.65);font-size:.82rem"><span style="color:#fff;font-weight:800;font-size:1.5rem;display:block;line-height:1.1;letter-spacing:-.03em">RGPD</span>Compatible</div>
+        <div style="color:rgba(255,255,255,.65);font-size:.82rem"><span style="color:#fff;font-weight:800;font-size:1.5rem;display:block;line-height:1.1;letter-spacing:-.03em">IA Act</span>2025</div>
       </div>
     </div>
-    <div class="hero-bg"></div>
   </div>
-
-  <div class="stats-bar">
-    <div class="stats-inner">
-      <div><div class="stat-item-num">2008</div><div class="stat-item-label">Loi n°2008-12 — texte fondateur</div></div>
-      <div><div class="stat-item-num">105</div><div class="stat-item-label">Dossiers CDP · T1 2025</div></div>
-      <div><div class="stat-item-num">10 M FCFA</div><div class="stat-item-label">Amende max CDP actuelle</div></div>
-      <div><div class="stat-item-num">39/55</div><div class="stat-item-label">Pays africains avec loi data</div></div>
-    </div>
-  </div>
-
+</div>
   <section style="background:var(--white)">
     <div class="container">
       <div class="section-label">Nos missions</div>
@@ -813,132 +819,228 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
 
 <!-- =================== PAGE ABOUT =================== -->
 <div class="page" id="page-about">
-<section style="background:var(--white)">
+<section style="background:var(--white);padding:0 0 4rem">
 <div class="container">
-  <div class="about-layout">
-    <div class="about-visual">
-      <div class="avatar">DPO</div>
-      <div class="cred-card"><strong>Diplôme</strong>Master 2 — Délégué à la Protection des Données</div>
-      <div class="cred-card"><strong>Expertise</strong>Droit sénégalais · RGPD · Cybersécurité · IA Act</div>
-      <div class="cred-card"><strong>Autorité de référence</strong>Commission des Données Personnelles (CDP) — Sénégal</div>
-      <div class="cred-card"><strong>Langues</strong>Français · Wolof · Anglais</div>
-      <div class="cred-card"><strong>Localisation</strong>Dakar, Sénégal</div>
+
+  <!-- Hero about -->
+  <div style="background:linear-gradient(135deg,var(--green) 0%,var(--green-mid) 60%,#1a4f8a 100%);border-radius:0 0 32px 32px;padding:4rem 2rem 5rem;margin-bottom:-3rem;color:#fff;text-align:center">
+    <div style="width:90px;height:90px;background:rgba(255,255,255,.15);border:3px solid rgba(255,255,255,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;margin:0 auto 1.25rem;letter-spacing:-.02em">HPD</div>
+    <h1 style="font-size:clamp(1.6rem,4vw,2.2rem);font-weight:700;margin:0 0 .5rem;letter-spacing:-.03em">Henry Pierre Diouf</h1>
+    <p style="font-size:1.05rem;opacity:.88;margin:0 0 1.25rem">Delegue a la Protection des Donnees (DPO) &mdash; Master 2</p>
+    <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
+      <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:100px;padding:.35rem .9rem;font-size:.8rem;font-weight:500">La Plateforme Numerique &mdash; Marseille</span>
+      <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:100px;padding:.35rem .9rem;font-size:.8rem;font-weight:500">Expert Loi 2008-12 &amp; RGPD</span>
+      <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:100px;padding:.35rem .9rem;font-size:.8rem;font-weight:500">Consultant independant</span>
+    </div>
+  </div>
+
+  <!-- Cards stats -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:0 1rem 3rem;position:relative;z-index:2">
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;text-align:center;box-shadow:var(--shadow)">
+      <div style="font-size:1.9rem;font-weight:800;color:var(--green);line-height:1">M2</div>
+      <div style="font-size:.78rem;color:var(--muted);margin-top:.3rem">Niveau de diplome</div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;text-align:center;box-shadow:var(--shadow)">
+      <div style="font-size:1.9rem;font-weight:800;color:var(--green);line-height:1">2</div>
+      <div style="font-size:.78rem;color:var(--muted);margin-top:.3rem">Legislations maitrisees</div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;text-align:center;box-shadow:var(--shadow)">
+      <div style="font-size:1.9rem;font-weight:800;color:var(--green);line-height:1">55+</div>
+      <div style="font-size:.78rem;color:var(--muted);margin-top:.3rem">Pays africains suivis</div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;text-align:center;box-shadow:var(--shadow)">
+      <div style="font-size:1.9rem;font-weight:800;color:var(--green);line-height:1">100%</div>
+      <div style="font-size:.78rem;color:var(--muted);margin-top:.3rem">Independant &amp; neutre</div>
+    </div>
+  </div>
+
+  <!-- Profil + expertise -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3rem">
+    <div>
+      <h2 style="font-size:1.35rem;font-weight:700;color:var(--text);margin:0 0 1rem;letter-spacing:-.02em">Qui suis-je ?</h2>
+      <p style="color:var(--muted);line-height:1.85;font-size:.94rem">Passionne par l&rsquo;intersection du droit et du numerique, j&rsquo;ai cree DataProtect Senegal pour combler un vide : rendre accessible la reglementation sur la protection des donnees personnelles au Senegal et en Afrique.</p>
+      <p style="color:var(--muted);line-height:1.85;font-size:.94rem;margin-top:.75rem">Issu d&rsquo;une formation Master 2 specialisee a La Plateforme Numerique de Marseille, j&rsquo;accompagne entreprises et organisations dans leur mise en conformite avec la Loi 2008-12 et le RGPD.</p>
+      <p style="color:var(--muted);line-height:1.85;font-size:.94rem;margin-top:.75rem">Mon approche : pedagogie, rigueur juridique et solutions concretes adaptees au contexte africain.</p>
+      <div style="display:flex;gap:.75rem;margin-top:1.5rem;flex-wrap:wrap">
+        <a href="mailto:henrypierrediouf@gmail.com" style="background:var(--green);color:#fff;padding:.65rem 1.3rem;border-radius:100px;font-size:.88rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;box-shadow:0 2px 8px rgba(26,92,52,.2)">&#9993; Me contacter</a>
+        <a data-nav="contact" style="cursor:pointer;border:2px solid var(--green);color:var(--green);padding:.62rem 1.3rem;border-radius:100px;font-size:.88rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem">Demander un audit</a>
+      </div>
     </div>
     <div>
-      <div class="section-label">À propos</div>
-      <h2 class="section-title">Un DPO engagé pour la souveraineté numérique du Sénégal</h2>
-      <p style="color:var(--muted);margin-bottom:1rem;font-size:.95rem">Jeune diplômé d'un Master 2 en Délégué à la Protection des Données, j'ai créé cette plateforme avec une conviction forte : au Sénégal, la protection des données personnelles est un droit fondamental qui mérite d'être connu, compris et défendu par tous.</p>
-      <p style="color:var(--muted);margin-bottom:1rem;font-size:.95rem">Le Sénégal est l'un des premiers pays africains à avoir légiféré en la matière dès 2008, et premier signataire de la Convention de Malabo de 2014. Pourtant, trop peu de citoyens et d'entreprises connaissent leurs droits ou leurs obligations réelles.</p>
-      <p style="color:var(--muted);margin-bottom:1.5rem;font-size:.95rem">Cette plateforme est un pont entre la loi, la technologie et les acteurs du quotidien — citoyens, entrepreneurs, professionnels du droit, décideurs publics.</p>
-      <div class="tags-wrap">
-        <span class="tag-g">Loi 2008-12</span>
-        <span class="tag-g">CDP Sénégal</span>
-        <span class="tag-g">RGPD</span>
-        <span class="tag-g">DPO</span>
-        <span class="tag-g">AIPD</span>
-        <span class="tag-g">IA Act</span>
-        <span class="tag-g">Cybersécurité</span>
-        <span class="tag-g">Droit numérique africain</span>
-        <span class="tag-g">RAPDP</span>
-        <span class="tag-g">Convention de Malabo</span>
+      <h2 style="font-size:1.35rem;font-weight:700;color:var(--text);margin:0 0 1rem;letter-spacing:-.02em">Domaines d&rsquo;expertise</h2>
+      <div style="display:flex;flex-direction:column;gap:.6rem">
+        <div style="background:var(--bg);border-radius:var(--radius-sm);padding:.85rem 1rem;display:flex;align-items:center;gap:.75rem;font-size:.88rem">
+          <span style="width:36px;height:36px;background:var(--green-light);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem">&#128737;</span>
+          <div><strong style="color:var(--text)">Conformite Loi 2008-12</strong><br><span style="color:var(--muted);font-size:.8rem">Declaration CDP, registre traitements, AIPD</span></div>
+        </div>
+        <div style="background:var(--bg);border-radius:var(--radius-sm);padding:.85rem 1rem;display:flex;align-items:center;gap:.75rem;font-size:.88rem">
+          <span style="width:36px;height:36px;background:#e8f0fb;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem">&#127482;</span>
+          <div><strong style="color:var(--text)">Conformite RGPD</strong><br><span style="color:var(--muted);font-size:.8rem">Audit, DPA, transferts internationaux, droits</span></div>
+        </div>
+        <div style="background:var(--bg);border-radius:var(--radius-sm);padding:.85rem 1rem;display:flex;align-items:center;gap:.75rem;font-size:.88rem">
+          <span style="width:36px;height:36px;background:#fdf6e3;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem">&#129302;</span>
+          <div><strong style="color:var(--text)">IA Act &amp; nouvelles technologies</strong><br><span style="color:var(--muted);font-size:.8rem">Classification risques IA, conformite systemes IA</span></div>
+        </div>
+        <div style="background:var(--bg);border-radius:var(--radius-sm);padding:.85rem 1rem;display:flex;align-items:center;gap:.75rem;font-size:.88rem">
+          <span style="width:36px;height:36px;background:var(--green-light);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem">&#127757;</span>
+          <div><strong style="color:var(--text)">Droit africain des donnees</strong><br><span style="color:var(--muted);font-size:.8rem">Panorama 55 pays, RAPDP, harmonisation</span></div>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- Formation + certifications -->
+  <div style="background:var(--bg);border-radius:var(--radius);padding:2rem;margin-bottom:2rem">
+    <h2 style="font-size:1.2rem;font-weight:700;color:var(--text);margin:0 0 1.5rem;letter-spacing:-.02em">Formation &amp; Parcours</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1.1rem;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:var(--green)"></div>
+        <div style="padding-left:.75rem">
+          <div style="font-size:.75rem;color:var(--muted);font-weight:600;letter-spacing:.05em;margin-bottom:.25rem">FORMATION INITIALE</div>
+          <div style="font-weight:700;color:var(--text);font-size:.95rem">Master 2 &mdash; DPO</div>
+          <div style="color:var(--muted);font-size:.83rem;margin-top:.2rem">La Plateforme Numerique, Marseille</div>
+          <div style="color:var(--muted2);font-size:.78rem;margin-top:.15rem">Droit du Numerique &mdash; Protection des Donnees</div>
+        </div>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1.1rem;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:var(--blue)"></div>
+        <div style="padding-left:.75rem">
+          <div style="font-size:.75rem;color:var(--muted);font-weight:600;letter-spacing:.05em;margin-bottom:.25rem">SPECIALISATION</div>
+          <div style="font-weight:700;color:var(--text);font-size:.95rem">RGPD &amp; Loi 2008-12</div>
+          <div style="color:var(--muted);font-size:.83rem;margin-top:.2rem">Droit senegalais et europeen</div>
+          <div style="color:var(--muted2);font-size:.78rem;margin-top:.15rem">Conformite, audit, AIPD, transferts</div>
+        </div>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1.1rem;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:var(--gold)"></div>
+        <div style="padding-left:.75rem">
+          <div style="font-size:.75rem;color:var(--muted);font-weight:600;letter-spacing:.05em;margin-bottom:.25rem">VEILLE CONTINUE</div>
+          <div style="font-weight:700;color:var(--text);font-size:.95rem">Droit africain des donnees</div>
+          <div style="color:var(--muted);font-size:.83rem;margin-top:.2rem">RAPDP, CDP, 55 legislations</div>
+          <div style="color:var(--muted2);font-size:.78rem;margin-top:.15rem">Actualites juridiques et regulatoires</div>
+        </div>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1.1rem;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:#7c3aed"></div>
+        <div style="padding-left:.75rem">
+          <div style="font-size:.75rem;color:var(--muted);font-weight:600;letter-spacing:.05em;margin-bottom:.25rem">TECHNOLOGIES</div>
+          <div style="font-weight:700;color:var(--text);font-size:.95rem">IA Act &amp; Numerique</div>
+          <div style="color:var(--muted);font-size:.83rem;margin-top:.2rem">Intelligence artificielle, cybersecurite</div>
+          <div style="color:var(--muted2);font-size:.78rem;margin-top:.15rem">Conformite systemes IA, Privacy by Design</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Services DPO externe -->
+  <div style="background:linear-gradient(135deg,var(--green) 0%,var(--green-mid) 100%);border-radius:var(--radius);padding:2.5rem;color:#fff;text-align:center">
+    <h2 style="font-size:1.4rem;font-weight:700;margin:0 0 .75rem;letter-spacing:-.02em">Vous avez besoin d&rsquo;un DPO externe ?</h2>
+    <p style="opacity:.88;max-width:560px;margin:0 auto 1.75rem;line-height:1.7;font-size:.95rem">J&rsquo;accompagne entreprises, startups et institutions dans leur mise en conformite avec la Loi 2008-12 et le RGPD. Audit, registre, AIPD, formation, DPO a temps partage.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <a href="mailto:henrypierrediouf@gmail.com?subject=Demande DPO externe" style="background:#fff;color:var(--green);padding:.75rem 1.75rem;border-radius:100px;font-weight:700;text-decoration:none;font-size:.92rem;box-shadow:0 4px 16px rgba(0,0,0,.15)">Demander un devis</a>
+      <a data-nav="contact" style="cursor:pointer;border:2px solid rgba(255,255,255,.6);color:#fff;padding:.72rem 1.65rem;border-radius:100px;font-weight:600;text-decoration:none;font-size:.92rem">En savoir plus</a>
+    </div>
+  </div>
+
 </div>
 </section>
 </div>
-
-<!-- =================== PAGE CONTACT =================== -->
 <div class="page" id="page-contact">
-<section>
-<div class="container">
-  <div class="section-label">Contact & prestations</div>
-  <h2 class="section-title">Travaillons ensemble</h2>
-  <p class="section-intro">Audit, formation, rédaction de documents de conformité, désignation DPO externe — voici comment je peux vous accompagner.</p>
-  <div class="contact-layout">
-    <div class="contact-form">
-      <h3>Envoyer un message</h3>
-      <div class="form-group">
-        <label>Nom complet</label>
-        <input class="form-input" type="text" id="c-nom" placeholder="Votre nom et prenom">
+<section><div class="container" style="max-width:900px">
+  <div class="section-label">Parlons-nous</div>
+  <h2 class="section-title">Contact</h2>
+  <p class="section-intro">Une question sur la conformite, un audit a planifier, ou simplement echanger ? Reponse garantie sous 48h.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:2.5rem;margin-top:2rem;align-items:start">
+
+    <!-- Colonne gauche : infos -->
+    <div style="display:flex;flex-direction:column;gap:1.25rem">
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow-sm)">
+        <div style="width:44px;height:44px;background:var(--green-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:.85rem">&#9993;</div>
+        <div style="font-weight:700;color:var(--text);margin-bottom:.25rem">Email</div>
+        <a href="mailto:henrypierrediouf@gmail.com" style="color:var(--green);font-size:.9rem;text-decoration:none">henrypierrediouf@gmail.com</a>
+        <div style="color:var(--muted2);font-size:.78rem;margin-top:.2rem">Reponse sous 48h ouvrables</div>
       </div>
-      <div class="form-group">
-        <label>Email professionnel</label>
-        <input class="form-input" type="email" id="c-email" placeholder="votre@email.com">
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow-sm)">
+        <div style="width:44px;height:44px;background:var(--green-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:.85rem">&#128222;</div>
+        <div style="font-weight:700;color:var(--text);margin-bottom:.25rem">Telephone</div>
+        <a href="tel:+33753656131" style="color:var(--green);font-size:.9rem;text-decoration:none">+33 7 53 65 61 31</a>
+        <div style="color:var(--muted2);font-size:.78rem;margin-top:.2rem">Lun-Ven, 9h-18h</div>
       </div>
-      <div class="form-group">
-        <label>Organisation</label>
-        <input class="form-input" type="text" id="c-org" placeholder="Nom de votre organisation">
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow-sm)">
+        <div style="width:44px;height:44px;background:var(--green-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:.85rem">&#127968;</div>
+        <div style="font-weight:700;color:var(--text);margin-bottom:.25rem">Localisation</div>
+        <div style="color:var(--muted);font-size:.9rem">Marseille, France</div>
+        <div style="color:var(--muted2);font-size:.78rem;margin-top:.2rem">Interventions Senegal &amp; France</div>
       </div>
-      <div class="form-group">
-        <label>Type de besoin</label>
-        <select class="form-select" id="c-besoin">
-          <option value="">Sélectionner...</option>
-          <option>Audit de conformité (Loi 2008-12)</option>
-          <option>Mise en conformité RGPD</option>
-          <option>Désignation DPO externe</option>
-          <option>Formation & sensibilisation</option>
-          <option>Rédaction politique de confidentialité</option>
-          <option>Analyse d'Impact (AIPD)</option>
-          <option>Autre demande</option>
+      <div style="background:linear-gradient(135deg,var(--green),var(--green-mid));border-radius:var(--radius);padding:1.5rem;color:#fff">
+        <div style="font-weight:700;margin-bottom:.5rem;font-size:.95rem">Services disponibles</div>
+        <div style="font-size:.83rem;opacity:.9;line-height:1.8">
+          Audit de conformite Loi 2008-12<br>
+          Mise en place registre traitements<br>
+          Redaction politique confidentialite<br>
+          Formation equipes &amp; sensibilisation<br>
+          DPO externe a temps partage<br>
+          Realisation AIPD
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonne droite : formulaire -->
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow)">
+      <h3 style="font-size:1.1rem;font-weight:700;color:var(--text);margin:0 0 1.5rem;letter-spacing:-.02em">Envoyer un message</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+        <div>
+          <label style="display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.4rem">Nom complet <span style="color:var(--red)">*</span></label>
+          <input class="form-input" type="text" id="c-nom" placeholder="Votre nom et prenom" style="width:100%;box-sizing:border-box">
+        </div>
+        <div>
+          <label style="display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.4rem">Email <span style="color:var(--red)">*</span></label>
+          <input class="form-input" type="email" id="c-email" placeholder="votre@email.com" style="width:100%;box-sizing:border-box">
+        </div>
+      </div>
+      <div style="margin-bottom:1rem">
+        <label style="display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.4rem">Organisation</label>
+        <input class="form-input" type="text" id="c-org" placeholder="Votre entreprise ou institution" style="width:100%;box-sizing:border-box">
+      </div>
+      <div style="margin-bottom:1rem">
+        <label style="display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.4rem">Type de besoin</label>
+        <select class="form-select" id="c-besoin" style="width:100%;box-sizing:border-box">
+          <option value="">Selectionnez votre besoin</option>
+          <option>Audit de conformite Loi 2008-12</option>
+          <option>Mise en conformite RGPD</option>
+          <option>Redaction politique de confidentialite</option>
+          <option>Formation / sensibilisation</option>
+          <option>DPO externe</option>
+          <option>Realisation AIPD</option>
+          <option>Question generale</option>
+          <option>Autre</option>
         </select>
       </div>
-      <div class="form-group">
-        <label>Votre message</label>
-        <textarea class="form-input" id="c-message" placeholder="Decrivez votre besoin..."></textarea>
+      <div style="margin-bottom:1.5rem">
+        <label style="display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.4rem">Message <span style="color:var(--red)">*</span></label>
+        <textarea class="form-input" id="c-message" placeholder="Decrivez votre besoin ou votre question en detail..." style="width:100%;box-sizing:border-box;min-height:130px;resize:vertical"></textarea>
       </div>
-      <button class="form-submit" data-contact-btn="1">Envoyer le message</button>
-      <p style="font-size:.75rem;color:var(--muted2);margin-top:.75rem">🔒 Vos données sont traitées conformément à la Loi 2008-12. Réponse sous 48h ouvrées.</p>
-    </div>
-    <div class="contact-info">
-      <div class="info-card">
-        <div class="info-icon">💼</div>
-        <h4>Prestations proposées</h4>
-        <div class="tarif-item"><span>Audit de conformité</span><span class="tarif-price">Sur devis</span></div>
-        <div class="tarif-item"><span>DPO externe (mensuel)</span><span class="tarif-price">Sur devis</span></div>
-        <div class="tarif-item"><span>Formation (demi-journée)</span><span class="tarif-price">Sur devis</span></div>
-        <div class="tarif-item"><span>Politique de confidentialité</span><span class="tarif-price">Sur devis</span></div>
-        <div class="tarif-item"><span>AIPD complète</span><span class="tarif-price">Sur devis</span></div>
-      </div>
-      <div class="info-card">
-        <div class="info-icon">🎓</div>
-        <h4>Profil & qualifications</h4>
-        <p>Master 2 Délégué à la Protection des Données · Expert Loi 2008-12 et RGPD · Basé à Dakar, intervient dans toute la sous-région CEDEAO.</p>
-      </div>
-      <div class="info-card">
-        <div class="info-icon">🌐</div>
-        <h4>Héberger ce site</h4>
-        <p>Pas encore de domaine ? Je recommande <strong>NIC Sénégal</strong> pour un domaine <strong>.sn</strong> et <strong>OVH</strong> ou <strong>Netlify</strong> pour l'hébergement. Budget : environ 15 000–30 000 FCFA/an.</p>
-      </div>
+      <button class="btn-primary" data-contact-btn="1" style="width:100%;justify-content:center;padding:.85rem">Envoyer le message &rarr;</button>
+      <p style="font-size:.75rem;color:var(--muted2);margin-top:.85rem;text-align:center;line-height:1.6">En soumettant ce formulaire, vous acceptez notre <a data-nav="politique-confidentialite" style="color:var(--green);cursor:pointer">politique de confidentialite</a>. Vos donnees ne seront jamais vendues.</p>
     </div>
   </div>
-</div>
-</section>
-</div>
 
-<div id="chatbot-bubble">
-  <div id="chatbot-window">
-    <div class="chat-header">
-      <div><div class="chat-name">Assistant DataProtect SN</div><div class="chat-status">En ligne</div></div>
-      <button class="chat-close" id="chatClose">X</button>
+  <!-- Newsletter -->
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-top:2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap">
+    <div style="flex:1;min-width:240px">
+      <div style="font-weight:700;color:var(--text);font-size:1.05rem;margin-bottom:.4rem">Newsletter DataProtect SN</div>
+      <div style="color:var(--muted);font-size:.88rem;line-height:1.6">Recevez les dernieres actualites sur la protection des donnees au Senegal et en Afrique. Gratuit, sans spam.</div>
     </div>
-    <div class="chat-messages" id="chatMessages">
-      <div class="chat-msg bot">Bonjour ! Je suis votre assistant specialise en protection des donnees. Posez vos questions sur la Loi 2008-12, le RGPD, vos droits.</div>
-    </div>
-    <div class="chat-sugs" id="chatSugs">
-      <button class="chat-sug" data-sug="Quels sont mes droits sur mes donnees ?">Mes droits</button>
-      <button class="chat-sug" data-sug="Dois-je declarer mon entreprise a la CDP ?">Declaration CDP</button>
-      <button class="chat-sug" data-sug="Qu'est-ce qu'un DPO ?">Le DPO</button>
-    </div>
-    <div class="chat-input-wrap">
-      <input type="text" class="chat-input" id="chatInput" placeholder="Votre question...">
-      <button class="chat-send" id="chatSend">OK</button>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+      <input type="text" class="nl-input" id="nl-prenom" placeholder="Votre prenom" style="min-width:130px">
+      <input type="email" class="nl-input" id="nl-email" placeholder="votre@email.com" style="min-width:190px">
+      <button class="btn-primary" data-nl-btn="1">S&rsquo;abonner</button>
     </div>
   </div>
-  <button id="chatbot-btn" title="Assistant IA DataProtect"><svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="32" y1="4" x2="32" y2="14" stroke="white" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="4" r="3" fill="white"/><rect x="14" y="14" width="36" height="26" rx="6" fill="rgba(255,255,255,0.15)" stroke="white" stroke-width="2.5"/><circle cx="24" cy="25" r="4" fill="white"/><circle cx="40" cy="25" r="4" fill="white"/><circle cx="25" cy="24" r="1.5" fill="#1a6b3a"/><circle cx="41" cy="24" r="1.5" fill="#1a6b3a"/><rect x="22" y="32" width="20" height="4" rx="2" fill="rgba(255,255,255,0.7)"/><rect x="25" y="33" width="3" height="2" rx="1" fill="#1a6b3a"/><rect x="30" y="33" width="3" height="2" rx="1" fill="#1a6b3a"/><rect x="35" y="33" width="3" height="2" rx="1" fill="#1a6b3a"/><rect x="20" y="42" width="24" height="16" rx="5" fill="rgba(255,255,255,0.15)" stroke="white" stroke-width="2"/><rect x="8" y="44" width="10" height="6" rx="3" fill="rgba(255,255,255,0.15)" stroke="white" stroke-width="2"/><rect x="46" y="44" width="10" height="6" rx="3" fill="rgba(255,255,255,0.15)" stroke="white" stroke-width="2"/><circle cx="32" cy="50" r="3" fill="rgba(255,255,255,0.6)"/></svg></button>
+
+</div></section>
 </div>
-<div id="cookie-banner"><div class="ck-inner"><div class="ck-text"><h4>Ce site utilise des cookies</h4><p>Conformement a la <strong>Loi 2008-12</strong> et au <strong>RGPD Art. 7</strong>, votre consentement est requis avant toute utilisation de cookies non essentiels.</p></div><div class="ck-btns"><button class="btn-ck-set" id="ck-custom">Personnaliser</button><button class="btn-ck-no" id="ck-refuse">Refuser</button><button class="btn-ck-ok" id="ck-accept">Accepter</button></div></div></div>
-<div id="cookie-modal"><div class="cm-box"><h3>Mes preferences cookies</h3><div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">Necessaires</span><label class="tgl"><input type="checkbox" checked disabled><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Indispensables au fonctionnement.</div></div><div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">Analytiques</span><label class="tgl"><input type="checkbox" id="ck-analytics"><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Comprendre l'usage du site.</div></div><div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">Personnalisation</span><label class="tgl"><input type="checkbox" id="ck-perso"><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Memoriser vos preferences.</div></div><div class="cm-btns"><button class="btn-ck-no" id="ck-modal-refuse">Refuser</button><button class="btn-ck-ok" id="ck-modal-save">Enregistrer</button><button class="btn-ck-ok" id="ck-modal-accept">Accepter tout</button></div></div></div>
 <div class="page" id="page-politique-confidentialite">
 <section><div class="container" style="max-width:860px">
 <a data-nav="home" style="cursor:pointer;color:var(--green);font-size:.88rem;display:inline-block;margin-bottom:1.5rem">&larr; Retour</a>
