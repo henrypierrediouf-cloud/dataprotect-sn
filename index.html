@@ -346,6 +346,16 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
 .faq-item{transition:box-shadow .2s}
 .faq-item.open{box-shadow:var(--shadow)}
 
+
+.article-body h2{color:var(--green);font-size:1.1rem;margin:1.75rem 0 .65rem;padding-bottom:.35rem;border-bottom:1px solid var(--green-light)}
+.article-body h3{color:var(--text);font-size:.97rem;margin:1.25rem 0 .5rem}
+.article-body p{margin-bottom:.9rem;line-height:1.85}
+.article-body .source-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;font-size:.82rem;color:var(--muted);margin-top:1.5rem}
+.article-body table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.85rem}
+.article-body th{background:var(--green);color:#fff;padding:.6rem .85rem;text-align:left}
+.article-body td{padding:.55rem .85rem;border-bottom:1px solid var(--border)}
+.article-body tr:nth-child(even) td{background:var(--bg)}
+
 </style>
 </head>
 <body>
@@ -572,15 +582,12 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
 
 <!-- =================== PAGE ARTICLE =================== -->
 <div class="page" id="page-article">
-<div style="background:linear-gradient(135deg,var(--green) 0%,var(--green-mid) 100%);padding:3rem 0 3.5rem;margin-bottom:-1.5rem"><div class="container"><div class="section-label" style="color:rgba(255,255,255,.7);background:rgba(255,255,255,.12);display:inline-block;padding:.3rem .8rem;border-radius:100px;margin-bottom:.75rem">Veille juridique</div><h2 style="font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:#fff;margin:0;letter-spacing:-.03em">Detail de l'article</h2></div></div>
-<section>
-<div class="container">
-  <div class="article-page" id="article-content"></div>
+<div id="article-content" style="min-height:60vh">
+  <div style="text-align:center;padding:4rem 2rem;color:var(--muted)">
+    <div style="font-size:2rem;margin-bottom:.75rem">📰</div>
+    <p>Selectionnez un article dans la veille juridique</p>
+  </div>
 </div>
-</section>
-</div>
-
-<!-- =================== PAGE GUIDE CITOYEN =================== -->
 <div class="page" id="page-guide">
 <div style="background:linear-gradient(135deg,var(--green) 0%,var(--green-mid) 100%);padding:3rem 0 3.5rem;margin-bottom:-1.5rem">
   <div class="container">
@@ -710,31 +717,31 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
       <div class="res-icon">🗂️</div>
       <h4>Modèle de registre des traitements</h4>
       <p>Tableau conforme à la réglementation sénégalaise. Colonnes : finalité, catégories de données, durée de conservation, destinataires, mesures de sécurité.</p>
-      <div class="res-meta"><span class="res-type">XLSX · Gratuit</span><span class="res-dl">Télécharger →</span></div>
+      <div class="res-meta"><span class="res-type">XLSX · Gratuit</span><span class="res-dl" href="/docs/registre-traitements.html" target="_blank">Télécharger →</span></div>
     </div>
     <div class="res-card" data-cat="checklist">
       <div class="res-icon">✅</div>
       <h4>Checklist conformité Loi 2008-12</h4>
       <p>30 points de contrôle pour vérifier la conformité de votre organisation à la loi sénégalaise sur la protection des données personnelles.</p>
-      <div class="res-meta"><span class="res-type">PDF · Gratuit</span><span class="res-dl">Télécharger →</span></div>
+      <div class="res-meta"><span class="res-type">PDF · Gratuit</span><span class="res-dl" href="/docs/checklist-loi-2008-12.html" target="_blank">Télécharger →</span></div>
     </div>
     <div class="res-card" data-cat="checklist">
       <div class="res-icon">🇪🇺</div>
       <h4>Checklist RGPD pour entreprises sénégalaises</h4>
       <p>Spécialement conçue pour les entreprises qui exportent vers l'UE ou traitent des données de résidents européens.</p>
-      <div class="res-meta"><span class="res-type">PDF · Gratuit</span><span class="res-dl">Télécharger →</span></div>
+      <div class="res-meta"><span class="res-type">PDF · Gratuit</span><span class="res-dl" href="/docs/checklist-rgpd-entreprises-sn.html" target="_blank">Télécharger →</span></div>
     </div>
     <div class="res-card" data-cat="modele">
       <div class="res-icon">📜</div>
       <h4>Modèle de politique de confidentialité</h4>
       <p>Adapté au droit sénégalais et compatible RGPD. Personnalisable pour site web, application mobile ou service en ligne.</p>
-      <div class="res-meta"><span class="res-type">DOCX · Gratuit</span><span class="res-dl">Télécharger →</span></div>
+      <div class="res-meta"><span class="res-type">DOCX · Gratuit</span><span class="res-dl" href="/docs/modele-politique-confidentialite.html" target="_blank">Télécharger →</span></div>
     </div>
     <div class="res-card" data-cat="modele">
       <div class="res-icon">⚠️</div>
       <h4>Modèle d'Analyse d'Impact (AIPD)</h4>
       <p>Méthode et modèle pour les traitements présentant un risque élevé pour les droits et libertés des personnes concernées.</p>
-      <div class="res-meta"><span class="res-type">DOCX · Gratuit</span><span class="res-dl">Télécharger →</span></div>
+      <div class="res-meta"><span class="res-type">DOCX · Gratuit</span><span class="res-dl" href="/docs/guide-citoyen-droits.html" target="_blank">Télécharger →</span></div>
     </div>
     <div class="res-card" data-cat="loi">
       <div class="res-icon">📋</div>
@@ -746,13 +753,13 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
       <div class="res-icon">🌍</div>
       <h4>Panorama africain des lois data</h4>
       <p>Comparatif Sénégal, Maroc, Rwanda, Kenya, Nigeria, Tunisie, Ghana — 39 des 55 pays africains disposent d'une loi en 2025.</p>
-      <div class="res-meta"><span class="res-type">PDF · Gratuit</span><span class="res-dl">Télécharger →</span></div>
+      <div class="res-meta"><span class="res-type">PDF · Gratuit</span><span class="res-dl" href="/docs/checklist-rgpd-entreprises-sn.html" target="_blank">Télécharger →</span></div>
     </div>
     <div class="res-card" data-cat="guide">
       <div class="res-icon">🤖</div>
       <h4>Guide IA & protection des données</h4>
       <p>Comment l'IA Act européen (en vigueur depuis 2025) affecte les entreprises sénégalaises qui utilisent ou exportent des systèmes d'IA vers l'UE.</p>
-      <div class="res-meta"><span class="res-type">PDF · Gratuit</span><span class="res-dl">Télécharger →</span></div>
+      <div class="res-meta"><span class="res-type">PDF · Gratuit</span><span class="res-dl" href="/docs/guide-citoyen-droits.html" target="_blank">Télécharger →</span></div>
     </div>
   </div>
 </div>

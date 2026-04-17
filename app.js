@@ -165,6 +165,35 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+
+function showArticle(id) {
+  var art = articles[id];
+  if (!art) return;
+  showPage('article');
+  var container = document.getElementById('article-content');
+  if (!container) return;
+  container.innerHTML = 
+    '<div style="max-width:800px;margin:0 auto;padding:2rem 1.5rem">' +
+    '<a data-nav="blog" style="cursor:pointer;color:var(--green);font-size:.88rem;display:inline-flex;align-items:center;gap:.35rem;margin-bottom:1.5rem;font-weight:500">' +
+    '&larr; Retour a la veille</a>' +
+    '<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem">' +
+    (art.badges || []).map(function(b,i){ 
+      return '<span class="badge ' + b + '">' + (art.badgeLabels || [])[i] + '</span>'; 
+    }).join('') +
+    '</div>' +
+    '<h1 style="font-size:clamp(1.4rem,3.5vw,2rem);font-weight:800;color:var(--text);line-height:1.25;margin:0 0 1rem;letter-spacing:-.02em">' + art.title + '</h1>' +
+    '<div style="display:flex;gap:1.5rem;flex-wrap:wrap;font-size:.82rem;color:var(--muted);margin-bottom:2rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)">' +
+    '<span>&#128197; ' + (art.date || '') + '</span>' +
+    '<span>&#9201; ' + (art.readTime || '') + '</span>' +
+    '<span>&#128196; ' + (art.source || '') + '</span>' +
+    '</div>' +
+    '<div style="background:var(--green-light);border-left:4px solid var(--green);border-radius:0 10px 10px 0;padding:1rem 1.25rem;margin-bottom:1.75rem;font-size:.92rem;line-height:1.7;color:var(--text)">' +
+    (art.intro || '') + '</div>' +
+    '<div class="article-body" style="line-height:1.85;font-size:.93rem;color:var(--text-secondary)">' +
+    (art.body || '') + '</div>' +
+    '</div>';
+}
+
 // LISTENER PRINCIPAL
 document.addEventListener('click', function(e) {
   var t;
