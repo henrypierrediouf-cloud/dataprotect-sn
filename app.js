@@ -15,8 +15,8 @@ function showPage(id) {
   window.scrollTo(0, 0);
   if(id === 'guide' && !quizInitialized) { quizInitialized = true; renderQuiz(); }
   // Ferme le menu mobile si ouvert
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
+  var mm=document.getElementById('mobileMenu'); if(mm) mm.classList.remove('open');
+  var hb=document.getElementById('hamburger'); if(hb) hb.classList.remove('open');
 }
 
 // ===== MOBILE MENU =====
