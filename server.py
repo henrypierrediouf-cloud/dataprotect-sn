@@ -188,16 +188,6 @@ DOCS_FILES = {
     "modele-politique-confidentialite": "docs/modele-politique-confidentialite.html",
 }
 
-@app.get("/docs/{filename}")
-async def serve_doc(filename: str):
-    name = filename.replace(".html", "")
-    if name not in DOCS_FILES:
-        raise HTTPException(status_code=404, detail="Document introuvable")
-    f = BASE_DIR / DOCS_FILES[name]
-    if not f.exists():
-        raise HTTPException(status_code=404, detail="Fichier introuvable")
-    from fastapi.responses import HTMLResponse
-    return HTMLResponse(content=f.read_text(encoding="utf-8"))
 
 @app.get("/app.js")
 async def serve_js():
