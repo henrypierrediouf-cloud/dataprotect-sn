@@ -5,8 +5,10 @@
 
 // ===== NAVIGATION =====
 function showPage(id) {
+  var target = document.getElementById('page-' + id);
+  if (!target) return;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
+  target.classList.add('active');
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
   const navEl = document.getElementById('nav-' + id);
   if(navEl) navEl.classList.add('active');
