@@ -119,7 +119,7 @@ section{padding:4rem 1.5rem}
 .newsletter-box{background:var(--green);color:var(--white);border-radius:14px;padding:1.5rem}
 .newsletter-box h4{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--white);margin-bottom:.5rem}
 .newsletter-box p{font-size:.82rem;color:rgba(255,255,255,.72);margin-bottom:1rem}
-.nl-input{width:100%;padding:.6rem .9rem;border:none;border-radius:8px;font-size:.85rem;margin-bottom:.6rem;font-family:'DM Sans',sans-serif;outline:none}
+.nl-input{width:100%;padding:.65rem .9rem;border:1.5px solid var(--border2);border-radius:8px;font-size:.88rem;margin-bottom:.65rem;font-family:'DM Sans',sans-serif;outline:none;background:#fff;color:var(--text)}
 .nl-input:last-of-type{margin-bottom:.75rem}
 .nl-btn{width:100%;padding:.65rem;background:var(--gold-bright);color:#111;border:none;border-radius:8px;font-size:.88rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .2s}
 .nl-btn:hover{opacity:.88}
@@ -744,8 +744,10 @@ footer{background:var(--green-dark)}
       <div class="newsletter-box">
         <h4>📬 Recevoir la veille</h4>
         <p>Actualités CDP, RGPD et droit numérique africain chaque semaine.</p>
-        <input class="nl-input" type="text" id="nl-prenom" placeholder="Votre prenom">
-        <input class="nl-input" type="email" id="nl-email" placeholder="votre@email.com">
+        <label style="display:block;font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:.2rem">Votre prenom *</label>
+        <input class="nl-input" type="text" id="nl-prenom" placeholder="ex: Aminata">
+        <label style="display:block;font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:.2rem">Adresse email *</label>
+        <input class="nl-input" type="email" id="nl-email" placeholder="ex: aminata@gmail.com">
         <button class="nl-btn" data-nl-btn="1">S'abonner gratuitement</button>
         <p class="nl-note">🔒 Vos données ne seront jamais cédées. Loi 2008-12 respectée.</p>
       </div>
