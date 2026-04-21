@@ -466,11 +466,13 @@ async function apiGet(path) {
 
 async function apiDel(path) {
   const r = await fetch(API + path, {method: 'DELETE', headers: {'X-Admin-Token': adminToken}});
+  if (!r.ok) throw new Error('Erreur ' + r.status);
   return r.json();
 }
 
 async function apiPatch(path) {
   const r = await fetch(API + path, {method: 'PATCH', headers: {'X-Admin-Token': adminToken}});
+  if (!r.ok) throw new Error('Erreur ' + r.status);
   return r.json();
 }
 
@@ -516,14 +518,13 @@ function renderContacts(data) {
     <tr>
       <td style="white-space:nowrap;font-size:.75rem;color:#64748b">${c.date_envoi ? c.date_envoi.slice(0,16).replace('T',' ') : '—'}</td>
       <td><strong style="color:#e2e8f0">${c.nom}</strong></td>
-      <td><a href="mailto:${c.email}?subject=Re: DataProtect SN&body=Bonjour ${c.nom}," style="color:#60a5fa;text-decoration:none" title="Repondre">${c.email}</a></td>
+      <td><a href="https://mail.google.com/mail/?view=cm&fs=1&to=${c.email}&su=${encodeURIComponent('Re: DataProtect SN')}&body=${encodeURIComponent('Bonjour ' + c.nom + ',\n\n')}" target="_blank" style="color:#60a5fa;text-decoration:none" title="Repondre via Gmail">${c.email}</a></td>
       <td style="color:#94a3b8">${c.organisation || '—'}</td>
       <td>${c.type_besoin ? '<span class="badge badge-blue">' + c.type_besoin.slice(0,20) + '</span>' : '<span class="badge badge-gray">—</span>'}</td>
       <td style="max-width:180px;font-size:.78rem;color:#64748b" title="${c.message}">${c.message ? c.message.slice(0,60) + (c.message.length > 60 ? '...' : '') : '—'}</td>
       <td style="white-space:nowrap">
-        ${c.lu ? '<span class="badge badge-green">Lu</span>' : '<button class="btn-sm btn-success" onclick="markRead(' + c.id + ')" style="font-size:.72rem;padding:.3rem .6rem">✓ Marquer lu</button>'}
-        <a href="mailto:${c.email}?subject=Re: ${encodeURIComponent(c.type_besoin || 'Votre demande')}&body=Bonjour ${c.nom},%0A%0A" class="btn-sm btn-blue" style="margin-left:3px;font-size:.72rem;padding:.3rem .6rem;text-decoration:none;display:inline-block">✉ Rep.</a>
-        <button class="btn-danger-sm" onclick="confirmDelete('contact', ${c.id})" style="margin-left:3px">🗑</button>
+        ${c.lu ? '<span class="badge badge-green">Lu</span>' : `<button class="btn-sm btn-success" onclick="markRead(${c.id})" style="font-size:.72rem;padding:.3rem .6rem">✓ Marquer lu</button>`}
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=${c.email}&su=${encodeURIComponent('Re: ' + (c.type_besoin || 'Votre demande - DataProtect SN'))}&body=${encodeURIComponent('Bonjour ' + c.nom + ',\n\n')}" target="_blank" class="btn-danger-sm" style="margin-left:3px;text-decoration:none;display:inline-block">📧 Répondre</a>
       </td>
     </tr>`).join('');
 }
@@ -555,9 +556,13 @@ async function deleteAllRead() {
   const lus = allContacts.filter(c => c.lu);
   if (!lus.length) { showNotif('Aucun message lu a supprimer', 'error'); return; }
   showConfirm('Supprimer tous les messages lus', 'Vous allez supprimer ' + lus.length + ' message(s) lu(s). Cette action est irreversible.', async () => {
-    for (const c of lus) await apiDel('/api/admin/contacts/' + c.id);
-    loadContacts(); loadStats();
-    showNotif(lus.length + ' message(s) supprimes', 'success');
+    try {
+      for (const c of lus) await apiDel('/api/admin/contacts/' + c.id);
+      await loadContacts(); loadStats();
+      showNotif(lus.length + ' message(s) supprimes', 'success');
+    } catch(e) {
+      showNotif('Erreur lors de la suppression. Verifiez que le serveur est demarre.', 'error');
+    }
   });
 }
 
@@ -587,8 +592,8 @@ function renderAbonnes(data) {
       <td><a href="mailto:${a.email}" style="color:#60a5fa;text-decoration:none">${a.email}</a></td>
       <td><span class="badge ${a.actif ? 'badge-green' : 'badge-gray'}">${a.actif ? 'Actif' : 'Inactif'}</span></td>
       <td style="white-space:nowrap">
-        ${a.actif ? '<button class="btn-sm btn-amber" onclick="confirmDeactivate(' + a.id + ')" style="font-size:.72rem;padding:.3rem .6rem">⏸ Desactiver</button>' : '<span style="color:#64748b;font-size:.75rem">Desactive</span>'}
-        <button class="btn-danger-sm" onclick="confirmDelete(\'abonne\', ' + a.id + ')" style="margin-left:3px">🗑</button>
+        ${a.actif ? `<button class="btn-sm btn-amber" onclick="confirmDeactivate(${a.id})" style="font-size:.72rem;padding:.3rem .6rem">⏸ Desactiver</button>` : '<span style="color:#64748b;font-size:.75rem">Desactive</span>'}
+        <button class="btn-danger-sm" onclick="confirmDelete('abonne', ${a.id})" style="margin-left:3px">🗑</button>
       </td>
     </tr>`).join('');
 }
@@ -707,14 +712,18 @@ async function loadMembres() {
 function confirmDelete(type, id) {
   const labels = {contact: 'ce message', abonne: 'cet abonne', article: 'cet article', membre: 'ce membre'};
   showConfirm('Supprimer ' + (labels[type] || 'cet element'), 'Cette action est irreversible. La donnee sera definitivement supprimee de la base de donnees.', async () => {
-    const routes = {contact: '/api/admin/contacts/', abonne: '/api/admin/abonnes/', article: '/api/admin/articles/', membre: '/api/admin/utilisateurs/'};
-    await apiDel(routes[type] + id);
-    if (type === 'contact') { loadContacts(); }
-    else if (type === 'abonne') { loadAbonnes(); }
-    else if (type === 'article') { loadArticles(); }
-    else if (type === 'membre') { loadMembres(); }
-    loadStats();
-    showNotif('Suppression effectuee', 'success');
+    try {
+      const routes = {contact: '/api/admin/contacts/', abonne: '/api/admin/abonnes/', article: '/api/admin/articles/', membre: '/api/admin/utilisateurs/'};
+      await apiDel(routes[type] + id);
+      if (type === 'contact') loadContacts();
+      else if (type === 'abonne') loadAbonnes();
+      else if (type === 'article') loadArticles();
+      else if (type === 'membre') loadMembres();
+      loadStats();
+      showNotif('Suppression effectuee', 'success');
+    } catch(e) {
+      showNotif('Erreur : ' + e.message, 'error');
+    }
   });
 }
 
@@ -725,8 +734,9 @@ function showConfirm(title, body, onConfirm) {
   pendingAction = onConfirm;
   document.getElementById('confirmModal').classList.add('open');
   document.getElementById('modalConfirmBtn').onclick = function() {
+    const action = pendingAction;
     closeModal();
-    if (pendingAction) pendingAction();
+    if (action) action();
   };
 }
 
@@ -792,7 +802,9 @@ function filterTable() {
 
 // ── EMAIL TEST ──
 function sendTestEmail() {
-  showNotif('Fonctionnalite email direct: configurez un service SMTP (ex: SendGrid) pour envoyer des emails depuis le serveur', 'success');
+  const subject = encodeURIComponent('[Test] Newsletter DataProtect SN');
+  const body = encodeURIComponent('Bonjour,\n\nCeci est un email de test envoyé depuis le panneau admin de DataProtect SN.\n\nSi vous recevez cet email, la configuration fonctionne correctement.\n\nCordialement,\nL\'équipe DataProtect SN\ndataprotect.sn@gmail.com');
+  window.open('https://mail.google.com/mail/?view=cm&fs=1&to=dataprotect.sn@gmail.com&su=' + subject + '&body=' + body, '_blank');
 }
 
 // ── REFRESH ──
