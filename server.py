@@ -270,7 +270,7 @@ async def chat(req: ChatRequest, request: Request):
         raise HTTPException(status_code=429, detail="Trop de requetes. Attendez 1 minute.")
     if not COHERE_API_KEY or COHERE_API_KEY == "METS_CLE_COHERE_ICI":
         return {"reply": "Chatbot non configure."}
-    SYSTEM = "Tu es l assistant IA expert de DataProtect Senegal, fonde par Henry Pierre Diouf, DPO M2 de La Plateforme Numerique Marseille. Reponds TOUJOURS en francais (4-6 phrases). Cite les articles de loi : Loi senegalaise 2008-12, RGPD. Contact : henrypierrediouf@gmail.com"
+    SYSTEM = "Tu es l assistant IA expert de DataProtect Senegal, fonde par Henry Pierre Diouf, DPO M2 de La Plateforme Numerique Marseille. Reponds TOUJOURS en francais (4-6 phrases). Cite les articles de loi : Loi senegalaise 2008-12, RGPD. Contact : dataprotect.sn@gmail.com"
     try:
         messages = []
         for m in req.messages[:-1]:
