@@ -126,6 +126,13 @@ tr:hover td{background:rgba(255,255,255,.02)}
 .mini-chart{display:flex;align-items:flex-end;gap:3px;height:40px}
 .mini-bar{background:rgba(74,222,128,.4);border-radius:3px 3px 0 0;min-width:8px;transition:background .2s}
 .mini-bar:hover{background:rgba(74,222,128,.8)}
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:1rem 0;flex-wrap:wrap}
+.page-btn{background:#243044;border:1px solid #2d3748;color:#94a3b8;border-radius:6px;padding:.35rem .7rem;font-size:.8rem;cursor:pointer;transition:all .2s}
+.page-btn:hover{background:#2d3748;color:#e2e8f0}
+.page-btn.active{background:#4ade80;color:#0f1923;border-color:#4ade80;font-weight:700}
+.page-btn:disabled{opacity:.35;cursor:not-allowed}
+.page-info{font-size:.8rem;color:#64748b;padding:0 .5rem}
 /* RESPONSIVE */
 @media(max-width:900px){.stats-grid{grid-template-columns:1fr 1fr}.sidebar{transform:translateX(-100%)}.main{margin-left:0}}
 </style>
@@ -289,6 +296,7 @@ tr:hover td{background:rgba(255,255,255,.02)}
               <thead><tr><th>Date</th><th>Nom</th><th>Email</th><th>Organisation</th><th>Besoin</th><th>Message</th><th>Actions</th></tr></thead>
               <tbody id="contacts-body"><tr><td colspan="7" class="loading">Chargement...</td></tr></tbody>
             </table>
+            <div class="pagination" id="contacts-pagination"></div>
           </div>
         </div>
 
@@ -310,6 +318,7 @@ tr:hover td{background:rgba(255,255,255,.02)}
               <thead><tr><th>Date</th><th>Prenom</th><th>Email</th><th>Statut</th><th>Actions</th></tr></thead>
               <tbody id="abonnes-body"><tr><td colspan="5" class="loading">Chargement...</td></tr></tbody>
             </table>
+            <div class="pagination" id="abonnes-pagination"></div>
           </div>
         </div>
 
@@ -392,6 +401,7 @@ tr:hover td{background:rgba(255,255,255,.02)}
               <thead><tr><th>Date</th><th>Prenom</th><th>Nom</th><th>Email</th><th>Role</th><th>Statut</th><th>Actions</th></tr></thead>
               <tbody id="membres-body"><tr><td colspan="7" class="loading">Chargement...</td></tr></tbody>
             </table>
+            <div class="pagination" id="membres-pagination"></div>
           </div>
         </div>
 
@@ -402,10 +412,12 @@ tr:hover td{background:rgba(255,255,255,.02)}
 
 <script>
 const API = '';
+const PAGE_SIZE = 10;
 let adminToken = '';
 let currentSection = 'dashboard';
 let allContacts = [], allAbonnes = [], allArticles = [], allMembres = [];
 let pendingAction = null;
+let contactsPage = 1, abonnesPage = 1, membresPage = 1;
 
 // ── AUTH ──
 async function adminLogin() {
@@ -510,11 +522,16 @@ async function loadContacts() {
 }
 
 function renderContacts(data) {
-  if (!data.length) {
+  const total = data.length;
+  if (!total) {
     document.getElementById('contacts-body').innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Aucun message pour l\'instant</div></div></td></tr>';
+    document.getElementById('contacts-pagination').innerHTML = '';
     return;
   }
-  document.getElementById('contacts-body').innerHTML = data.map(c => `
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  if (contactsPage > totalPages) contactsPage = totalPages;
+  const page = data.slice((contactsPage - 1) * PAGE_SIZE, contactsPage * PAGE_SIZE);
+  document.getElementById('contacts-body').innerHTML = page.map(c => `
     <tr>
       <td style="white-space:nowrap;font-size:.75rem;color:#64748b">${c.date_envoi ? c.date_envoi.slice(0,16).replace('T',' ') : '—'}</td>
       <td><strong style="color:#e2e8f0">${c.nom}</strong></td>
@@ -527,6 +544,7 @@ function renderContacts(data) {
         <a href="https://mail.google.com/mail/?view=cm&fs=1&to=${c.email}&su=${encodeURIComponent('Re: ' + (c.type_besoin || 'Votre demande - DataProtect SN'))}&body=${encodeURIComponent('Bonjour ' + c.nom + ',\n\n')}" target="_blank" class="btn-danger-sm" style="margin-left:3px;text-decoration:none;display:inline-block">📧 Répondre</a>
       </td>
     </tr>`).join('');
+  renderPagination('contacts-pagination', 'contacts', contactsPage, totalPages);
 }
 
 function renderDashContacts(data) {
@@ -581,11 +599,16 @@ async function loadAbonnes() {
 }
 
 function renderAbonnes(data) {
-  if (!data.length) {
+  const total = data.length;
+  if (!total) {
     document.getElementById('abonnes-body').innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Aucun abonne</div></div></td></tr>';
+    document.getElementById('abonnes-pagination').innerHTML = '';
     return;
   }
-  document.getElementById('abonnes-body').innerHTML = data.map(a => `
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  if (abonnesPage > totalPages) abonnesPage = totalPages;
+  const page = data.slice((abonnesPage - 1) * PAGE_SIZE, abonnesPage * PAGE_SIZE);
+  document.getElementById('abonnes-body').innerHTML = page.map(a => `
     <tr>
       <td style="font-size:.75rem;color:#64748b">${a.date_inscription ? a.date_inscription.slice(0,10) : '—'}</td>
       <td style="color:#e2e8f0">${a.prenom}</td>
@@ -596,6 +619,7 @@ function renderAbonnes(data) {
         <button class="btn-danger-sm" onclick="confirmDelete('abonne', ${a.id})" style="margin-left:3px">🗑</button>
       </td>
     </tr>`).join('');
+  renderPagination('abonnes-pagination', 'abonnes', abonnesPage, totalPages);
 }
 
 function renderDashAbonnes(data) {
@@ -691,21 +715,35 @@ async function loadMembres() {
       return;
     }
     document.getElementById('membres-count').textContent = allMembres.length + ' membre(s) inscrit(s)';
-    document.getElementById('membres-body').innerHTML = allMembres.map(u => `
-      <tr>
-        <td style="font-size:.75rem;color:#64748b">${u.date_inscription ? u.date_inscription.slice(0,10) : '—'}</td>
-        <td style="color:#e2e8f0">${u.prenom || '—'}</td>
-        <td style="color:#e2e8f0">${u.nom || '—'}</td>
-        <td><a href="mailto:${u.email}" style="color:#60a5fa;text-decoration:none">${u.email}</a></td>
-        <td><span class="badge badge-blue">${u.role || 'user'}</span></td>
-        <td><span class="badge ${u.actif ? 'badge-green' : 'badge-gray'}">${u.actif ? 'Actif' : 'Inactif'}</span></td>
-        <td>
-          <button class="btn-danger-sm" onclick="confirmDelete('membre', ${u.id})">🗑 Supprimer</button>
-        </td>
-      </tr>`).join('');
+    renderMembres(allMembres);
   } catch(e) {
     document.getElementById('membres-body').innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-text">Erreur de chargement</div></div></td></tr>';
   }
+}
+
+function renderMembres(data) {
+  const total = data.length;
+  if (!total) {
+    document.getElementById('membres-body').innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">👤</div><div class="empty-text">Aucun membre inscrit</div></div></td></tr>';
+    document.getElementById('membres-pagination').innerHTML = '';
+    return;
+  }
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  if (membresPage > totalPages) membresPage = totalPages;
+  const page = data.slice((membresPage - 1) * PAGE_SIZE, membresPage * PAGE_SIZE);
+  document.getElementById('membres-body').innerHTML = page.map(u => `
+    <tr>
+      <td style="font-size:.75rem;color:#64748b">${u.date_inscription ? u.date_inscription.slice(0,10) : '—'}</td>
+      <td style="color:#e2e8f0">${u.prenom || '—'}</td>
+      <td style="color:#e2e8f0">${u.nom || '—'}</td>
+      <td><a href="mailto:${u.email}" style="color:#60a5fa;text-decoration:none">${u.email}</a></td>
+      <td><span class="badge badge-blue">${u.role || 'user'}</span></td>
+      <td><span class="badge ${u.actif ? 'badge-green' : 'badge-gray'}">${u.actif ? 'Actif' : 'Inactif'}</span></td>
+      <td>
+        <button class="btn-danger-sm" onclick="confirmDelete('membre', ${u.id})">🗑 Supprimer</button>
+      </td>
+    </tr>`).join('');
+  renderPagination('membres-pagination', 'membres', membresPage, totalPages);
 }
 
 // ── SUPPRESSION AVEC CONFIRMATION ──
@@ -725,6 +763,42 @@ function confirmDelete(type, id) {
       showNotif('Erreur : ' + e.message, 'error');
     }
   });
+}
+
+// ── DESACTIVER ABONNE ──
+function confirmDeactivate(id) {
+  showConfirm('Desactiver cet abonne', 'L\'abonne sera marque inactif et ne recevra plus la newsletter.', async () => {
+    try {
+      await apiPatch('/api/admin/abonnes/' + id + '/desactiver');
+      await loadAbonnes(); loadStats();
+      showNotif('Abonne desactive', 'success');
+    } catch(e) {
+      showNotif('Erreur : ' + e.message, 'error');
+    }
+  });
+}
+
+// ── PAGINATION ──
+function goToPage(section, p) {
+  if (section === 'contacts') { contactsPage = p; renderContacts(allContacts); }
+  else if (section === 'abonnes') { abonnesPage = p; renderAbonnes(allAbonnes); }
+  else if (section === 'membres') { membresPage = p; renderMembres(allMembres); }
+}
+
+function renderPagination(containerId, section, currentPage, totalPages) {
+  const el = document.getElementById(containerId);
+  if (!el || totalPages <= 1) { if (el) el.innerHTML = ''; return; }
+  let html = `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage('${section}',${currentPage - 1})">‹ Préc.</button>`;
+  const start = Math.max(1, currentPage - 2);
+  const end = Math.min(totalPages, currentPage + 2);
+  if (start > 1) { html += `<button class="page-btn" onclick="goToPage('${section}',1)">1</button>`; if (start > 2) html += '<span class="page-info">…</span>'; }
+  for (let i = start; i <= end; i++) {
+    html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage('${section}',${i})">${i}</button>`;
+  }
+  if (end < totalPages) { if (end < totalPages - 1) html += '<span class="page-info">…</span>'; html += `<button class="page-btn" onclick="goToPage('${section}',${totalPages})">${totalPages}</button>`; }
+  html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage('${section}',${currentPage + 1})">Suiv. ›</button>`;
+  html += `<span class="page-info">Page ${currentPage}/${totalPages}</span>`;
+  el.innerHTML = html;
 }
 
 // ── MODAL ──

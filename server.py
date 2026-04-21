@@ -18,7 +18,7 @@ from datetime import datetime, timedelta
 # ============================================================
 import os as _os
 COHERE_API_KEY = _os.environ.get("COHERE_API_KEY", "METS_CLE_COHERE_ICI")
-ADMIN_PASSWORD_CLAIR = "dataprotect2025"
+ADMIN_PASSWORD_CLAIR = _os.environ.get("ADMIN_PASSWORD", "dataprotect2025")
 
 # ============================================================
 
@@ -142,6 +142,17 @@ class UserLogin(BaseModel):
 
 class AdminLogin(BaseModel):
     mot_de_passe: str
+
+@app.exception_handler(404)
+async def not_found_handler(request: Request, exc):
+    return HTMLResponse("""<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Page introuvable — DataProtect SN</title>
+<style>body{font-family:'Segoe UI',sans-serif;background:#f6f3ee;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+.box{text-align:center;padding:3rem 2rem;background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.08);max-width:420px}
+h1{font-size:4rem;color:#1a6b3a;margin:0 0 .5rem}h2{color:#111;font-size:1.3rem;margin:0 0 1rem}
+p{color:#555;margin-bottom:2rem}a{background:#1a6b3a;color:#fff;padding:.7rem 1.5rem;border-radius:100px;text-decoration:none;font-weight:500}
+</style></head><body><div class="box"><h1>404</h1><h2>Page introuvable</h2>
+<p>Cette page n'existe pas ou a été déplacée.</p>
+<a href="/">Retour à l'accueil</a></div></body></html>""", status_code=404)
 
 @app.head("/")
 async def home_head():
@@ -333,7 +344,8 @@ async def admin_stats(request: Request):
     stats = {
         "contacts": conn.execute("SELECT COUNT(*) FROM contacts").fetchone()[0],
         "non_lus":  conn.execute("SELECT COUNT(*) FROM contacts WHERE lu=0").fetchone()[0],
-        "abonnes":  conn.execute("SELECT COUNT(*) FROM abonnes WHERE actif=1").fetchone()[0],
+        "abonnes":  conn.execute("SELECT COUNT(*) FROM abonnes").fetchone()[0],
+        "abonnes_actifs": conn.execute("SELECT COUNT(*) FROM abonnes WHERE actif=1").fetchone()[0],
         "articles": conn.execute("SELECT COUNT(*) FROM articles WHERE publie=1").fetchone()[0],
         "membres":  conn.execute("SELECT COUNT(*) FROM utilisateurs WHERE actif=1").fetchone()[0],
     }

@@ -160,9 +160,8 @@ function showToast(msg) {
 
 // Attach toast to all download spans
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialisation - afficher page home
   showPage('home');
-  // Afficher bannière cookies si pas encore accepté
+  loadDbArticles();
   if (!localStorage.getItem('ck_consent')) {
     setTimeout(() => {
       var banner = document.getElementById('cookie-banner');
@@ -172,8 +171,48 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+var dbArticles = {};
+
+function loadDbArticles() {
+  fetch('/api/articles').then(function(r){ return r.json(); }).then(function(data) {
+    var list = document.querySelector('.blog-list');
+    if (!list) return;
+    data.forEach(function(a) {
+      var key = 'db-' + a.id;
+      dbArticles[key] = a;
+      if (document.querySelector('[data-article="' + key + '"]')) return;
+      var badgeClass = a.badge || 'b-cdp';
+      var badgeLabel = a.categorie || 'Actualité';
+      var card = document.createElement('div');
+      card.className = 'article-card';
+      card.setAttribute('data-article', key);
+      card.innerHTML = '<div class="article-top"><span class="badge ' + badgeClass + '">' + badgeLabel + '</span></div>' +
+        '<div class="article-title">' + (a.titre || '') + '</div>' +
+        '<div class="article-excerpt">' + (a.extrait || '') + '</div>' +
+        '<div class="article-meta"><span>📅 ' + (a.date_publication ? a.date_publication.slice(0,10) : '') + '</span>' +
+        (a.source ? '<span>Source : ' + a.source + '</span>' : '') + '</div>' +
+        '<span class="read-more">Lire l\'article →</span>';
+      list.appendChild(card);
+    });
+  }).catch(function(){});
+}
+
 function showArticle(id) {
-  var art = articles[id];
+  var art = articles[id] ? {
+    title: articles[id].title, date: articles[id].date,
+    readTime: articles[id].readTime, source: articles[id].source,
+    badges: articles[id].badges, badgeLabels: articles[id].badgeLabels,
+    intro: articles[id].intro, body: articles[id].body
+  } : null;
+  if (!art && dbArticles[id]) {
+    var d = dbArticles[id];
+    art = {
+      title: d.titre, date: d.date_publication ? d.date_publication.slice(0,10) : '',
+      readTime: '', source: d.source || '',
+      badges: [d.badge || 'b-cdp'], badgeLabels: [d.categorie || 'Actualité'],
+      intro: d.extrait || '', body: d.contenu || d.extrait || ''
+    };
+  }
   if (!art) return;
   showPage('article');
   var container = document.getElementById('article-content');
