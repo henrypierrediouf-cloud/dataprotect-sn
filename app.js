@@ -371,6 +371,8 @@ document.addEventListener('click', function(e) {
   if(t) { t.parentElement.classList.toggle('open'); return; }
   t = e.target.closest ? e.target.closest('[data-filter]') : null;
   if(t && t.dataset.filter) { var cat=t.dataset.filter; document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');}); t.classList.add('active'); document.querySelectorAll('.res-card').forEach(function(c){c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none';}); return; }
+  t = e.target.closest ? e.target.closest('[data-tag]') : null;
+  if(t && t.dataset.tag !== undefined) { var tag=t.dataset.tag; document.querySelectorAll('.tag-pill[data-tag]').forEach(function(p){p.classList.remove('active');}); t.classList.add('active'); document.querySelectorAll('.article-card[data-tags]').forEach(function(c){c.style.display=(tag==='all'||(c.dataset.tags||'').split(' ').indexOf(tag)>=0)?'':'none';}); return; }
   t = e.target.closest ? e.target.closest('[data-faq]') : null;
   if(t) { var item=t.parentElement; var wasOpen=item.classList.contains('open'); document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');}); if(!wasOpen)item.classList.add('open'); return; }
   t = e.target.closest ? e.target.closest('[data-letter]') : null;
