@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel
 from typing import Optional
-import sqlite3, hashlib, secrets, pathlib, urllib.request, urllib.error, urllib.parse, json, re as re2
+import sqlite3, hashlib, secrets, pathlib, urllib.request, urllib.error, urllib.parse, json, re as re2, bcrypt
 from collections import defaultdict
 from datetime import datetime, timedelta
 
@@ -95,6 +95,10 @@ def init_db():
     )""")
     # Nettoyer les sessions expirees
     conn.execute("DELETE FROM sessions WHERE expires_at < datetime('now')")
+    # Purge données conformément aux durées de conservation (AIPD)
+    conn.execute("DELETE FROM contacts WHERE date_envoi < datetime('now', '-3 years')")
+    conn.execute("DELETE FROM abonnes WHERE actif=0 AND date_inscription < datetime('now', '-1 year')")
+    conn.execute("DELETE FROM utilisateurs WHERE actif=0 AND date_inscription < datetime('now', '-1 year')")
     c.execute("""CREATE TABLE IF NOT EXISTS utilisateurs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         prenom TEXT NOT NULL, nom TEXT NOT NULL,
@@ -251,10 +255,10 @@ async def subscribe(form: NewsletterForm):
 @app.post("/api/inscription")
 async def register(user: UserRegister):
     try:
-        mdp = hashlib.sha256(user.mot_de_passe.encode()).hexdigest()
+        mdp_hash = bcrypt.hashpw(user.mot_de_passe.encode(), bcrypt.gensalt()).decode()
         conn = db()
         conn.execute("INSERT INTO utilisateurs (prenom,nom,email,mot_de_passe) VALUES (?,?,?,?)",
-            (user.prenom, user.nom, user.email, mdp))
+            (user.prenom, user.nom, user.email, mdp_hash))
         conn.commit(); conn.close()
         return {"success": True}
     except sqlite3.IntegrityError:
@@ -262,12 +266,25 @@ async def register(user: UserRegister):
 
 @app.post("/api/connexion")
 async def login(creds: UserLogin):
-    mdp = hashlib.sha256(creds.mot_de_passe.encode()).hexdigest()
     conn = db()
-    row = conn.execute("SELECT * FROM utilisateurs WHERE email=? AND mot_de_passe=? AND actif=1",
-        (creds.email, mdp)).fetchone()
+    row = conn.execute("SELECT * FROM utilisateurs WHERE email=? AND actif=1",
+        (creds.email,)).fetchone()
     conn.close()
     if not row:
+        raise HTTPException(status_code=401, detail="Identifiants incorrects.")
+    stored = row["mot_de_passe"]
+    # Vérification bcrypt (nouveaux comptes) avec fallback SHA-256 (anciens comptes)
+    if stored.startswith("$2b$") or stored.startswith("$2a$"):
+        ok = bcrypt.checkpw(creds.mot_de_passe.encode(), stored.encode())
+    else:
+        ok = (hashlib.sha256(creds.mot_de_passe.encode()).hexdigest() == stored)
+        if ok:
+            # Migration silencieuse vers bcrypt à la prochaine connexion
+            new_hash = bcrypt.hashpw(creds.mot_de_passe.encode(), bcrypt.gensalt()).decode()
+            conn2 = db()
+            conn2.execute("UPDATE utilisateurs SET mot_de_passe=? WHERE id=?", (new_hash, row["id"]))
+            conn2.commit(); conn2.close()
+    if not ok:
         raise HTTPException(status_code=401, detail="Identifiants incorrects.")
     token = secrets.token_hex(32)
     tokens.add(token)
