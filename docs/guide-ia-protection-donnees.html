@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Guide IA & Protection des Données - DataProtect SN</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;color:#1a1a2e;background:#fff}
+  .doc-header{background:linear-gradient(135deg,#1a5c34,#1a4f8a);color:#fff;padding:2.5rem}
+  .doc-header h1{font-size:1.6rem;font-weight:800;margin-bottom:.5rem}
+  .doc-header p{opacity:.8;font-size:.9rem}
+  .doc-meta{display:flex;gap:1.5rem;margin-top:1rem;font-size:.8rem;opacity:.75;flex-wrap:wrap}
+  .doc-body{max-width:900px;margin:0 auto;padding:2.5rem}
+  h2{color:#1a5c34;font-size:1.1rem;margin:2rem 0 .75rem;padding-bottom:.4rem;border-bottom:2px solid #eaf5ef}
+  h3{color:#2c3e50;font-size:.95rem;margin:1.25rem 0 .5rem;font-weight:700}
+  p{line-height:1.8;color:#374151;font-size:.92rem;margin-bottom:.75rem}
+  ul,ol{padding-left:1.5rem;margin-bottom:.75rem}
+  li{line-height:1.8;font-size:.92rem;color:#374151;margin-bottom:.25rem}
+  table{width:100%;border-collapse:collapse;font-size:.82rem;margin:1rem 0}
+  th{background:#1a5c34;color:#fff;padding:.65rem .85rem;text-align:left}
+  td{padding:.6rem .85rem;border-bottom:1px solid #e5e7eb;vertical-align:top}
+  tr:nth-child(even) td{background:#f8fffe}
+  .highlight{background:#eaf5ef;border-left:4px solid #1a5c34;border-radius:0 8px 8px 0;padding:.85rem 1.1rem;margin:1rem 0;font-size:.88rem}
+  .warning{background:#fdf6e3;border-left:4px solid #b8860b;border-radius:0 8px 8px 0;padding:.85rem 1.1rem;margin:1rem 0;font-size:.88rem}
+  .danger{background:#fdecea;border-left:4px solid #c0392b;border-radius:0 8px 8px 0;padding:.85rem 1.1rem;margin:1rem 0;font-size:.88rem}
+  .footer-doc{background:#f8f7f4;border-top:1px solid #e5e7eb;padding:1.5rem 2.5rem;font-size:.8rem;color:#6b7280;text-align:center;margin-top:3rem}
+  .btn-print{background:#1a5c34;color:#fff;border:none;padding:.6rem 1.2rem;border-radius:6px;cursor:pointer;font-size:.85rem;margin-top:1rem}
+  .risk-level{display:inline-block;padding:.25rem .7rem;border-radius:100px;font-size:.78rem;font-weight:700}
+  .risk-unacceptable{background:#fce7f3;color:#9d174d}
+  .risk-high{background:#fee2e2;color:#991b1b}
+  .risk-limited{background:#fef9c3;color:#854d0e}
+  .risk-minimal{background:#dcfce7;color:#166534}
+  .checklist-item{display:flex;align-items:flex-start;gap:.75rem;padding:.65rem 0;border-bottom:1px solid #f0f0f0}
+  .checklist-item input{margin-top:3px;accent-color:#1a5c34;flex-shrink:0}
+  .step-box{background:#f8fffe;border:1px solid #d1fae5;border-radius:10px;padding:1.25rem;margin:.75rem 0;display:flex;gap:1rem;align-items:flex-start}
+  .step-num{background:#1a5c34;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;font-size:.9rem}
+  @media print{.no-print{display:none}}
+</style>
+</head>
+<body>
+<div class="doc-header">
+  <h1>Guide IA & Protection des Données</h1>
+  <p>Impact de l'IA Act européen sur les entreprises sénégalaises &mdash; Ce que vous devez savoir</p>
+  <div class="doc-meta">
+    <span>DataProtect SN &mdash; Henry Pierre Diouf, DPO M2</span>
+    <span>Avril 2026</span>
+    <span>IA Act UE — Règl. (UE) 2024/1689</span>
+  </div>
+  <button class="btn-print no-print" onclick="window.print()">Imprimer / Exporter PDF</button>
+</div>
+
+<div class="doc-body">
+
+<div class="highlight"><strong>En vigueur depuis août 2024 (application progressive jusqu'en 2027), l'IA Act européen est le premier cadre légal mondial régulant l'intelligence artificielle.</strong> Il concerne aussi les entreprises sénégalaises qui vendent, déploient ou utilisent des systèmes d'IA destinés au marché européen.</div>
+
+<h2>1. QU'EST-CE QUE L'IA ACT EUROPÉEN ?</h2>
+<p>Le Règlement (UE) 2024/1689 sur l'intelligence artificielle — dit « IA Act » — est entré en application progressive depuis août 2024. C'est le premier texte au monde à réguler l'IA de façon globale, par une approche basée sur le risque.</p>
+<p>Il s'applique à toute entité qui :</p>
+<ul>
+  <li>Met sur le marché européen des systèmes d'IA (même depuis le Sénégal ou un pays tiers)</li>
+  <li>Utilise des systèmes d'IA pour traiter des données de résidents européens</li>
+  <li>Fournit des services numériques basés sur l'IA à des clients en UE</li>
+</ul>
+
+<h2>2. CLASSIFICATION DES RISQUES IA</h2>
+<table>
+  <tr><th>Niveau de risque</th><th>Description</th><th>Exemples</th><th>Obligation</th></tr>
+  <tr>
+    <td><span class="risk-unacceptable">Inacceptable</span></td>
+    <td>Systèmes interdits</td>
+    <td>Notation sociale par gouvernements, manipulation subliminale, reconnaissance faciale en temps réel dans l'espace public (sauf exceptions)</td>
+    <td><strong>Interdit</strong> — sanction jusqu'à 35M€ ou 7% CA mondial</td>
+  </tr>
+  <tr>
+    <td><span class="risk-high">Élevé</span></td>
+    <td>Systèmes à impact fort sur droits et libertés</td>
+    <td>Recrutement RH automatisé, scoring de crédit, systèmes éducatifs, biométrie, infrastructure critique, médical</td>
+    <td>Évaluation de conformité, AIPD, transparence, supervision humaine</td>
+  </tr>
+  <tr>
+    <td><span class="risk-limited">Limité</span></td>
+    <td>Risque de tromperie</td>
+    <td>Chatbots, deep fakes, IA générative</td>
+    <td>Obligation de transparence (dire que c'est une IA)</td>
+  </tr>
+  <tr>
+    <td><span class="risk-minimal">Minimal</span></td>
+    <td>Risque négligeable</td>
+    <td>Filtres anti-spam, recommandations de jeux, IA dans les jeux vidéo</td>
+    <td>Pas d'obligation spécifique (bonnes pratiques recommandées)</td>
+  </tr>
+</table>
+
+<h2>3. QUELLES ENTREPRISES SÉNÉGALAISES SONT CONCERNÉES ?</h2>
+
+<h3>Cas 1 — Exportateur de solutions IA vers l'UE</h3>
+<div class="warning">Si votre startup ou entreprise développe une solution d'IA (application, API, service SaaS) utilisée par des clients en Europe, l'IA Act s'applique dès la mise sur le marché européen.</div>
+<p><strong>Exemples concrets :</strong></p>
+<ul>
+  <li>Une fintech sénégalaise qui exporte son moteur de scoring de crédit à une banque française</li>
+  <li>Une startup qui vend un chatbot de service client à une entreprise belge</li>
+  <li>Un éditeur de logiciel RH avec module de tri automatique de CV vendu en Europe</li>
+</ul>
+
+<h3>Cas 2 — Utilisation d'outils IA sur des données européennes</h3>
+<p>Même sans exporter, si vous traitez des données de résidents européens via des outils IA (ChatGPT Enterprise, Gemini, Copilot, etc.), vous êtes soumis à la fois au RGPD et à certaines obligations de l'IA Act.</p>
+
+<h3>Cas 3 — Partenariat avec des entreprises européennes</h3>
+<p>Les grandes entreprises européennes imposent désormais à leurs prestataires africains des clauses de conformité IA dans leurs contrats. Anticiper est un avantage commercial.</p>
+
+<h2>4. IA ACT + RGPD + LOI 2008-12 : ARTICULATION</h2>
+<table>
+  <tr><th>Aspect</th><th>Loi 2008-12 (Sénégal)</th><th>RGPD (UE)</th><th>IA Act (UE)</th></tr>
+  <tr><td>Champ d'application</td><td>Données personnelles au Sénégal</td><td>Données de résidents UE</td><td>Systèmes IA sur marché UE</td></tr>
+  <tr><td>Décision automatisée</td><td>Art. 54 (droit à l'information)</td><td>Art. 22 (droit de ne pas être soumis)</td><td>Supervision humaine obligatoire (risque élevé)</td></tr>
+  <tr><td>Transparence</td><td>Obligation d'information</td><td>Explicabilité des décisions IA</td><td>Obligation de marquage IA générative</td></tr>
+  <tr><td>Évaluation d'impact</td><td>Non formalisée</td><td>AIPD (Art. 35)</td><td>Évaluation de conformité IA élevé</td></tr>
+  <tr><td>Sanctions</td><td>Jusqu'à 5M FCFA</td><td>Jusqu'à 20M€ ou 4% CA</td><td>Jusqu'à 35M€ ou 7% CA</td></tr>
+</table>
+
+<h2>5. CHECKLIST PRATIQUE — ÊTES-VOUS CONCERNÉ ?</h2>
+<div class="checklist-item"><input type="checkbox"><span>Mon entreprise développe ou utilise des systèmes d'IA</span></div>
+<div class="checklist-item"><input type="checkbox"><span>Mes clients ou utilisateurs se trouvent (aussi) en Europe</span></div>
+<div class="checklist-item"><input type="checkbox"><span>Mon système d'IA prend des décisions qui affectent les personnes (crédit, emploi, santé, éducation)</span></div>
+<div class="checklist-item"><input type="checkbox"><span>J'utilise des outils IA générative (ChatGPT, Gemini, Claude...) pour traiter des données clients</span></div>
+<div class="checklist-item"><input type="checkbox"><span>Je collecte des données biométriques ou effectue de la reconnaissance faciale</span></div>
+<div class="checklist-item"><input type="checkbox"><span>Mon système fait du profilage ou de la notation des utilisateurs</span></div>
+
+<div class="danger"><strong>Si vous avez coché au moins 2 cases :</strong> Vous êtes potentiellement soumis à l'IA Act européen. Il est recommandé de réaliser un audit de conformité et de consulter un DPO.</div>
+
+<h2>6. ÉTAPES DE MISE EN CONFORMITÉ</h2>
+
+<div class="step-box">
+  <div class="step-num">1</div>
+  <div><strong>Inventorier vos systèmes d'IA</strong><br>Listez tous les systèmes, outils et algorithmes d'IA utilisés dans votre organisation. Identifiez leur finalité, les données traitées et les décisions prises.</div>
+</div>
+<div class="step-box">
+  <div class="step-num">2</div>
+  <div><strong>Classer le niveau de risque</strong><br>Appliquez la grille de classification de l'IA Act à chaque système. Identifiez ceux à risque élevé ou inacceptable qui nécessitent une action prioritaire.</div>
+</div>
+<div class="step-box">
+  <div class="step-num">3</div>
+  <div><strong>Réaliser une AIPD pour les traitements à risque élevé</strong><br>Pour tout système d'IA à risque élevé combiné à des données personnelles, une AIPD (Art. 35 RGPD) est obligatoire en plus de l'évaluation IA Act.</div>
+</div>
+<div class="step-box">
+  <div class="step-num">4</div>
+  <div><strong>Documenter la transparence</strong><br>Informez vos utilisateurs qu'ils interagissent avec un système d'IA. Pour l'IA générative, un marquage clair est obligatoire (Art. 50 IA Act).</div>
+</div>
+<div class="step-box">
+  <div class="step-num">5</div>
+  <div><strong>Mettre en place une supervision humaine</strong><br>Pour les systèmes à risque élevé, un humain doit pouvoir comprendre, surveiller et intervenir sur les décisions automatiques.</div>
+</div>
+<div class="step-box">
+  <div class="step-num">6</div>
+  <div><strong>Déclarer à la CDP sénégalaise</strong><br>Indépendamment de l'IA Act, tout traitement de données personnelles par IA doit être déclaré à la CDP conformément à la Loi 2008-12.</div>
+</div>
+
+<h2>7. CALENDRIER D'APPLICATION DE L'IA ACT</h2>
+<table>
+  <tr><th>Date</th><th>Obligation</th></tr>
+  <tr><td><strong>Août 2024</strong></td><td>Entrée en vigueur du Règlement</td></tr>
+  <tr><td><strong>Février 2025</strong></td><td>Interdictions (Art. 5) applicables — pratiques IA inacceptables bannies</td></tr>
+  <tr><td><strong>Août 2025</strong></td><td>Obligations des modèles IA à usage général (GPAI) — ex : LLM comme ChatGPT</td></tr>
+  <tr><td><strong>Août 2026</strong></td><td>Obligations pour systèmes IA à risque élevé (secteurs listés en Annexe III)</td></tr>
+  <tr><td><strong>Août 2027</strong></td><td>Application complète, y compris systèmes embarqués dans produits réglementés</td></tr>
+</table>
+
+<h2>8. SANCTIONS PRÉVUES PAR L'IA ACT</h2>
+<table>
+  <tr><th>Infraction</th><th>Amende maximale</th></tr>
+  <tr><td>Violation des interdictions (Art. 5)</td><td>35 millions € ou 7% du CA mondial annuel</td></tr>
+  <tr><td>Non-conformité avec obligations (systèmes à risque élevé, transparence)</td><td>15 millions € ou 3% du CA mondial annuel</td></tr>
+  <tr><td>Informations incorrectes fournies aux autorités</td><td>7,5 millions € ou 1,5% du CA mondial annuel</td></tr>
+  <tr><td>PME et start-ups</td><td>Montant le plus bas des deux plafonds applicables</td></tr>
+</table>
+
+<div class="highlight"><strong>Pour les entreprises sénégalaises :</strong> Ces sanctions s'appliquent dès lors que vous opérez sur le marché européen, même sans présence physique en Europe. La logique est la même que le RGPD : protection des résidents européens indépendamment de la localisation du fournisseur.</div>
+
+<h2>9. RESSOURCES ET CONTACTS</h2>
+<p><strong>CDP Sénégal :</strong> cdp.sn — Pour la conformité Loi 2008-12 et les déclarations de traitements IA</p>
+<p><strong>Bureau IA UE :</strong> digital-strategy.ec.europa.eu/fr/policies/regulatory-framework-ai</p>
+<p><strong>CNIL (France) :</strong> cnil.fr — Guide IA & RGPD, recommandations sectorielles</p>
+<p><strong>DataProtect SN :</strong> Pour un accompagnement personnalisé DPO et audit de conformité IA, contactez Henry Pierre Diouf.</p>
+
+</div>
+<div class="footer-doc">
+  <p>DataProtect SN &mdash; Henry Pierre Diouf, DPO Master 2 &mdash; dataprotect-sn.onrender.com</p>
+  <p style="margin-top:.3rem">Document informatif &mdash; Sources : IA Act UE (Règl. 2024/1689), RGPD, CDP Sénégal. Avril 2026.</p>
+</div>
+</body>
+</html>
