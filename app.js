@@ -406,7 +406,7 @@ document.addEventListener('click', function(e) {
   if(e.target===document.getElementById('cookie-modal')){hideCkModal();return;}
 });
 document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='chatInput')sendChat();});
-function applyTheme(dark){document.documentElement.setAttribute('data-theme',dark?'dark':'');try{localStorage.setItem('theme',dark?'dark':'light');}catch(er){}var btn=document.getElementById('darkToggle');if(btn)btn.innerHTML=dark?'☀️ Jour':'🌙 Nuit';}
+function applyTheme(dark){document.documentElement.setAttribute('data-theme',dark?'dark':'');try{localStorage.setItem('theme',dark?'dark':'light');}catch(er){}var btn=document.getElementById('darkToggle');if(btn)btn.innerHTML=dark?'<span class="dt-icon">☀️</span><span class="dt-label"> Jour</span>':'<span class="dt-icon">🌙</span><span class="dt-label"> Nuit</span>';}
 try{if(localStorage.getItem('theme')==='dark')applyTheme(true);}catch(er){}
 var chatHistory=[],chatOpen=false,chatWelcomed=false;
 function chatNow(){var d=new Date();return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');}

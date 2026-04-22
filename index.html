@@ -328,10 +328,20 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
   .contact-layout{grid-template-columns:1fr}
   .footer-inner{grid-template-columns:1fr}
   .hero{padding:3rem 1.25rem 3.5rem}
+  .dt-label{display:none}
+  .dark-toggle{padding:.28rem .55rem}
 }
 @media(max-width:480px){
   .stats-inner{grid-template-columns:1fr 1fr}
   .ressources-grid{grid-template-columns:1fr}
+}
+/* Fix universel : tous les grids inline passent en 1 colonne sur mobile */
+@media(max-width:600px){
+  *[style*="grid-template-columns"]{grid-template-columns:1fr !important}
+  .container{padding-left:1rem !important;padding-right:1rem !important}
+  section{padding-left:.75rem;padding-right:.75rem}
+  .about-hero{padding:2.5rem 1.25rem 4rem}
+  .about-stats{margin:-2rem 0 2rem}
 }
 [data-nav],[data-article],[data-reg],[data-filter],[data-accordion],[data-faq],[data-letter]{cursor:pointer}
 .nav-links a,.footer-col a{cursor:pointer}
@@ -481,7 +491,7 @@ section.section-alt{background:var(--white)}
     <li><a data-nav="about" id="nav-about">À propos</a></li>
     <li><a data-nav="contact" id="nav-contact" class="nav-cta">Contact</a></li>
   </ul>
-  <button class="dark-toggle" id="darkToggle" title="Basculer mode jour/nuit">🌙 Nuit</button>
+  <button class="dark-toggle" id="darkToggle" title="Basculer mode jour/nuit"><span class="dt-icon">🌙</span><span class="dt-label"> Nuit</span></button>
   <div class="hamburger" id="hamburger" data-toggle-menu="1">
     <span></span><span></span><span></span>
   </div>
