@@ -93,18 +93,17 @@ def init_db():
         created_at TEXT DEFAULT (datetime('now')),
         expires_at TEXT
     )""")
-    # Nettoyer les sessions expirees
-    conn.execute("DELETE FROM sessions WHERE expires_at < datetime('now')")
-    # Purge données conformément aux durées de conservation (AIPD)
-    conn.execute("DELETE FROM contacts WHERE date_envoi < datetime('now', '-3 years')")
-    conn.execute("DELETE FROM abonnes WHERE actif=0 AND date_inscription < datetime('now', '-1 year')")
-    conn.execute("DELETE FROM utilisateurs WHERE actif=0 AND date_inscription < datetime('now', '-1 year')")
     c.execute("""CREATE TABLE IF NOT EXISTS utilisateurs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         prenom TEXT NOT NULL, nom TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL, mot_de_passe TEXT NOT NULL,
         role TEXT DEFAULT 'membre',
         date_inscription TEXT DEFAULT (datetime('now')), actif INTEGER DEFAULT 1)""")
+    # Purge après création de toutes les tables
+    conn.execute("DELETE FROM sessions WHERE expires_at < datetime('now')")
+    conn.execute("DELETE FROM contacts WHERE date_envoi < datetime('now', '-3 years')")
+    conn.execute("DELETE FROM abonnes WHERE actif=0 AND date_inscription < datetime('now', '-1 year')")
+    conn.execute("DELETE FROM utilisateurs WHERE actif=0 AND date_inscription < datetime('now', '-1 year')")
     if conn.execute("SELECT COUNT(*) FROM articles").fetchone()[0] == 0:
         conn.executemany(
             "INSERT INTO articles (titre,extrait,contenu,categorie,badge,date_publication,publie,source) VALUES (?,?,?,?,?,?,?,?)",
