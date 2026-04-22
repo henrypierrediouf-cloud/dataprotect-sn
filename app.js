@@ -362,7 +362,7 @@ document.addEventListener('click', function(e) {
   t = e.target.closest ? e.target.closest('[data-nav]') : null;
   if(t && t.dataset && t.dataset.nav) { e.preventDefault(); showPage(t.dataset.nav); return; }
   t = e.target.closest ? e.target.closest('[data-toggle-menu]') : null;
-  if(t) { var mm=document.getElementById('mobileMenu'); var hb=document.getElementById('hamburger'); if(mm)mm.classList.toggle('open'); if(hb)hb.classList.toggle('open'); return; }
+  if(t) { var mm=document.getElementById('mobileMenu'); var hb=document.getElementById('hamburger'); if(mm&&hb){ if(t.dataset.nav){mm.classList.remove('open');hb.classList.remove('open');}else{mm.classList.toggle('open');hb.classList.toggle('open');} } return; }
   t = e.target.closest ? e.target.closest('[data-article]') : null;
   if(t && t.dataset.article) { showArticle(t.dataset.article); return; }
   t = e.target.closest ? e.target.closest('[data-reg]') : null;
