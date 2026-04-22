@@ -129,6 +129,9 @@ class ContactForm(BaseModel):
 class NewsletterForm(BaseModel):
     prenom: str; email: str
 
+class NewsletterUnsub(BaseModel):
+    email: str
+
 class ChatRequest(BaseModel):
     messages: list
 
@@ -289,6 +292,15 @@ async def login(creds: UserLogin):
     tokens.add(token)
     return {"success": True, "token": token,
             "user": {"prenom": row["prenom"], "nom": row["nom"], "email": row["email"]}}
+
+@app.post("/api/newsletter/desabonner")
+async def unsubscribe(form: NewsletterUnsub):
+    conn = db()
+    result = conn.execute("UPDATE abonnes SET actif=0 WHERE email=? AND actif=1", (form.email,))
+    conn.commit(); conn.close()
+    if result.rowcount == 0:
+        return {"success": False, "message": "Email non trouve ou deja desabonne."}
+    return {"success": True, "message": "Desabonnement confirme. Vous ne recevrez plus notre newsletter."}
 
 @app.post("/api/chat")
 async def chat(req: ChatRequest, request: Request):
