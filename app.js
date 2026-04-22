@@ -378,7 +378,7 @@ document.addEventListener('click', function(e) {
   if(t) { var item=t.parentElement; var wasOpen=item.classList.contains('open'); document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');}); if(!wasOpen)item.classList.add('open'); return; }
   t = e.target.closest ? e.target.closest('[data-letter]') : null;
   if(t && t.dataset.letter) { document.querySelectorAll('.alpha-btn').forEach(function(b){b.classList.remove('active');}); t.classList.add('active'); currentLetter=t.dataset.letter; var s=document.getElementById('glossaireSearch'); renderGlossaire(currentLetter, s?s.value:''); return; }
-  if(e.target.id==='darkToggle') { var isDark=document.documentElement.getAttribute('data-theme')==='dark'; applyTheme(!isDark); return; }
+  if(e.target.closest && e.target.closest('#darkToggle')) { var isDark=document.documentElement.getAttribute('data-theme')==='dark'; applyTheme(!isDark); return; }
   t = e.target.closest ? e.target.closest('[data-nl-btn]') : null;
   if(t) { var prenom=document.getElementById('nl-prenom')||document.getElementById('nl-prenom-blog');
     var nlEmail=document.getElementById('nl-email')||document.getElementById('nl-email-blog');
