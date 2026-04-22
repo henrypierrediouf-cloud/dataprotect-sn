@@ -193,9 +193,6 @@ tr:hover td{background:rgba(255,255,255,.02)}
         <div class="nav-item" onclick="showSection('articles')" id="nav-articles">
           <span class="nav-icon">📰</span> Articles
         </div>
-        <div class="nav-item" onclick="showSection('membres')" id="nav-membres">
-          <span class="nav-icon">👥</span> Membres
-        </div>
       </nav>
       <div class="sidebar-footer">
         <div class="sidebar-user">
@@ -238,12 +235,6 @@ tr:hover td{background:rgba(255,255,255,.02)}
               <div class="stat-value" id="s-articles">—</div>
               <div class="stat-label">Articles publies</div>
               <div class="stat-trend" style="color:#64748b">Veille juridique</div>
-            </div>
-            <div class="stat-card purple">
-              <div class="stat-icon purple">👥</div>
-              <div class="stat-value" id="s-membres">—</div>
-              <div class="stat-label">Membres inscrits</div>
-              <div class="stat-trend" style="color:#64748b">Comptes actifs</div>
             </div>
           </div>
 
@@ -384,26 +375,6 @@ tr:hover td{background:rgba(255,255,255,.02)}
           </div>
         </div>
 
-        <!-- MEMBRES -->
-        <div id="section-membres" style="display:none">
-          <div class="table-card">
-            <div class="table-header">
-              <div>
-                <div class="table-title">Membres inscrits</div>
-                <div class="table-subtitle" id="membres-count">Chargement...</div>
-              </div>
-              <div class="table-actions">
-                <button class="btn-sm btn-success" onclick="loadMembres()">🔄 Actualiser</button>
-                <button class="btn-sm btn-blue" onclick="exportCSV('membres')">📥 Export CSV</button>
-              </div>
-            </div>
-            <table>
-              <thead><tr><th>Date</th><th>Prenom</th><th>Nom</th><th>Email</th><th>Role</th><th>Statut</th><th>Actions</th></tr></thead>
-              <tbody id="membres-body"><tr><td colspan="7" class="loading">Chargement...</td></tr></tbody>
-            </table>
-            <div class="pagination" id="membres-pagination"></div>
-          </div>
-        </div>
 
       </div>
     </div>
@@ -415,9 +386,9 @@ const API = '';
 const PAGE_SIZE = 10;
 let adminToken = '';
 let currentSection = 'dashboard';
-let allContacts = [], allAbonnes = [], allArticles = [], allMembres = [];
+let allContacts = [], allAbonnes = [], allArticles = [];
 let pendingAction = null;
-let contactsPage = 1, abonnesPage = 1, membresPage = 1;
+let contactsPage = 1, abonnesPage = 1;
 
 // ── AUTH ──
 async function adminLogin() {
@@ -461,12 +432,11 @@ function showSection(name) {
   document.getElementById('section-' + name).style.display = 'block';
   document.getElementById('nav-' + name).classList.add('active');
   currentSection = name;
-  const titles = {dashboard:'Tableau de bord', contacts:'Messages recus', abonnes:'Abonnes newsletter', articles:'Articles de veille', membres:'Membres inscrits'};
+  const titles = {dashboard:'Tableau de bord', contacts:'Messages recus', abonnes:'Abonnes newsletter', articles:'Articles de veille'};
   document.getElementById('pageTitle').textContent = titles[name] || name;
   if (name === 'contacts') loadContacts();
   else if (name === 'abonnes') loadAbonnes();
   else if (name === 'articles') loadArticles();
-  else if (name === 'membres') loadMembres();
 }
 
 // ── API ──
@@ -495,7 +465,6 @@ async function loadStats() {
     document.getElementById('s-contacts').textContent = d.contacts || 0;
     document.getElementById('s-abonnes').textContent = d.abonnes || 0;
     document.getElementById('s-articles').textContent = d.articles || 0;
-    document.getElementById('s-membres').textContent = d.membres || 0;
     if (d.non_lus > 0) {
       document.getElementById('s-nonlus').textContent = d.non_lus + ' non lu(s)';
       document.getElementById('badge-contacts').textContent = d.non_lus;
@@ -704,47 +673,6 @@ async function createArticle() {
   } catch(e) { showNotif('Erreur serveur', 'error'); }
 }
 
-// ── MEMBRES ──
-async function loadMembres() {
-  document.getElementById('membres-body').innerHTML = '<tr><td colspan="7" class="loading">Chargement...</td></tr>';
-  try {
-    allMembres = await apiGet('/api/admin/utilisateurs');
-    if (!allMembres.length) {
-      document.getElementById('membres-body').innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">👤</div><div class="empty-text">Aucun membre inscrit</div></div></td></tr>';
-      document.getElementById('membres-count').textContent = '0 membre';
-      return;
-    }
-    document.getElementById('membres-count').textContent = allMembres.length + ' membre(s) inscrit(s)';
-    renderMembres(allMembres);
-  } catch(e) {
-    document.getElementById('membres-body').innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-text">Erreur de chargement</div></div></td></tr>';
-  }
-}
-
-function renderMembres(data) {
-  const total = data.length;
-  if (!total) {
-    document.getElementById('membres-body').innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">👤</div><div class="empty-text">Aucun membre inscrit</div></div></td></tr>';
-    document.getElementById('membres-pagination').innerHTML = '';
-    return;
-  }
-  const totalPages = Math.ceil(total / PAGE_SIZE);
-  if (membresPage > totalPages) membresPage = totalPages;
-  const page = data.slice((membresPage - 1) * PAGE_SIZE, membresPage * PAGE_SIZE);
-  document.getElementById('membres-body').innerHTML = page.map(u => `
-    <tr>
-      <td style="font-size:.75rem;color:#64748b">${u.date_inscription ? u.date_inscription.slice(0,10) : '—'}</td>
-      <td style="color:#e2e8f0">${u.prenom || '—'}</td>
-      <td style="color:#e2e8f0">${u.nom || '—'}</td>
-      <td><a href="mailto:${u.email}" style="color:#60a5fa;text-decoration:none">${u.email}</a></td>
-      <td><span class="badge badge-blue">${u.role || 'user'}</span></td>
-      <td><span class="badge ${u.actif ? 'badge-green' : 'badge-gray'}">${u.actif ? 'Actif' : 'Inactif'}</span></td>
-      <td>
-        <button class="btn-danger-sm" onclick="confirmDelete('membre', ${u.id})">🗑 Supprimer</button>
-      </td>
-    </tr>`).join('');
-  renderPagination('membres-pagination', 'membres', membresPage, totalPages);
-}
 
 // ── SUPPRESSION AVEC CONFIRMATION ──
 function confirmDelete(type, id) {
@@ -782,7 +710,6 @@ function confirmDeactivate(id) {
 function goToPage(section, p) {
   if (section === 'contacts') { contactsPage = p; renderContacts(allContacts); }
   else if (section === 'abonnes') { abonnesPage = p; renderAbonnes(allAbonnes); }
-  else if (section === 'membres') { membresPage = p; renderMembres(allMembres); }
 }
 
 function renderPagination(containerId, section, currentPage, totalPages) {
@@ -846,11 +773,6 @@ function exportCSV(type) {
     headers = ['Date', 'Prenom', 'Email', 'Statut'];
     rows = allAbonnes.map(a => [a.date_inscription||'', a.prenom||'', a.email||'', a.actif?'Actif':'Inactif']);
     filename = 'abonnes_dataprotect_sn.csv';
-  } else if (type === 'membres') {
-    if (!allMembres.length) { showNotif('Aucune donnee a exporter', 'error'); return; }
-    headers = ['Date', 'Prenom', 'Nom', 'Email', 'Role', 'Statut'];
-    rows = allMembres.map(u => [u.date_inscription||'', u.prenom||'', u.nom||'', u.email||'', u.role||'', u.actif?'Actif':'Inactif']);
-    filename = 'membres_dataprotect_sn.csv';
   } else return;
   
   const csv = '\uFEFF' + [headers, ...rows].map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
