@@ -13,7 +13,7 @@
   --red:#b91c1c;--red-light:#fde8e8;
   --blue:#185ea5;--blue-light:#e8f0fe;
   --text:#111;--text-secondary:#2c3e50;
-  --muted:#555;--muted2:#888;
+  --muted:#444;--muted2:#777;
   --bg:#f6f3ee;--bg2:#f0ede8;--white:#fff;
   --border:#e0dbd0;--border2:#ccc;
   --shadow-sm:0 1px 3px rgba(0,0,0,.06);
@@ -22,7 +22,7 @@
   --radius:14px;--radius-sm:8px
 }
 html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.7;overflow-x:hidden}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
 /* ===== NAV ===== */
 nav{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:60px}
@@ -331,54 +331,46 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.55);padding:2.5rem 1
 @media(max-width:768px){#chatbot-window{width:calc(100vw - 2rem)}}
 
 
-/* === TLS CONTACT STYLE === */
-*{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif}
-body{background:#fff;color:var(--text)}
-.navbar{background:#fff;border-bottom:1px solid var(--border);padding:.9rem 0;box-shadow:none}
-.navbar .logo{font-size:1.15rem;font-weight:700;color:var(--green-dark);letter-spacing:-.02em}
-.navbar .logo span{color:var(--green)}
-.nav-links a{color:var(--text-secondary);font-size:.88rem;font-weight:400;letter-spacing:.01em}
-.nav-links a:hover,.nav-links a.active{color:var(--green-dark);font-weight:500}
-.hero{background:#fff !important;padding:5rem 0 !important;border-bottom:1px solid var(--border)}
-.btn-primary{background:var(--green);color:#fff;border-radius:2px;font-weight:500;font-size:.88rem;letter-spacing:.02em;padding:.7rem 1.5rem;box-shadow:none;transition:background .2s,transform .1s}
-.btn-primary:hover{background:#c5520a;transform:none;box-shadow:none}
-.section-title{font-size:clamp(1.4rem,3vw,2rem);font-weight:700;color:var(--green-dark);letter-spacing:-.03em}
-.section-label{background:transparent;color:var(--green);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:0}
-.blog-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:none;transition:box-shadow .2s,transform .2s}
-.blog-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.1);transform:translateY(-2px);border-color:var(--border2)}
-.res-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:none;transition:box-shadow .2s}
-.res-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.1);border-color:var(--green)}
-.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:none}
-.stat-card:hover{transform:none;box-shadow:none;background:var(--bg3)}
-.badge.b-cdp{background:#eef3ff;color:#1a2744;border:1px solid #c7d5f0}
-.badge.b-rgpd{background:#fff3ec;color:#c5520a;border:1px solid #fad4b5}
-.badge.b-tech{background:#f0f4ff;color:#1a2744;border:1px solid #c7d5f0}
-.badge.b-loi{background:#fff3ec;color:#c5520a;border:1px solid #fad4b5}
-.badge.b-afrique{background:#eef3ff;color:#1a2744;border:1px solid #c7d5f0}
-.badge.b-new{background:var(--green);color:#fff;border:none}
-.form-input{border:1px solid var(--border2);border-radius:var(--radius);background:#fff;font-size:.9rem;transition:border-color .2s}
-.form-input:focus{border-color:var(--green-dark);box-shadow:none;outline:none}
-footer{background:var(--green-dark)}
-.footer-brand{color:#fff;font-size:1.05rem;font-weight:700}
-.footer-col h5{color:var(--green);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
-.footer-col a{color:rgba(255,255,255,.55);font-size:.85rem}
-.footer-col a:hover{color:#fff}
-.footer-legal{color:rgba(255,255,255,.3);border-top:1px solid rgba(255,255,255,.1);font-size:.78rem}
-#chatbot-btn{background:var(--green);box-shadow:0 4px 20px rgba(232,98,10,.35)}
-.chat-header{background:var(--green-dark)}
-.chat-msg.user{background:var(--green-dark)}
-.chat-send{background:var(--green)}
-.chat-input:focus{border-color:var(--green)}
-.chat-sug{background:#fff3ec;color:var(--green);border-color:#fad4b5}
-.btn-ck-ok{background:var(--green)}
-.tgl input:checked+.tgl-s{background:var(--green)}
-.quiz-option{border:1px solid var(--border);border-radius:var(--radius);background:#fff}
-.quiz-option:hover{border-color:var(--green);background:#fff3ec}
-.dark-toggle{border-color:var(--border2);font-size:.78rem}
-[data-theme="dark"] body{background:var(--green-dark)}
-[data-theme="dark"] .navbar{background:var(--green-dark);border-color:var(--border)}
-[data-theme="dark"] .blog-card,[data-theme="dark"] .res-card{background:var(--bg2);border-color:var(--border)}
-[data-theme="dark"] .btn-primary:hover{background:#c5520a}
+/* === RESPONSIVE HERO === */
+@media(max-width:768px){
+  .hero-grid{grid-template-columns:1fr !important}
+  .hero-grid-right{display:none}
+}
+/* === SEPARATEURS DE SECTIONS === */
+.page > section:not(:first-child){border-top:1px solid var(--border)}
+section.section-alt{background:var(--white)}
+/* === MODE SOMBRE === */
+[data-theme="dark"]{
+  --bg:#0f1a12;--bg2:#162019;--white:#1a2e1e;
+  --text:#e8f0e9;--text-secondary:#b8d4bc;
+  --muted:#94b89a;--muted2:#6b9c73;
+  --border:#2d4a32;--border2:#3a5e40;
+  --green-light:#162b1a;--gold-light:#2a2210;
+  --red-light:#2a1515;--blue-light:#121e2a
+}
+[data-theme="dark"] body{background:var(--bg);color:var(--text)}
+[data-theme="dark"] nav{background:var(--white);border-color:var(--border)}
+[data-theme="dark"] .nav-links a{color:var(--muted)}
+[data-theme="dark"] .mobile-menu{background:var(--white);border-color:var(--border)}
+[data-theme="dark"] .pillar-card,[data-theme="dark"] .article-card,
+[data-theme="dark"] .res-card,[data-theme="dark"] .sidebar-box,
+[data-theme="dark"] .quiz-card,[data-theme="dark"] .compare-card,
+[data-theme="dark"] .guide-step,[data-theme="dark"] .sidebar-box{background:var(--white);border-color:var(--border)}
+[data-theme="dark"] .quiz-option{background:var(--white);border-color:var(--border);color:var(--text)}
+[data-theme="dark"] .quiz-option:hover{background:var(--green-light);border-color:var(--green)}
+[data-theme="dark"] #chatbot-window{background:var(--white);border-color:var(--border)}
+[data-theme="dark"] .chat-msg.bot{background:var(--bg);color:var(--text)}
+[data-theme="dark"] .chat-input{background:var(--bg);color:var(--text);border-color:var(--border)}
+[data-theme="dark"] .filter-btn{background:var(--white);border-color:var(--border);color:var(--muted)}
+[data-theme="dark"] .tag-pill{background:var(--bg);border-color:var(--border);color:var(--muted)}
+[data-theme="dark"] #cookie-banner{background:var(--white);border-color:var(--border)}
+[data-theme="dark"] .cm-box{background:var(--white)}
+[data-theme="dark"] .cm-cat{border-color:var(--border)}
+[data-theme="dark"] .dark-toggle{border-color:var(--border);color:var(--text)}
+[data-theme="dark"] .step-body{color:var(--muted)}
+[data-theme="dark"] .source-box{background:var(--bg);border-color:var(--border)}
+[data-theme="dark"] .article-table td{border-color:var(--border)}
+[data-theme="dark"] .article-table tr:nth-child(even) td{background:var(--bg)}
 </style>
 <body>
 <nav>
@@ -405,7 +397,7 @@ footer{background:var(--green-dark)}
 <div style="background:linear-gradient(135deg,#0a2e1a 0%,#1a6b3a 60%,#0d3d20 100%);padding:4rem 0 5rem;position:relative;overflow:hidden">
   <div style="position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#fff 1px,transparent 1px);background-size:32px 32px"></div>
   <div class="container" style="position:relative;z-index:1">
-    <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:3rem;align-items:center">
+    <div class="hero-grid" style="display:grid;grid-template-columns:1.2fr 1fr;gap:3rem;align-items:center">
       <div>
         <div style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:.35rem 1rem;font-size:.75rem;color:rgba(255,255,255,.9);font-weight:600;margin-bottom:1.5rem;letter-spacing:.05em">
           <span style="width:7px;height:7px;background:#4ade80;border-radius:50%;display:inline-block"></span>
@@ -430,7 +422,7 @@ footer{background:var(--green-dark)}
         </div>
       </div>
       <!-- Carte droite -->
-      <div style="display:flex;flex-direction:column;gap:.85rem">
+      <div class="hero-grid-right" style="display:flex;flex-direction:column;gap:.85rem">
         <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:1.25rem">
           <div style="font-size:.7rem;color:rgba(255,255,255,.55);font-weight:700;letter-spacing:.08em;margin-bottom:.6rem">LOI FONDATRICE</div>
           <div style="font-size:1.5rem;font-weight:800;color:#fff">Loi n&deg;2008-12</div>
@@ -676,7 +668,7 @@ footer{background:var(--green-dark)}
 
 </div>
 <div class="page" id="page-blog">
-<div style="background:var(--green-dark);padding:3rem 0 3.5rem;margin-bottom:-1.5rem">
+<div style="background:linear-gradient(135deg,var(--green-dark) 0%,var(--green) 100%);padding:3rem 0 3.5rem;margin-bottom:-1.5rem">
   <div class="container">
     <div class="section-label" style="color:rgba(255,255,255,.7);background:rgba(255,255,255,.12);display:inline-block;padding:.3rem .8rem;border-radius:100px;margin-bottom:.75rem"> Veille juridique & tech</div>
     <h2 style="font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:#fff;margin:0;letter-spacing:-.03em">Toutes les actualites juridiques</h2>
