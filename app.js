@@ -14,6 +14,7 @@ function showPage(id) {
   if(navEl) navEl.classList.add('active');
   window.scrollTo(0, 0);
   if(id === 'guide' && !quizInitialized) { quizInitialized = true; selectQuizCat('all'); initQuizCats(); }
+  if(id === 'espace-membre') { loadUserSession(); }
   // Ferme le menu mobile si ouvert
   var mm=document.getElementById('mobileMenu'); if(mm) mm.classList.remove('open');
   var hb=document.getElementById('hamburger'); if(hb) hb.classList.remove('open');
@@ -408,6 +409,115 @@ document.addEventListener('click', function(e) {
 document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='chatInput')sendChat();});
 function applyTheme(dark){document.documentElement.setAttribute('data-theme',dark?'dark':'');try{localStorage.setItem('theme',dark?'dark':'light');}catch(er){}var btn=document.getElementById('darkToggle');if(btn)btn.innerHTML=dark?'<span class="dt-icon">☀️</span><span class="dt-label"> Jour</span>':'<span class="dt-icon">🌙</span><span class="dt-label"> Nuit</span>';}
 try{if(localStorage.getItem('theme')==='dark')applyTheme(true);}catch(er){}
+
+// ===== ESPACE MEMBRE =====
+var currentUser = null;
+function switchTab(tab) {
+  document.querySelectorAll('.membre-tab').forEach(function(b,i){b.classList.toggle('active',i===(tab==='login'?0:1));});
+  document.getElementById('tabLogin').classList.toggle('active', tab==='login');
+  document.getElementById('tabRegister').classList.toggle('active', tab==='register');
+}
+function showMsgMembre(id, msg, type) {
+  var el = document.getElementById(id);
+  if(!el) return;
+  el.textContent = msg;
+  el.className = (type==='ok' ? 'membre-ok show' : 'membre-err show');
+}
+function hideMsgsMembre() {
+  ['loginErr','loginOk','registerErr','registerOk'].forEach(function(id){
+    var el=document.getElementById(id); if(el){el.className=el.className.replace(' show','');}
+  });
+}
+function loadUserSession() {
+  try {
+    var u = localStorage.getItem('dp_user');
+    if(u) { currentUser = JSON.parse(u); showMemberDashboard(); }
+  } catch(e) {}
+}
+function showMemberDashboard() {
+  if(!currentUser) return;
+  document.getElementById('membreForms').style.display = 'none';
+  var dash = document.getElementById('membreDashboard');
+  dash.classList.add('show');
+  var initials = ((currentUser.prenom||'?')[0] + (currentUser.nom||'')[0]).toUpperCase();
+  document.getElementById('membreAvatar').textContent = initials;
+  document.getElementById('membreNom').textContent = (currentUser.prenom||'') + ' ' + (currentUser.nom||'');
+  document.getElementById('membreEmail').textContent = currentUser.email || '';
+  document.getElementById('info-prenom').textContent = currentUser.prenom || '—';
+  document.getElementById('info-nom').textContent = currentUser.nom || '—';
+  document.getElementById('info-email').textContent = currentUser.email || '—';
+  var navLink = document.getElementById('nav-espace-membre');
+  if(navLink) navLink.textContent = currentUser.prenom || 'Mon espace';
+  var mobileLink = document.getElementById('mobile-membre-link');
+  if(mobileLink) mobileLink.textContent = '👤 ' + (currentUser.prenom || 'Mon espace');
+}
+async function doLogin() {
+  hideMsgsMembre();
+  var email = document.getElementById('loginEmail').value.trim();
+  var pwd = document.getElementById('loginPwd').value;
+  if(!email || !pwd) { showMsgMembre('loginErr','Veuillez remplir tous les champs.','err'); return; }
+  var btn = document.getElementById('loginBtn'); btn.disabled=true; btn.textContent='Connexion...';
+  try {
+    var res = await fetch('/api/connexion', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:email, mot_de_passe:pwd})});
+    var data = await res.json();
+    if(res.ok && data.success) {
+      currentUser = data.user;
+      try { localStorage.setItem('dp_user', JSON.stringify(currentUser)); localStorage.setItem('dp_token', data.token); } catch(e){}
+      showMsgMembre('loginOk','Connexion réussie ! Bienvenue, '+currentUser.prenom+' 🎉','ok');
+      setTimeout(showMemberDashboard, 800);
+    } else {
+      showMsgMembre('loginErr', data.detail || 'Identifiants incorrects.','err');
+    }
+  } catch(e) { showMsgMembre('loginErr','Erreur de connexion. Réessayez.','err'); }
+  finally { btn.disabled=false; btn.textContent='Se connecter →'; }
+}
+async function doRegister() {
+  hideMsgsMembre();
+  var prenom = document.getElementById('regPrenom').value.trim();
+  var nom = document.getElementById('regNom').value.trim();
+  var email = document.getElementById('regEmail').value.trim();
+  var pwd = document.getElementById('regPwd').value;
+  var pwd2 = document.getElementById('regPwd2').value;
+  if(!prenom||!nom||!email||!pwd) { showMsgMembre('registerErr','Tous les champs sont obligatoires.','err'); return; }
+  if(pwd.length < 6) { showMsgMembre('registerErr','Le mot de passe doit contenir au moins 6 caractères.','err'); return; }
+  if(pwd !== pwd2) { showMsgMembre('registerErr','Les mots de passe ne correspondent pas.','err'); return; }
+  var btn = document.getElementById('registerBtn'); btn.disabled=true; btn.textContent='Création...';
+  try {
+    var res = await fetch('/api/inscription', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({prenom:prenom, nom:nom, email:email, mot_de_passe:pwd})});
+    var data = await res.json();
+    if(res.ok && data.success) {
+      showMsgMembre('registerOk','Compte créé ! Vous pouvez maintenant vous connecter.','ok');
+      document.getElementById('regPrenom').value=''; document.getElementById('regNom').value='';
+      document.getElementById('regEmail').value=''; document.getElementById('regPwd').value=''; document.getElementById('regPwd2').value='';
+      setTimeout(function(){ switchTab('login'); document.getElementById('loginEmail').value=email; }, 1500);
+    } else {
+      showMsgMembre('registerErr', data.detail || 'Erreur lors de la création du compte.','err');
+    }
+  } catch(e) { showMsgMembre('registerErr','Erreur de connexion. Réessayez.','err'); }
+  finally { btn.disabled=false; btn.textContent='Créer mon compte →'; }
+}
+function doLogout() {
+  currentUser = null;
+  try { localStorage.removeItem('dp_user'); localStorage.removeItem('dp_token'); } catch(e){}
+  document.getElementById('membreDashboard').classList.remove('show');
+  document.getElementById('membreForms').style.display = '';
+  var navLink = document.getElementById('nav-espace-membre');
+  if(navLink) navLink.textContent = 'Mon espace';
+  var mobileLink = document.getElementById('mobile-membre-link');
+  if(mobileLink) mobileLink.textContent = '🔐 Mon espace';
+  hideMsgsMembre();
+  showToast('Vous avez été déconnecté.');
+}
+document.addEventListener('DOMContentLoaded', function(){ loadUserSession(); });
+// Connexion via touche Entrée
+document.addEventListener('keydown', function(e){
+  if(e.key==='Enter'){
+    var active = document.getElementById('page-espace-membre');
+    if(!active || !active.classList.contains('active')) return;
+    if(document.getElementById('tabLogin').classList.contains('active')) doLogin();
+    else doRegister();
+  }
+});
 var chatHistory=[],chatOpen=false,chatWelcomed=false;
 function chatNow(){var d=new Date();return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');}
 function addChatMsg(text,role){
