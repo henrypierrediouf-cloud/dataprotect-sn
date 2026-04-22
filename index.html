@@ -282,38 +282,6 @@ section{padding:4rem 1.5rem}
   .about-2col{grid-template-columns:1fr}
 }
 
-/* ===== ESPACE MEMBRE ===== */
-.membre-wrap{max-width:480px;margin:0 auto;padding:3rem 1rem}
-.membre-tabs{display:flex;background:var(--bg);border-radius:12px;padding:.3rem;margin-bottom:2rem;gap:.3rem}
-.membre-tab{flex:1;padding:.6rem;border:none;border-radius:9px;background:none;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s}
-.membre-tab.active{background:var(--white);color:var(--green);box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.membre-form{display:none}
-.membre-form.active{display:block}
-.membre-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow)}
-.membre-field{margin-bottom:1rem}
-.membre-field label{display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.4rem}
-.membre-field input{width:100%;padding:.65rem .9rem;border:1.5px solid var(--border);border-radius:9px;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;background:var(--bg);color:var(--text);box-sizing:border-box;transition:border-color .2s}
-.membre-field input:focus{border-color:var(--green);background:var(--white)}
-.membre-submit{width:100%;padding:.8rem;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:.5rem;transition:opacity .2s}
-.membre-submit:hover{opacity:.88}
-.membre-submit:disabled{opacity:.5;cursor:not-allowed}
-.membre-err{background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:.65rem .9rem;font-size:.84rem;color:#b91c1c;margin-bottom:1rem;display:none}
-.membre-err.show{display:block}
-.membre-ok{background:#dcfce7;border:1px solid #86efac;border-radius:8px;padding:.65rem .9rem;font-size:.84rem;color:#166534;margin-bottom:1rem;display:none}
-.membre-ok.show{display:block}
-/* Dashboard membre connecte */
-.membre-dashboard{display:none}
-.membre-dashboard.show{display:block}
-.membre-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--green) 0%,#2d8a52 100%);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:800;margin:0 auto 1.25rem}
-.membre-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin:1.5rem 0}
-.membre-info-item{background:var(--bg);border-radius:9px;padding:.9rem 1rem}
-.membre-info-label{font-size:.72rem;color:var(--muted);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.2rem}
-.membre-info-val{font-size:.92rem;font-weight:600;color:var(--text)}
-.membre-access{background:var(--green-light);border:1px solid rgba(26,107,58,.2);border-radius:var(--radius);padding:1.25rem;margin-top:1.5rem}
-.membre-access h4{font-size:.9rem;font-weight:700;color:var(--green);margin:0 0 .85rem}
-.membre-access-item{display:flex;align-items:center;gap:.65rem;padding:.5rem 0;border-bottom:1px solid rgba(26,107,58,.1);font-size:.86rem;color:var(--text);cursor:pointer}
-.membre-access-item:last-child{border-bottom:none}
-.membre-access-item:hover{color:var(--green)}
 /* ===== CONTACT ===== */
 .contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
 .contact-form{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:2rem}
@@ -521,8 +489,7 @@ section.section-alt{background:var(--white)}
     <li><a data-nav="ressources" id="nav-ressources">Ressources</a></li>
     <li><a data-nav="comparatif" id="nav-comparatif">RGPD vs Loi SN</a></li>
     <li><a data-nav="about" id="nav-about">À propos</a></li>
-    <li><a data-nav="espace-membre" id="nav-espace-membre">Mon espace</a></li>
-    <li><a data-nav="contact" id="nav-contact" class="nav-cta">Contact</a></li>
+<li><a data-nav="contact" id="nav-contact" class="nav-cta">Contact</a></li>
   </ul>
   <button class="dark-toggle" id="darkToggle" title="Basculer mode jour/nuit"><span class="dt-icon">🌙</span><span class="dt-label"> Nuit</span></button>
   <div class="hamburger" id="hamburger" data-toggle-menu="1">
@@ -537,8 +504,7 @@ section.section-alt{background:var(--white)}
   <a data-nav="ressources" data-toggle-menu="1">📂 Ressources</a>
   <a data-nav="comparatif" data-toggle-menu="1">🇪🇺 RGPD vs Loi SN</a>
   <a data-nav="about" data-toggle-menu="1">👤 À propos</a>
-  <a data-nav="espace-membre" data-toggle-menu="1" id="mobile-membre-link">🔐 Mon espace</a>
-  <a data-nav="contact" data-toggle-menu="1" style="color:var(--green);font-weight:700">✉️ Contact</a>
+<a data-nav="contact" data-toggle-menu="1" style="color:var(--green);font-weight:700">✉️ Contact</a>
 </div>
 
 <div class="page" id="page-home">
@@ -1318,123 +1284,6 @@ section.section-alt{background:var(--white)}
   </div>
 </section>
 </div>
-<!-- =================== PAGE ESPACE MEMBRE =================== -->
-<div class="page" id="page-espace-membre">
-<div style="background:linear-gradient(135deg,var(--green-dark) 0%,#1a3a4a 100%);padding:3rem 0 3.5rem">
-  <div class="container" style="text-align:center">
-    <div style="font-size:2.5rem;margin-bottom:.5rem">🔐</div>
-    <h2 style="font-size:clamp(1.5rem,4vw,2rem);font-weight:800;color:#fff;margin:0 0 .5rem;letter-spacing:-.03em">Espace Membre</h2>
-    <p style="color:rgba(255,255,255,.75);font-size:.95rem;margin:0">Accédez à vos ressources exclusives et suivez votre conformité</p>
-  </div>
-</div>
-<section style="background:var(--bg);min-height:60vh;padding:3rem 0">
-  <div class="membre-wrap">
-
-    <!-- DASHBOARD (visible après connexion) -->
-    <div class="membre-dashboard" id="membreDashboard">
-      <div class="membre-card" style="text-align:center;margin-bottom:1.5rem">
-        <div class="membre-avatar" id="membreAvatar">?</div>
-        <h3 style="font-size:1.2rem;font-weight:700;color:var(--text);margin:0 0 .25rem" id="membreNom">—</h3>
-        <p style="font-size:.85rem;color:var(--muted);margin:0" id="membreEmail">—</p>
-        <span style="display:inline-block;background:var(--green-light);color:var(--green);font-size:.75rem;font-weight:700;padding:.2rem .75rem;border-radius:100px;margin-top:.6rem">Membre actif</span>
-      </div>
-      <div class="membre-card" style="margin-bottom:1.5rem">
-        <h4 style="font-size:.95rem;font-weight:700;color:var(--text);margin:0 0 1rem">Mes informations</h4>
-        <div class="membre-info-grid">
-          <div class="membre-info-item">
-            <div class="membre-info-label">Prénom</div>
-            <div class="membre-info-val" id="info-prenom">—</div>
-          </div>
-          <div class="membre-info-item">
-            <div class="membre-info-label">Nom</div>
-            <div class="membre-info-val" id="info-nom">—</div>
-          </div>
-          <div class="membre-info-item" style="grid-column:1/-1">
-            <div class="membre-info-label">Email</div>
-            <div class="membre-info-val" id="info-email">—</div>
-          </div>
-        </div>
-      </div>
-      <div class="membre-access">
-        <h4>Ressources membres</h4>
-        <div class="membre-access-item" data-nav="ressources">
-          <span>📂</span><span>Centre de ressources complet</span>
-        </div>
-        <div class="membre-access-item" data-nav="guide">
-          <span>📖</span><span>Guide citoyen — Vos droits</span>
-        </div>
-        <div class="membre-access-item" data-nav="comparatif">
-          <span>⚖️</span><span>Comparatif RGPD vs Loi 2008-12</span>
-        </div>
-        <div class="membre-access-item" data-nav="blog">
-          <span>📰</span><span>Veille juridique & actualités</span>
-        </div>
-      </div>
-      <button onclick="doLogout()" style="width:100%;margin-top:1.25rem;padding:.75rem;background:none;border:2px solid var(--border);border-radius:10px;font-size:.9rem;font-weight:600;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:.2s" onmouseover="this.style.borderColor='#e53e3e';this.style.color='#e53e3e'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">Se déconnecter</button>
-    </div>
-
-    <!-- FORMULAIRES (visible si non connecté) -->
-    <div id="membreForms">
-      <div class="membre-tabs">
-        <button class="membre-tab active" onclick="switchTab('login')">Se connecter</button>
-        <button class="membre-tab" onclick="switchTab('register')">Créer un compte</button>
-      </div>
-
-      <!-- Connexion -->
-      <div class="membre-form active" id="tabLogin">
-        <div class="membre-card">
-          <div class="membre-err" id="loginErr"></div>
-          <div class="membre-ok" id="loginOk"></div>
-          <div class="membre-field">
-            <label>Email</label>
-            <input type="email" id="loginEmail" placeholder="votre@email.com" autocomplete="email">
-          </div>
-          <div class="membre-field">
-            <label>Mot de passe</label>
-            <input type="password" id="loginPwd" placeholder="••••••••" autocomplete="current-password">
-          </div>
-          <button class="membre-submit" id="loginBtn" onclick="doLogin()">Se connecter →</button>
-          <p style="font-size:.78rem;color:var(--muted);text-align:center;margin-top:1rem">Pas encore de compte ? <a onclick="switchTab('register')" style="color:var(--green);cursor:pointer;font-weight:600">Créer un compte</a></p>
-        </div>
-      </div>
-
-      <!-- Inscription -->
-      <div class="membre-form" id="tabRegister">
-        <div class="membre-card">
-          <div class="membre-err" id="registerErr"></div>
-          <div class="membre-ok" id="registerOk"></div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
-            <div class="membre-field">
-              <label>Prénom <span style="color:var(--red)">*</span></label>
-              <input type="text" id="regPrenom" placeholder="Votre prénom" autocomplete="given-name">
-            </div>
-            <div class="membre-field">
-              <label>Nom <span style="color:var(--red)">*</span></label>
-              <input type="text" id="regNom" placeholder="Votre nom" autocomplete="family-name">
-            </div>
-          </div>
-          <div class="membre-field">
-            <label>Email <span style="color:var(--red)">*</span></label>
-            <input type="email" id="regEmail" placeholder="votre@email.com" autocomplete="email">
-          </div>
-          <div class="membre-field">
-            <label>Mot de passe <span style="color:var(--red)">*</span></label>
-            <input type="password" id="regPwd" placeholder="Minimum 6 caractères" autocomplete="new-password">
-          </div>
-          <div class="membre-field">
-            <label>Confirmer le mot de passe <span style="color:var(--red)">*</span></label>
-            <input type="password" id="regPwd2" placeholder="••••••••" autocomplete="new-password">
-          </div>
-          <button class="membre-submit" id="registerBtn" onclick="doRegister()">Créer mon compte →</button>
-          <p style="font-size:.78rem;color:var(--muted);text-align:center;margin-top:1rem">Déjà membre ? <a onclick="switchTab('login')" style="color:var(--green);cursor:pointer;font-weight:600">Se connecter</a></p>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-</div>
-
 <div class="page" id="page-contact">
 <section><div class="container" style="max-width:900px">
   <div class="section-label">Parlons-nous</div>
