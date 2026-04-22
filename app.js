@@ -390,11 +390,13 @@ document.addEventListener('click', function(e) {
   if(t) { currentQ=0; score=0; answered=false; renderQuiz(); return; }
   t = e.target.closest ? e.target.closest('.res-dl') : null;
   if(t) { if(!t.getAttribute('href')) { showToast('Document disponible prochainement !'); return; } else { return; } }
-  if(e.target.closest && e.target.closest('#chatbot-btn') && !e.target.closest('#chatbot-window')) { var cw=document.getElementById('chatbot-window'); if(cw){chatOpen=!chatOpen;cw.classList.toggle('open',chatOpen);if(chatOpen){var ci=document.getElementById('chatInput');if(ci)ci.focus();}} return; }
-  if(e.target.id==='chatClose'){chatOpen=false;var cw2=document.getElementById('chatbot-window');if(cw2)cw2.classList.remove('open');return;}
-  if(e.target.id==='chatSend'){sendChat();return;}
+  if(e.target.closest && e.target.closest('#chatbot-btn') && !e.target.closest('#chatbot-window')) { var cw=document.getElementById('chatbot-window'); if(cw){chatOpen=!chatOpen;cw.classList.toggle('open',chatOpen);if(chatOpen){showChatWelcome();var ci=document.getElementById('chatInput');if(ci)ci.focus();}} return; }
+  if(e.target.closest && e.target.closest('#chatClose')){chatOpen=false;var cw2=document.getElementById('chatbot-window');if(cw2)cw2.classList.remove('open');return;}
+  if(e.target.closest && e.target.closest('#chatSend')){sendChat();return;}
   t = e.target.closest ? e.target.closest('[data-sug]') : null;
   if(t){var ci2=document.getElementById('chatInput');if(ci2){ci2.value=t.dataset.sug;sendChat();}return;}
+  t = e.target.closest ? e.target.closest('.chat-fb-btn') : null;
+  if(t){var fbWrap=t.closest('.chat-feedback');if(fbWrap){fbWrap.querySelectorAll('.chat-fb-btn').forEach(function(b){b.classList.remove('active-good','active-bad');});t.classList.add(t.dataset.fb==='good'?'active-good':'active-bad');}return;}
   if(e.target.id==='ck-accept'||e.target.id==='ck-modal-accept'){savePref(true,true);return;}
   if(e.target.id==='ck-refuse'||e.target.id==='ck-modal-refuse'){savePref(false,false);return;}
   if(e.target.id==='ck-custom'||e.target.id==='ck-manage-btn'){showCkModal();return;}
@@ -404,11 +406,47 @@ document.addEventListener('click', function(e) {
 document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='chatInput')sendChat();});
 function applyTheme(dark){document.documentElement.setAttribute('data-theme',dark?'dark':'');try{localStorage.setItem('theme',dark?'dark':'light');}catch(er){}var btn=document.getElementById('darkToggle');if(btn)btn.innerHTML=dark?'☀️ Jour':'🌙 Nuit';}
 try{if(localStorage.getItem('theme')==='dark')applyTheme(true);}catch(er){}
-var chatHistory=[],chatOpen=false;
-function addChatMsg(text,role){var msgs=document.getElementById('chatMessages');if(!msgs)return;var d=document.createElement('div');d.className='chat-msg '+role;d.innerHTML=text.replace(/\n/g,'<br>');msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
+var chatHistory=[],chatOpen=false,chatWelcomed=false;
+function chatNow(){var d=new Date();return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');}
+function addChatMsg(text,role){
+  var msgs=document.getElementById('chatMessages');if(!msgs)return;
+  var wrap=document.createElement('div');wrap.className='chat-msg-wrap '+role;
+  var d=document.createElement('div');d.className='chat-msg '+role;
+  d.innerHTML=text.replace(/\n/g,'<br>');
+  wrap.appendChild(d);
+  var meta=document.createElement('div');meta.style.cssText='display:flex;align-items:center;gap:.4rem';
+  var t=document.createElement('span');t.className='chat-time';t.textContent=chatNow();
+  meta.appendChild(t);
+  if(role==='bot'){
+    var fb=document.createElement('div');fb.className='chat-feedback';
+    fb.innerHTML='<button class="chat-fb-btn" data-fb="good" title="Utile">&#128077;</button><button class="chat-fb-btn" data-fb="bad" title="Pas utile">&#128078;</button>';
+    meta.appendChild(fb);
+  }
+  wrap.appendChild(meta);
+  msgs.appendChild(wrap);msgs.scrollTop=msgs.scrollHeight;
+}
 function showTyping(){var msgs=document.getElementById('chatMessages');if(!msgs)return;var d=document.createElement('div');d.className='chat-msg typing';d.id='typingDot';d.innerHTML='<div class="typing-dots"><span></span><span></span><span></span></div>';msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
 function removeTyping(){var t=document.getElementById('typingDot');if(t)t.remove();}
-async function sendChat(){var inp=document.getElementById('chatInput');if(!inp)return;var text=inp.value.trim();if(!text)return;inp.value='';var sugs=document.getElementById('chatSugs');if(sugs)sugs.style.display='none';addChatMsg(text,'user');chatHistory.push({role:'user',content:text});showTyping();try{var res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory.slice(-6)})});var data=await res.json();removeTyping();var reply=data.reply||data.detail||'Desole, une erreur.';chatHistory.push({role:'assistant',content:reply});addChatMsg(reply,'bot');}catch(err){removeTyping();addChatMsg('Erreur de connexion.','bot');}}
+function showChatWelcome(){
+  if(chatWelcomed)return;chatWelcomed=true;
+  setTimeout(function(){
+    addChatMsg('Bonjour ! Je suis l\'assistant IA de <strong>DataProtect Sénégal</strong>. Je peux vous aider sur :\n• Vos droits (Loi 2008-12, RGPD)\n• Les obligations des entreprises\n• La CDP et les declarations\n• Le DPO et la conformite\n\nPosez votre question !','bot');
+  },300);
+}
+async function sendChat(){
+  var inp=document.getElementById('chatInput');if(!inp)return;
+  var text=inp.value.trim();if(!text)return;
+  inp.value='';inp.disabled=true;
+  var sugs=document.getElementById('chatSugs');if(sugs)sugs.style.display='none';
+  addChatMsg(text,'user');chatHistory.push({role:'user',content:text});showTyping();
+  try{
+    var res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory.slice(-8)})});
+    var data=await res.json();removeTyping();
+    var reply=data.reply||data.detail||'Desole, une erreur s\'est produite.';
+    chatHistory.push({role:'assistant',content:reply});addChatMsg(reply,'bot');
+  }catch(err){removeTyping();addChatMsg('Erreur de connexion. Verifiez votre reseau.','bot');}
+  finally{inp.disabled=false;inp.focus();}
+}
 function setCookie(n,v,d){var e=new Date();e.setTime(e.getTime()+(d*864e5));document.cookie=n+'='+v+';expires='+e.toUTCString()+';path=/;SameSite=Lax';}
 function getCookie(n){var a=document.cookie.split(';');for(var i=0;i<a.length;i++){var c=a[i].trim();if(c.startsWith(n+'='))return c.substring(n.length+1);}return null;}
 function showCkBanner(){var b=document.getElementById('cookie-banner');if(b)b.classList.add('show');}
