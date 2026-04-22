@@ -13,7 +13,7 @@ function showPage(id) {
   const navEl = document.getElementById('nav-' + id);
   if(navEl) navEl.classList.add('active');
   window.scrollTo(0, 0);
-  if(id === 'guide' && !quizInitialized) { quizInitialized = true; renderQuiz(); }
+  if(id === 'guide' && !quizInitialized) { quizInitialized = true; selectQuizCat('all'); initQuizCats(); }
   // Ferme le menu mobile si ouvert
   var mm=document.getElementById('mobileMenu'); if(mm) mm.classList.remove('open');
   var hb=document.getElementById('hamburger'); if(hb) hb.classList.remove('open');
@@ -88,58 +88,175 @@ const articles = {
   }
 };
 
-const quizData = [
-  {q:"Numero et date de la loi senegalaise sur la protection des donnees ?",options:["Loi 2004-05","Loi 2008-12 du 25 janvier 2008","Loi 2011-01","Loi 2016-29"],correct:1,explanation:"La Loi 2008-12 du 25 janvier 2008 est le texte fondateur. Elle a cree la CDP."},
-  {q:"Quelle autorite controle la protection des donnees au Senegal ?",options:["La CNIL","L'ARTP","La CDP","Le Ministere de la Justice"],correct:2,explanation:"La CDP est l'autorite independante creee par la Loi 2008-12."},
-  {q:"Quelle formalite avant de traiter des donnees personnelles ?",options:["Aucune","Un email","Une declaration prealable a la CDP","Un enregistrement"],correct:2,explanation:"Art. 18 Loi 2008-12 : declaration prealable obligatoire."},
-  {q:"Sanction maximale de la CDP ?",options:["1 million FCFA","5 millions FCFA","10 millions FCFA","50 millions FCFA"],correct:2,explanation:"La CDP peut prononcer des sanctions jusqu'a 10 millions de FCFA."},
-  {q:"Quelles donnees sont sensibles selon la Loi 2008-12 ?",options:["Noms","Donnees de sante et biometriques","Emails","Telephones"],correct:1,explanation:"Art. 46 : sante, biometrie, opinions politiques/religieuses."},
-  {q:"Depuis quand le RGPD est applicable ?",options:["25 mai 2016","25 mai 2018","25 janvier 2020","1er janvier 2021"],correct:1,explanation:"Le RGPD est entre en application le 25 mai 2018."},
-  {q:"Amende maximale RGPD violations graves ?",options:["100 000 euros","1 million euros","20 millions euros ou 4% CA mondial","50 millions euros"],correct:2,explanation:"Art. 83.5 RGPD : jusqu'a 20M euros ou 4% du CA mondial."},
-  {q:"Le RGPD s'applique-t-il aux entreprises senegalaises traitant des donnees europeennes ?",options:["Non","Oui, portee extraterritoriale","Seulement avec bureau en Europe","Non, jamais"],correct:1,explanation:"Art. 3 RGPD : s'applique a toute organisation mondiale traitant des donnees de residents UE."},
-  {q:"Quel droit existe dans le RGPD mais pas dans la Loi 2008-12 ?",options:["Droit d'acces","Droit de rectification","Droit a la portabilite","Droit d'opposition"],correct:2,explanation:"Le droit a la portabilite (Art. 20 RGPD) n'existe pas encore dans la Loi 2008-12."},
-  {q:"Qu'est-ce qu'une AIPD ?",options:["Rapport annuel a la CDP","Evaluation prealable des risques pour traitements a fort impact","Formulaire d'inscription","Audit financier"],correct:1,explanation:"L'AIPD (Art. 35 RGPD) est obligatoire avant tout traitement a risque eleve."}
+const quizAllData = [
+  // Loi 2008-12
+  {cat:'loi',q:"Numero et date de la loi senegalaise sur la protection des donnees ?",options:["Loi 2004-05","Loi 2008-12 du 25 janvier 2008","Loi 2011-01","Loi 2016-29"],correct:1,explanation:"La Loi 2008-12 du 25 janvier 2008 est le texte fondateur de la protection des donnees au Senegal. Elle a cree la CDP."},
+  {cat:'loi',q:"Quelle autorite controle la protection des donnees au Senegal ?",options:["La CNIL","L'ARTP","La CDP","Le Ministere de la Justice"],correct:2,explanation:"La CDP (Commission des Donnees Personnelles) est l'autorite independante creee par la Loi 2008-12 pour veiller au respect de la vie privee."},
+  {cat:'loi',q:"Quelle formalite est obligatoire avant de traiter des donnees personnelles ?",options:["Aucune formalite","Envoyer un email a la CDP","Une declaration prealable a la CDP","Un simple enregistrement commercial"],correct:2,explanation:"Art. 18 Loi 2008-12 : toute mise en oeuvre d'un traitement de donnees personnelles necessite une declaration prealable aupres de la CDP."},
+  {cat:'loi',q:"Sanction pecuniaire maximale que peut prononcer la CDP ?",options:["1 million FCFA","5 millions FCFA","10 millions FCFA","50 millions FCFA"],correct:2,explanation:"La CDP peut prononcer des sanctions jusqu'a 10 millions de FCFA. Le projet de reforme 2026 envisage de porter ce plafond a 50 millions FCFA."},
+  {cat:'loi',q:"Quelles donnees sont considerees sensibles selon la Loi 2008-12 ?",options:["Noms et prenoms","Donnees de sante, biometriques et opinions politiques/religieuses","Adresses email","Numeros de telephone"],correct:1,explanation:"Art. 46 Loi 2008-12 : sont sensibles les donnees de sante, biometriques, opinions politiques, convictions religieuses et origine ethnique ou raciale."},
+  {cat:'loi',q:"Quel droit permet a un citoyen de demander la copie de ses donnees ?",options:["Droit d'opposition","Droit a l'oubli","Droit d'acces","Droit de portabilite"],correct:2,explanation:"Le droit d'acces (Art. 48 decret d'application) permet a toute personne d'obtenir communication des donnees la concernant detenues par un organisme."},
+  {cat:'loi',q:"Devant quelle juridiction peut-on contester une decision de la CDP ?",options:["Tribunal de grande instance de Dakar","Conseil d'Etat","Cour d'appel de Dakar","Cour supreme"],correct:2,explanation:"Art. 39 Loi 2008-12 : les decisions de la CDP peuvent faire l'objet d'un recours devant la Cour d'appel de Dakar dans un delai de deux mois."},
+  {cat:'loi',q:"Quelle nouveaute introduit le projet de reforme 2026 de la Loi 2008-12 ?",options:["Suppression de la CDP","Obligation de nommer un DPO pour les grandes organisations","Autorisation de vendre des donnees","Suppression du droit d'acces"],correct:1,explanation:"Le projet de reforme 2026 prevoit l'obligation de nommer un DPO (Delegue a la Protection des Donnees) pour les organisations traitant plus de 5000 personnes."},
+  // RGPD
+  {cat:'rgpd',q:"Depuis quand le RGPD est applicable en Europe ?",options:["25 mai 2016","25 mai 2018","25 janvier 2020","1er janvier 2021"],correct:1,explanation:"Le RGPD (Reglement General sur la Protection des Donnees) est entre en application le 25 mai 2018, deux ans apres sa publication au Journal officiel de l'UE."},
+  {cat:'rgpd',q:"Amende maximale du RGPD pour les violations graves ?",options:["100 000 euros","1 million euros","20 millions euros ou 4% du CA mondial","50 millions euros"],correct:2,explanation:"Art. 83.5 RGPD : les violations les plus graves peuvent entrainer des amendes allant jusqu'a 20 millions d'euros ou 4% du chiffre d'affaires annuel mondial."},
+  {cat:'rgpd',q:"Le RGPD s'applique-t-il aux entreprises senegalaises traitant des donnees de residents europeens ?",options:["Non, jamais","Oui, portee extraterritoriale (Art. 3)","Seulement si elles ont un bureau en Europe","Seulement pour les entreprises de plus de 50 employes"],correct:1,explanation:"Art. 3 RGPD : le reglement s'applique a toute organisation dans le monde qui traite des donnees de residents de l'UE, peu importe ou elle est etablie."},
+  {cat:'rgpd',q:"Quel droit du RGPD n'existe pas dans la Loi 2008-12 actuelle ?",options:["Droit d'acces","Droit de rectification","Droit a la portabilite","Droit d'opposition"],correct:2,explanation:"Le droit a la portabilite (Art. 20 RGPD) permet d'obtenir ses donnees dans un format lisible par machine pour les transferer. Il n'existe pas encore dans la Loi 2008-12."},
+  {cat:'rgpd',q:"Qu'est-ce qu'une AIPD (Analyse d'Impact sur la Protection des Donnees) ?",options:["Un rapport annuel obligatoire","Une evaluation prealable des risques avant tout traitement a fort impact","Un formulaire d'inscription a la CDP","Un audit financier annuel"],correct:1,explanation:"Art. 35 RGPD : l'AIPD est obligatoire avant tout traitement susceptible d'engendrer un risque eleve pour les droits des personnes (reconnaissance faciale, scoring, etc.)."},
+  {cat:'rgpd',q:"Quelle amende historique a recu Meta en 2023 ?",options:["150 millions euros","530 millions euros","1,2 milliard euros","800 millions euros"],correct:2,explanation:"En mai 2023, la DPC irlandaise a inflige a Meta une amende record de 1,2 milliard euros pour transfert illegal de donnees europeennes vers les Etats-Unis."},
+  {cat:'rgpd',q:"En quoi consiste le droit a l'effacement (droit a l'oubli) du RGPD ?",options:["Supprimer son compte email","Demander la suppression de ses donnees lorsque leur conservation n'est plus justifiee","Effacer ses photos des reseaux sociaux","Annuler une commande en ligne"],correct:1,explanation:"Art. 17 RGPD : le droit a l'effacement permet d'obtenir la suppression de ses donnees quand elles ne sont plus necessaires, quand le consentement est retire ou en cas de traitement illicite."},
+  // IA Act
+  {cat:'ia',q:"Depuis quand les premieres interdictions de l'IA Act sont-elles en vigueur dans l'UE ?",options:["Aout 2024","Fevrier 2025","Aout 2025","Fevrier 2026"],correct:3,explanation:"Les interdictions absolues de l'IA Act (scoring social, IA manipulatrice, reconnaissance faciale en temps reel dans les espaces publics) sont entrees en vigueur le 2 fevrier 2026."},
+  {cat:'ia',q:"Quelle autorite francaise regule desormais l'IA en France ?",options:["Le CSA","L'ARCEP","La CNIL","L'AMF"],correct:2,explanation:"Depuis aout 2025, la CNIL est officiellement l'autorite nationale de supervision de l'intelligence artificielle en France au titre de l'IA Act europeen."},
+  {cat:'ia',q:"L'IA Act s'applique-t-il aux entreprises senegalaises exportant des systemes IA vers l'UE ?",options:["Non, jamais","Oui, portee extraterritoriale comme le RGPD","Seulement si elles ont un partenaire europeen","Seulement pour les systemes d'IA a haut risque"],correct:1,explanation:"Art. 2 IA Act : le reglement s'applique a toute organisation mondiale fournissant des systemes d'IA utilises dans l'UE. Une startup senegalaise vendant une solution IA en Europe est concernee."},
 ];
 
-let currentQ = 0, score = 0, answered = false, quizInitialized = false;
+const quizCategories = [
+  {key:'all', label:'Tout ('+quizAllData.length+' questions)'},
+  {key:'loi', label:'Loi 2008-12'},
+  {key:'rgpd', label:'RGPD'},
+  {key:'ia', label:'IA Act'},
+];
+
+let quizData = [], currentQ = 0, score = 0, answered = false, quizInitialized = false;
+let quizWrong = [], quizTimerInterval = null, quizTimeLeft = 30, activeCategory = 'all';
+
+function shuffleArray(arr) {
+  var a = arr.slice();
+  for(var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+
+function initQuizCats() {
+  var el = document.getElementById('quizCats');
+  if(!el) return;
+  el.innerHTML = quizCategories.map(function(c) {
+    return '<button class="quiz-cat-btn'+(c.key===activeCategory?' active':'')+'" onclick="selectQuizCat(\''+c.key+'\')">'+c.label+'</button>';
+  }).join('');
+}
+
+function selectQuizCat(cat) {
+  activeCategory = cat;
+  quizData = shuffleArray(cat==='all' ? quizAllData : quizAllData.filter(function(q){return q.cat===cat;}));
+  currentQ = 0; score = 0; quizWrong = [];
+  initQuizCats();
+  clearQuizTimer();
+  renderQuiz();
+}
+
+function startQuizTimer() {
+  clearQuizTimer();
+  quizTimeLeft = 30;
+  updateTimerDisplay();
+  quizTimerInterval = setInterval(function() {
+    quizTimeLeft--;
+    updateTimerDisplay();
+    if(quizTimeLeft <= 0) { clearQuizTimer(); if(!answered) answerQuiz(-1); }
+  }, 1000);
+}
+
+function clearQuizTimer() {
+  if(quizTimerInterval) { clearInterval(quizTimerInterval); quizTimerInterval = null; }
+}
+
+function updateTimerDisplay() {
+  var t = document.getElementById('quizTimer');
+  var f = document.getElementById('quizTimerFill');
+  if(!t) return;
+  t.textContent = quizTimeLeft;
+  t.className = 'quiz-timer' + (quizTimeLeft <= 8 ? ' urgent' : '');
+  if(f) { f.style.width = (quizTimeLeft/30*100)+'%'; f.className = 'quiz-timer-fill'+(quizTimeLeft<=8?' urgent':''); }
+}
 
 function renderQuiz() {
-  if(currentQ >= quizData.length) {
-    const pct = Math.round((score / quizData.length) * 100);
-    document.getElementById('quizCard').innerHTML = `
-      <div class="quiz-result">
-        <div class="quiz-score">${score}/${quizData.length}</div>
-        <div class="quiz-result-msg">${pct >= 80 ? ' Excellent ! Vous maitrisez bien la protection des donnees.' : pct >= 60 ? ' Bon resultat ! Quelques points a approfondir.' : ' Continuez a explorer nos ressources pour progresser.'}</div>
-        <button class="btn-gold" onclick="currentQ=0;score=0;answered=false;renderQuiz()">Recommencer le quiz</button>
-      </div>`;
-    document.getElementById('quizBar').style.width = '100%';
+  var counterEl = document.getElementById('quizCounter');
+  var okEl = document.getElementById('qlOk');
+  var koEl = document.getElementById('qlKo');
+  if(counterEl) counterEl.textContent = quizData.length ? 'Question '+(currentQ+1)+' / '+quizData.length : '';
+  if(okEl) okEl.textContent = '✓ '+score;
+  if(koEl) koEl.textContent = '✗ '+(currentQ - score - (answered?0:0));
+  if(currentQ >= quizData.length && quizData.length > 0) {
+    clearQuizTimer();
+    showQuizResult();
     return;
   }
-  const q = quizData[currentQ];
-  document.getElementById('quizBar').style.width = ((currentQ / quizData.length) * 100) + '%';
+  if(!quizData.length) {
+    document.getElementById('quizCard').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted)">Selectionnez une categorie pour commencer.</div>';
+    document.getElementById('quizBar').style.width = '0%';
+    return;
+  }
+  var q = quizData[currentQ];
+  document.getElementById('quizBar').style.width = (currentQ/quizData.length*100)+'%';
   answered = false;
-  document.getElementById('quizCard').innerHTML = `
-    <div class="quiz-q">${q.q}</div>
-    <div class="quiz-options">
-      ${q.options.map((o, i) => `<button class="quiz-option" onclick="answerQuiz(${i})">${o}</button>`).join('')}
-    </div>
-    <div id="quizExp" style="display:none" class="quiz-explanation"></div>
-    <div class="quiz-nav" id="quizNav" style="display:none">
-      <button class="btn-gold" onclick="currentQ++;renderQuiz()">${currentQ < quizData.length - 1 ? 'Question suivante ' : 'Voir mon score '}</button>
-    </div>`;
+  document.getElementById('quizCard').innerHTML =
+    '<div class="quiz-q">'+q.q+'</div>'+
+    '<div class="quiz-options">'+
+    q.options.map(function(o,i){ return '<button class="quiz-option" data-answer="'+i+'">'+o+'</button>'; }).join('')+
+    '</div>'+
+    '<div id="quizExp" style="display:none" class="quiz-explanation"></div>'+
+    '<div class="quiz-nav" id="quizNav" style="display:none">'+
+    '<span style="font-size:.82rem;color:var(--muted)">'+score+' correcte(s) sur '+(currentQ+(answered?1:0))+'</span>'+
+    '<button class="btn-gold" data-quiz-next="1">'+(currentQ < quizData.length-1 ? 'Suivant →' : 'Voir mon score →')+'</button>'+
+    '</div>';
+  startQuizTimer();
 }
 
 function answerQuiz(idx) {
   if(answered) return;
   answered = true;
-  const q = quizData[currentQ];
-  const opts = document.querySelectorAll('.quiz-option');
-  opts[idx].classList.add(idx === q.correct ? 'correct' : 'wrong');
+  clearQuizTimer();
+  var q = quizData[currentQ];
+  var opts = document.querySelectorAll('.quiz-option');
+  opts.forEach(function(o){ o.disabled = true; });
+  if(idx >= 0) opts[idx].classList.add(idx===q.correct?'correct':'wrong');
   if(idx !== q.correct) opts[q.correct].classList.add('correct');
-  if(idx === q.correct) score++;
-  document.getElementById('quizExp').style.display = 'block';
-  document.getElementById('quizExp').textContent = q.explanation;
-  document.getElementById('quizNav').style.display = 'flex';
+  if(idx === q.correct) { score++; }
+  else { quizWrong.push({q:q.q, correct:q.options[q.correct], explanation:q.explanation}); }
+  var expEl = document.getElementById('quizExp');
+  if(expEl) { expEl.style.display='block'; expEl.textContent = (idx<0?'⏱ Temps ecoule ! ':'')+q.explanation; }
+  var navEl = document.getElementById('quizNav');
+  if(navEl) {
+    navEl.style.display='flex';
+    var scoreSpan = navEl.querySelector('span');
+    if(scoreSpan) scoreSpan.textContent = score+' correcte(s) sur '+(currentQ+1);
+  }
+  var okEl = document.getElementById('qlOk'); if(okEl) okEl.textContent='✓ '+score;
+  var koEl = document.getElementById('qlKo'); if(koEl) koEl.textContent='✗ '+quizWrong.length;
+}
+
+function showQuizResult() {
+  var pct = Math.round((score/quizData.length)*100);
+  var medal = pct>=90?'🥇':pct>=70?'🥈':pct>=50?'🥉':'📚';
+  var msg = pct>=90?'Excellent ! Vous maîtrisez parfaitement la protection des donnees.':
+            pct>=70?'Bon resultat ! Quelques points a approfondir.':
+            pct>=50?'Pas mal ! Continuez a explorer nos ressources.':
+            'Continuez a vous former — nos ressources sont la pour vous aider !';
+  var reviewHtml = '';
+  if(quizWrong.length) {
+    reviewHtml = '<div class="quiz-review">'+
+      '<div class="quiz-review-title">Questions ratees ('+quizWrong.length+')</div>'+
+      quizWrong.map(function(w){
+        return '<div class="quiz-review-item ko">'+
+          '<strong>Q : </strong>'+w.q+'<br>'+
+          '<strong>Reponse : </strong>'+w.correct+'<br>'+
+          '<span style="font-size:.8rem;opacity:.8">'+w.explanation+'</span></div>';
+      }).join('')+'</div>';
+  }
+  document.getElementById('quizBar').style.width='100%';
+  document.getElementById('quizCard').innerHTML =
+    '<div class="quiz-result">'+
+    '<span class="quiz-medal">'+medal+'</span>'+
+    '<div class="quiz-score">'+score+'/'+quizData.length+'</div>'+
+    '<div class="quiz-pct">'+pct+'% de bonnes reponses</div>'+
+    '<div class="quiz-result-msg">'+msg+'</div>'+
+    '<div class="quiz-result-btns">'+
+    '<button class="btn-gold" data-quiz-restart="1">🔄 Recommencer</button>'+
+    '<button class="btn-ghost-w" style="background:var(--green);color:#fff;border:none;padding:.65rem 1.5rem;border-radius:100px;cursor:pointer;font-size:.88rem" data-nav="ressources">📚 Voir les ressources</button>'+
+    '</div>'+reviewHtml+'</div>';
+  var counterEl = document.getElementById('quizCounter'); if(counterEl) counterEl.textContent='';
+  var t = document.getElementById('quizTimer'); if(t) t.textContent='';
+  var f = document.getElementById('quizTimerFill'); if(f) f.style.width='0';
 }
 
 // Quiz initialized when guide page is first shown
