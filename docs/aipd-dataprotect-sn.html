@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>AIPD — DataProtect Sénégal — dataprotect-sn.onrender.com</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;color:#1a1a2e;background:#fff;font-size:.92rem}
+  .doc-header{background:linear-gradient(135deg,#1a5c34,#1a4f8a);color:#fff;padding:2.5rem}
+  .doc-header h1{font-size:1.55rem;font-weight:800;margin-bottom:.4rem}
+  .doc-header p{opacity:.8;font-size:.88rem}
+  .doc-meta{display:flex;gap:1.5rem;margin-top:1rem;font-size:.8rem;opacity:.75;flex-wrap:wrap}
+  .doc-body{max-width:960px;margin:0 auto;padding:2.5rem 2rem}
+  h2{color:#1a5c34;font-size:1.05rem;margin:2rem 0 .75rem;padding-bottom:.4rem;border-bottom:2px solid #eaf5ef;font-weight:700}
+  h3{color:#2c3e50;font-size:.92rem;margin:1.25rem 0 .4rem;font-weight:700}
+  p{line-height:1.8;color:#374151;margin-bottom:.65rem}
+  ul,ol{padding-left:1.4rem;margin-bottom:.65rem}
+  li{line-height:1.8;color:#374151;margin-bottom:.15rem}
+  table{width:100%;border-collapse:collapse;font-size:.82rem;margin:1rem 0}
+  th{background:#1a5c34;color:#fff;padding:.6rem .8rem;text-align:left;font-weight:600}
+  td{padding:.55rem .8rem;border-bottom:1px solid #e5e7eb;vertical-align:top}
+  tr:nth-child(even) td{background:#f8fffe}
+  .highlight{background:#eaf5ef;border-left:4px solid #1a5c34;border-radius:0 8px 8px 0;padding:.8rem 1rem;margin:.75rem 0;font-size:.87rem}
+  .warning{background:#fdf6e3;border-left:4px solid #b8860b;border-radius:0 8px 8px 0;padding:.8rem 1rem;margin:.75rem 0;font-size:.87rem}
+  .danger{background:#fdecea;border-left:4px solid #c0392b;border-radius:0 8px 8px 0;padding:.8rem 1rem;margin:.75rem 0;font-size:.87rem}
+  .footer-doc{background:#f8f7f4;border-top:1px solid #e5e7eb;padding:1.5rem 2rem;font-size:.78rem;color:#6b7280;text-align:center;margin-top:3rem}
+  .btn-print{background:#1a5c34;color:#fff;border:none;padding:.55rem 1.1rem;border-radius:6px;cursor:pointer;font-size:.82rem;margin-top:1rem}
+  .badge{display:inline-block;padding:.18rem .55rem;border-radius:100px;font-size:.73rem;font-weight:700}
+  .badge-green{background:#dcfce7;color:#166534}
+  .badge-yellow{background:#fef9c3;color:#854d0e}
+  .badge-red{background:#fee2e2;color:#991b1b}
+  .badge-blue{background:#dbeafe;color:#1e40af}
+  .badge-orange{background:#ffedd5;color:#9a3412}
+  .section-id{display:inline-block;background:#1a5c34;color:#fff;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:.8rem;font-weight:800;margin-right:.5rem}
+  .traitement-block{border:1px solid #e5e7eb;border-radius:10px;padding:1.25rem 1.5rem;margin:1rem 0}
+  .traitement-title{font-weight:700;color:#1a5c34;font-size:.95rem;margin-bottom:.75rem;border-bottom:1px solid #eaf5ef;padding-bottom:.4rem}
+  .risk-row{display:flex;gap:.75rem;align-items:center;margin:.4rem 0;flex-wrap:wrap}
+  .risk-label{font-size:.8rem;color:#6b7280;min-width:120px}
+  .score-box{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin:1rem 0}
+  .score-card{border-radius:10px;padding:.85rem;text-align:center}
+  .sc-green{background:#dcfce7;border:1px solid #86efac}
+  .sc-yellow{background:#fef9c3;border:1px solid #fde047}
+  .sc-orange{background:#ffedd5;border:1px solid #fdba74}
+  .sc-red{background:#fee2e2;border:1px solid #fca5a5}
+  .score-num{font-size:1.6rem;font-weight:800}
+  .score-lbl{font-size:.75rem;margin-top:.2rem}
+  @media print{.no-print{display:none}.traitement-block{break-inside:avoid}h2{break-before:auto}}
+  @media(max-width:600px){.score-box{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="doc-header">
+  <h1>Analyse d'Impact sur la Protection des Données (AIPD)</h1>
+  <p>Système d'information du site <strong>dataprotect-sn.onrender.com</strong></p>
+  <div class="doc-meta">
+    <span><strong>Responsable du traitement :</strong> Henry Pierre Diouf — DataProtect Sénégal</span>
+    <span><strong>Rôle :</strong> DPO Master 2, Fondateur</span>
+    <span><strong>Date :</strong> Avril 2026</span>
+    <span><strong>Version :</strong> 1.0</span>
+  </div>
+  <button class="btn-print no-print" onclick="window.print()">Imprimer / Exporter PDF</button>
+</div>
+
+<div class="doc-body">
+
+<!-- ====== SECTION 1 ====== -->
+<h2><span class="section-id">1</span>Identification et contexte</h2>
+
+<table>
+  <tr><th style="width:30%">Élément</th><th>Description</th></tr>
+  <tr><td><strong>Nom du système</strong></td><td>DataProtect Sénégal — Plateforme web de référence sur la protection des données</td></tr>
+  <tr><td><strong>URL</strong></td><td>https://dataprotect-sn.onrender.com</td></tr>
+  <tr><td><strong>Responsable du traitement</strong></td><td>Henry Pierre Diouf, DPO Master 2 — dataprotect.sn@gmail.com</td></tr>
+  <tr><td><strong>Hébergeur</strong></td><td>Render (render.com) — Serveurs USA (Oregon, US-West)</td></tr>
+  <tr><td><strong>Technologies</strong></td><td>Python 3 / FastAPI, SQLite, HTML/CSS/JS, API Cohere (chatbot IA)</td></tr>
+  <tr><td><strong>Finalité globale</strong></td><td>Plateforme d'information, de sensibilisation et de mise en relation sur la protection des données personnelles au Sénégal (Loi 2008-12, RGPD, IA Act)</td></tr>
+  <tr><td><strong>Personnes concernées</strong></td><td>Visiteurs du site (citoyens, professionnels, entreprises, étudiants — principalement Sénégal et diaspora)</td></tr>
+  <tr><td><strong>Nombre estimé</strong></td><td>Quelques centaines à quelques milliers de visiteurs uniques/mois</td></tr>
+  <tr><td><strong>Date de l'AIPD</strong></td><td>Avril 2026</td></tr>
+</table>
+
+<div class="highlight"><strong>Contexte :</strong> Ce site est exploité par le DPO lui-même à titre pédagogique et professionnel. Il démontre la conformité par l'exemple. La présente AIPD couvre l'ensemble des traitements de données personnelles effectués via la plateforme.</div>
+
+<!-- ====== SECTION 2 ====== -->
+<h2><span class="section-id">2</span>Identification des traitements</h2>
+
+<p>Six traitements de données personnelles ont été identifiés :</p>
+
+<table>
+  <tr><th>#</th><th>Traitement</th><th>Données collectées</th><th>Base légale</th><th>Stockage</th></tr>
+  <tr><td><strong>T1</strong></td><td>Formulaire de contact</td><td>Nom, email, organisation, type de besoin, message</td><td>Art. 6(1)(b) RGPD — exécution mesures précontractuelles / Art. 7 Loi 2008-12</td><td>SQLite / Render /data</td></tr>
+  <tr><td><strong>T2</strong></td><td>Inscription newsletter</td><td>Prénom, email</td><td>Art. 6(1)(a) RGPD — consentement / Art. 7 Loi 2008-12</td><td>SQLite / Render /data</td></tr>
+  <tr><td><strong>T3</strong></td><td>Chatbot IA (Cohere)</td><td>Messages saisis (peuvent contenir des données personnelles), adresse IP (rate limiting temporaire)</td><td>Art. 6(1)(f) RGPD — intérêt légitime (service demandé)</td><td>API Cohere (USA) — non persisté côté serveur</td></tr>
+  <tr><td><strong>T4</strong></td><td>Comptes utilisateurs</td><td>Prénom, nom, email, mot de passe (SHA-256), rôle, date inscription</td><td>Art. 6(1)(b) RGPD — exécution du contrat</td><td>SQLite / Render /data</td></tr>
+  <tr><td><strong>T5</strong></td><td>Cookies & localStorage</td><td>Préférences cookies (analytique, personnalisation), thème (jour/nuit)</td><td>Art. 6(1)(a) RGPD — consentement pour cookies analytiques</td><td>Cookie navigateur (1 an) + localStorage</td></tr>
+  <tr><td><strong>T6</strong></td><td>Logs serveur (Render)</td><td>Adresse IP, horodatage, requêtes HTTP, user-agent</td><td>Art. 6(1)(f) RGPD — intérêt légitime (sécurité, rate limiting)</td><td>Mémoire serveur (60s) + logs Render (30 jours)</td></tr>
+</table>
+
+<!-- ====== SECTION 3 ====== -->
+<h2><span class="section-id">3</span>Nécessité et proportionnalité</h2>
+
+<table>
+  <tr><th>Traitement</th><th>Les données sont-elles strictement nécessaires ?</th><th>Durée de conservation</th><th>Information des personnes</th><th>Évaluation</th></tr>
+  <tr>
+    <td><strong>T1 — Contact</strong></td>
+    <td>Oui. Nom + email nécessaires pour répondre. Organisation/type de besoin utiles mais optionnels.</td>
+    <td><span class="badge badge-yellow">Non définie formellement</span> — à fixer : 3 ans recommandés</td>
+    <td>Politique de confidentialité présente sur le site</td>
+    <td><span class="badge badge-yellow">Partiel</span></td>
+  </tr>
+  <tr>
+    <td><strong>T2 — Newsletter</strong></td>
+    <td>Oui. Prénom + email minimum nécessaire.</td>
+    <td><span class="badge badge-yellow">Jusqu'à désinscription</span> — mécanisme de désinscription à implémenter</td>
+    <td>Consentement recueilli au formulaire</td>
+    <td><span class="badge badge-yellow">Partiel</span></td>
+  </tr>
+  <tr>
+    <td><strong>T3 — Chatbot</strong></td>
+    <td>Messages nécessaires pour fonctionner. IP utile pour rate limiting (sécurité).</td>
+    <td>IP : 60 secondes (mémoire) ✅<br>Messages : transmis à Cohere, politique Cohere applicable</td>
+    <td><span class="badge badge-red">Insuffisant</span> — pas d'avertissement visible sur le transfert vers Cohere/USA</td>
+    <td><span class="badge badge-red">Insuffisant</span></td>
+  </tr>
+  <tr>
+    <td><strong>T4 — Comptes</strong></td>
+    <td>Oui. Données minimales (prénom, nom, email, mot de passe).</td>
+    <td><span class="badge badge-yellow">Non définie</span> — à fixer : durée de vie du compte + 1 an</td>
+    <td>À renforcer — informer au moment de l'inscription</td>
+    <td><span class="badge badge-yellow">Partiel</span></td>
+  </tr>
+  <tr>
+    <td><strong>T5 — Cookies</strong></td>
+    <td>Cookie nécessaire (dp_consent). Analytiques optionnels.</td>
+    <td>1 an (cookie) ✅</td>
+    <td>Bannière de consentement présente ✅</td>
+    <td><span class="badge badge-green">Conforme</span></td>
+  </tr>
+  <tr>
+    <td><strong>T6 — Logs</strong></td>
+    <td>Oui, pour sécurité (rate limiting = 30 req/min).</td>
+    <td>60 secondes en mémoire ✅ — logs Render gérés par Render (30 jours)</td>
+    <td>Mentionné dans la politique de confidentialité</td>
+    <td><span class="badge badge-green">Conforme</span></td>
+  </tr>
+</table>
+
+<!-- ====== SECTION 4 ====== -->
+<h2><span class="section-id">4</span>Transferts vers des pays tiers</h2>
+
+<div class="warning"><strong>Point d'attention majeur :</strong> Deux transferts de données vers les États-Unis ont été identifiés, nécessitant des garanties appropriées.</div>
+
+<table>
+  <tr><th>Transfert</th><th>Destinataire</th><th>Pays</th><th>Données transférées</th><th>Garantie actuelle</th><th>Action requise</th></tr>
+  <tr>
+    <td><strong>Hébergement Render</strong></td>
+    <td>Render Inc.</td>
+    <td>🇺🇸 USA (Oregon)</td>
+    <td>Toutes les données stockées (contacts, abonnés, utilisateurs, logs)</td>
+    <td>Render est soumis au Data Privacy Framework (DPF) USA-UE depuis 2023. Conditions de service applicables.</td>
+    <td>Conclure un DPA (Data Processing Agreement) avec Render. Vérifier la certification DPF.</td>
+  </tr>
+  <tr>
+    <td><strong>API Cohere (chatbot)</strong></td>
+    <td>Cohere AI Inc.</td>
+    <td>🇨🇦 Canada / 🇺🇸 USA</td>
+    <td>Messages de chat (peuvent contenir données personnelles)</td>
+    <td>Politique de confidentialité Cohere applicable. Pas de DPA spécifique visible.</td>
+    <td>Informer explicitement les utilisateurs du transfert vers Cohere. Consulter les conditions d'utilisation API Cohere. Mentionner dans la politique de confidentialité.</td>
+  </tr>
+  <tr>
+    <td><strong>Google Fonts</strong></td>
+    <td>Google LLC</td>
+    <td>🇺🇸 USA</td>
+    <td>Adresse IP des visiteurs (requête HTTP vers fonts.googleapis.com)</td>
+    <td>Politique de confidentialité Google / DPF</td>
+    <td>Envisager l'auto-hébergement des polices pour éliminer ce transfert.</td>
+  </tr>
+</table>
+
+<!-- ====== SECTION 5 ====== -->
+<h2><span class="section-id">5</span>Identification et évaluation des risques</h2>
+
+<h3>T1 — Formulaire de contact</h3>
+<div class="traitement-block">
+  <div class="traitement-title">Formulaire de contact — Risque : <span class="badge badge-yellow">Modéré</span></div>
+  <table>
+    <tr><th>Risque</th><th>Source de menace</th><th>Vraisemblance (1–4)</th><th>Gravité (1–4)</th><th>Niveau</th><th>Mesures existantes</th></tr>
+    <tr>
+      <td>Accès illégitime aux messages de contact</td>
+      <td>Attaque sur l'API admin, fuite de token admin</td>
+      <td>2</td><td>3</td>
+      <td><span class="badge badge-yellow">Modéré</span></td>
+      <td>Endpoint admin protégé par token (64 hex). Rate limiting 5 req/min. En-têtes sécurité HTTP (X-Frame-Options, etc.).</td>
+    </tr>
+    <tr>
+      <td>Conservation excessive des données</td>
+      <td>Absence de purge automatique</td>
+      <td>3</td><td>2</td>
+      <td><span class="badge badge-yellow">Modéré</span></td>
+      <td>Suppression manuelle possible via admin. Pas de purge automatique.</td>
+    </tr>
+    <tr>
+      <td>Injection SQL via formulaire</td>
+      <td>Utilisateur malveillant</td>
+      <td>1</td><td>4</td>
+      <td><span class="badge badge-yellow">Modéré</span></td>
+      <td>SQLite avec paramètres liés (requêtes préparées) — protection native ✅.</td>
+    </tr>
+  </table>
+</div>
+
+<h3>T2 — Newsletter</h3>
+<div class="traitement-block">
+  <div class="traitement-title">Newsletter — Risque : <span class="badge badge-yellow">Modéré</span></div>
+  <table>
+    <tr><th>Risque</th><th>Source de menace</th><th>Vraisemblance (1–4)</th><th>Gravité (1–4)</th><th>Niveau</th><th>Mesures existantes</th></tr>
+    <tr>
+      <td>Inscription sans consentement réel</td>
+      <td>Formulaire rempli par un tiers sans accord de la personne</td>
+      <td>2</td><td>2</td>
+      <td><span class="badge badge-green">Faible</span></td>
+      <td>Case à cocher et formulaire visible. Pas encore de double opt-in.</td>
+    </tr>
+    <tr>
+      <td>Absence de mécanisme de désinscription</td>
+      <td>Fonctionnalité manquante</td>
+      <td>3</td><td>2</td>
+      <td><span class="badge badge-yellow">Modéré</span></td>
+      <td>Désinscription uniquement via admin actuellement. Lien de désinscription dans emails manquant.</td>
+    </tr>
+  </table>
+</div>
+
+<h3>T3 — Chatbot IA (Cohere)</h3>
+<div class="traitement-block">
+  <div class="traitement-title">Chatbot IA — Risque : <span class="badge badge-orange">Élevé</span></div>
+  <table>
+    <tr><th>Risque</th><th>Source de menace</th><th>Vraisemblance (1–4)</th><th>Gravité (1–4)</th><th>Niveau</th><th>Mesures existantes</th></tr>
+    <tr>
+      <td>Transmission de données sensibles à Cohere (USA)</td>
+      <td>Utilisateur saisissant des données personnelles dans le chat (nom, numéro, données de santé)</td>
+      <td>3</td><td>3</td>
+      <td><span class="badge badge-orange">Élevé</span></td>
+      <td>Pas d'avertissement visible. Pas de filtre côté serveur avant envoi à Cohere.</td>
+    </tr>
+    <tr>
+      <td>Collecte excessive (messages sans rapport)</td>
+      <td>Utilisation détournée du chatbot</td>
+      <td>2</td><td>2</td>
+      <td><span class="badge badge-yellow">Modéré</span></td>
+      <td>Prompt système restreint au domaine juridique. Historique limité aux 8 derniers messages.</td>
+    </tr>
+    <tr>
+      <td>Réponse IA incorrecte utilisée comme conseil juridique</td>
+      <td>Utilisateur faisant confiance aveuglément à l'IA</td>
+      <td>3</td><td>3</td>
+      <td><span class="badge badge-orange">Élevé</span></td>
+      <td>Disclaimer dans le prompt système ("non conseil juridique"). À renforcer dans l'interface.</td>
+    </tr>
+  </table>
+</div>
+
+<h3>T4 — Comptes utilisateurs</h3>
+<div class="traitement-block">
+  <div class="traitement-title">Comptes utilisateurs — Risque : <span class="badge badge-yellow">Modéré</span></div>
+  <table>
+    <tr><th>Risque</th><th>Source de menace</th><th>Vraisemblance (1–4)</th><th>Gravité (1–4)</th><th>Niveau</th><th>Mesures existantes</th></tr>
+    <tr>
+      <td>Mot de passe hashé sans sel (SHA-256 seul)</td>
+      <td>Fuite de la base + attaque par rainbow tables</td>
+      <td>2</td><td>3</td>
+      <td><span class="badge badge-yellow">Modéré</span></td>
+      <td>SHA-256 appliqué. Pas de sel aléatoire (bcrypt ou argon2 recommandé).</td>
+    </tr>
+    <tr>
+      <td>Absence de vérification d'email à l'inscription</td>
+      <td>Création de comptes avec emails frauduleux</td>
+      <td>2</td><td>2</td>
+      <td><span class="badge badge-yellow">Modéré</span></td>
+      <td>Pas de double opt-in email. Contrainte UNIQUE sur email en base.</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ====== SECTION 6 ====== -->
+<h2><span class="section-id">6</span>Synthèse des niveaux de risque</h2>
+
+<div class="score-box">
+  <div class="score-card sc-green"><div class="score-num" style="color:#166534">2</div><div class="score-lbl">Risques faibles</div></div>
+  <div class="score-card sc-yellow"><div class="score-num" style="color:#854d0e">6</div><div class="score-lbl">Risques modérés</div></div>
+  <div class="score-card sc-orange"><div class="score-num" style="color:#9a3412">2</div><div class="score-lbl">Risques élevés</div></div>
+  <div class="score-card sc-red"><div class="score-num" style="color:#991b1b">0</div><div class="score-lbl">Risques critiques</div></div>
+</div>
+
+<div class="highlight"><strong>Risque résiduel global : Modéré.</strong> Le site peut continuer à fonctionner. Les 2 risques élevés (chatbot sans information transfert USA + disclaimer IA insuffisant) doivent être traités en priorité. Aucun risque critique identifié — consultation préalable de la CDP non obligatoire mais recommandée dans le cadre de la démarche exemplaire du site.</div>
+
+<!-- ====== SECTION 7 ====== -->
+<h2><span class="section-id">7</span>Mesures de sécurité existantes</h2>
+
+<table>
+  <tr><th>Catégorie</th><th>Mesure</th><th>État</th></tr>
+  <tr><td>En-têtes HTTP sécurité</td><td>X-Content-Type-Options, X-Frame-Options, Referrer-Policy via middleware FastAPI</td><td><span class="badge badge-green">Mis en place ✅</span></td></tr>
+  <tr><td>Rate limiting</td><td>Max 30 req/min par IP (général) / 5 req/min (contact, admin)</td><td><span class="badge badge-green">Mis en place ✅</span></td></tr>
+  <tr><td>Contrôle d'accès admin</td><td>Token SHA-256 64 hex, vérifié côté serveur, expire 24h, stocké en base</td><td><span class="badge badge-green">Mis en place ✅</span></td></tr>
+  <tr><td>Protection injection SQL</td><td>Requêtes SQLite paramétrées (pas de concaténation de chaînes)</td><td><span class="badge badge-green">Mis en place ✅</span></td></tr>
+  <tr><td>CORS</td><td>Origines autorisées explicitement (Render + localhost)</td><td><span class="badge badge-green">Mis en place ✅</span></td></tr>
+  <tr><td>HTTPS</td><td>Fourni par Render automatiquement (certificat TLS)</td><td><span class="badge badge-green">Mis en place ✅</span></td></tr>
+  <tr><td>Consentement cookies</td><td>Bannière de consentement avec choix granulaires (nécessaires/analytiques/personnalisation)</td><td><span class="badge badge-green">Mis en place ✅</span></td></tr>
+  <tr><td>Hashage mot de passe</td><td>SHA-256 — sans sel aléatoire</td><td><span class="badge badge-yellow">Partiel ⚠️</span></td></tr>
+  <tr><td>Information transfert pays tiers (chatbot)</td><td>Non mentionné dans l'interface chatbot</td><td><span class="badge badge-red">Absent ❌</span></td></tr>
+  <tr><td>Durées de conservation définies</td><td>Non formalisées pour contacts, abonnés, utilisateurs</td><td><span class="badge badge-red">Absent ❌</span></td></tr>
+  <tr><td>Double opt-in newsletter</td><td>Non implémenté</td><td><span class="badge badge-yellow">Partiel ⚠️</span></td></tr>
+  <tr><td>Lien de désinscription newsletter</td><td>Non implémenté dans les emails</td><td><span class="badge badge-red">Absent ❌</span></td></tr>
+</table>
+
+<!-- ====== SECTION 8 ====== -->
+<h2><span class="section-id">8</span>Plan d'action — Mesures complémentaires</h2>
+
+<table>
+  <tr><th>Priorité</th><th>Action</th><th>Traitement concerné</th><th>Référence légale</th><th>Échéance</th><th>Statut</th></tr>
+  <tr>
+    <td><span class="badge badge-red">Urgent</span></td>
+    <td>Ajouter avertissement explicite dans l'interface chatbot : "Vos messages sont traités par l'API Cohere (Canada/USA). Ne saisissez pas de données personnelles sensibles."</td>
+    <td>T3 — Chatbot</td>
+    <td>Art. 13 RGPD / Art. 26 Loi 2008-12</td>
+    <td>Immédiat</td>
+    <td>À faire</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-red">Urgent</span></td>
+    <td>Mentionner le transfert vers Cohere dans la politique de confidentialité avec les garanties applicables</td>
+    <td>T3 — Chatbot</td>
+    <td>Art. 44-49 RGPD</td>
+    <td>Immédiat</td>
+    <td>À faire</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-orange">Haute</span></td>
+    <td>Remplacer SHA-256 par bcrypt (avec sel) pour le hashage des mots de passe</td>
+    <td>T4 — Comptes</td>
+    <td>Art. 32 RGPD — sécurité du traitement</td>
+    <td>30 jours</td>
+    <td>À faire</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-orange">Haute</span></td>
+    <td>Définir et appliquer des durées de conservation : contacts (3 ans), abonnés (jusqu'à désinscription), comptes (durée active + 1 an)</td>
+    <td>T1, T2, T4</td>
+    <td>Art. 5(1)(e) RGPD — limitation conservation</td>
+    <td>60 jours</td>
+    <td>À faire</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-orange">Haute</span></td>
+    <td>Conclure un DPA (Data Processing Agreement) avec Render</td>
+    <td>Tous</td>
+    <td>Art. 28 RGPD — sous-traitants</td>
+    <td>60 jours</td>
+    <td>À faire</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-yellow">Normale</span></td>
+    <td>Implémenter un lien de désinscription dans chaque email de newsletter</td>
+    <td>T2 — Newsletter</td>
+    <td>Art. 7(3) RGPD — retrait du consentement</td>
+    <td>90 jours</td>
+    <td>À faire</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-yellow">Normale</span></td>
+    <td>Auto-héberger Google Fonts pour supprimer le transfert IP vers Google</td>
+    <td>T6 — Logs</td>
+    <td>Art. 44 RGPD</td>
+    <td>90 jours</td>
+    <td>À faire</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-yellow">Normale</span></td>
+    <td>Ajouter un mécanisme de purge automatique des contacts lus après 3 ans (tâche cron)</td>
+    <td>T1 — Contact</td>
+    <td>Art. 5(1)(e) RGPD</td>
+    <td>90 jours</td>
+    <td>À faire</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-green">Basse</span></td>
+    <td>Déclarer les traitements à la CDP Sénégal (formulaire en ligne sur cdp.sn)</td>
+    <td>Tous</td>
+    <td>Art. 18 Loi 2008-12 — déclaration préalable</td>
+    <td>6 mois</td>
+    <td>À faire</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-green">Basse</span></td>
+    <td>Implémenter un endpoint GET /api/mon-compte et DELETE /api/mon-compte pour permettre l'accès et l'effacement</td>
+    <td>T4 — Comptes</td>
+    <td>Art. 15 &amp; 17 RGPD — droits d'accès et effacement</td>
+    <td>6 mois</td>
+    <td>À faire</td>
+  </tr>
+</table>
+
+<!-- ====== SECTION 9 ====== -->
+<h2><span class="section-id">9</span>Droits des personnes concernées</h2>
+
+<table>
+  <tr><th>Droit</th><th>Base légale</th><th>Modalité d'exercice actuelle</th><th>État</th></tr>
+  <tr><td>Droit d'information</td><td>Art. 13 RGPD / Art. 26 Loi 2008-12</td><td>Politique de confidentialité accessible sur le site</td><td><span class="badge badge-green">Mis en place ✅</span></td></tr>
+  <tr><td>Droit d'accès</td><td>Art. 15 RGPD / Art. 48 Loi 2008-12</td><td>Sur demande par email : dataprotect.sn@gmail.com</td><td><span class="badge badge-yellow">Partiel ⚠️</span></td></tr>
+  <tr><td>Droit de rectification</td><td>Art. 16 RGPD / Art. 49 Loi 2008-12</td><td>Sur demande par email</td><td><span class="badge badge-yellow">Partiel ⚠️</span></td></tr>
+  <tr><td>Droit à l'effacement</td><td>Art. 17 RGPD</td><td>Sur demande par email — suppression admin possible</td><td><span class="badge badge-yellow">Partiel ⚠️</span></td></tr>
+  <tr><td>Droit d'opposition</td><td>Art. 21 RGPD / Art. 22 Loi 2008-12</td><td>Sur demande par email</td><td><span class="badge badge-yellow">Partiel ⚠️</span></td></tr>
+  <tr><td>Retrait du consentement (newsletter)</td><td>Art. 7(3) RGPD</td><td>Sur demande — lien de désinscription à créer</td><td><span class="badge badge-red">Insuffisant ❌</span></td></tr>
+  <tr><td>Droit à la portabilité</td><td>Art. 20 RGPD</td><td>Non implémenté</td><td><span class="badge badge-red">Absent ❌</span></td></tr>
+</table>
+
+<div class="highlight"><strong>Pour exercer vos droits :</strong> Contactez Henry Pierre Diouf — dataprotect.sn@gmail.com — Réponse sous 30 jours. En cas de réclamation non résolue : CDP Sénégal — cdp.sn — +221 33 869 79 79.</div>
+
+<!-- ====== SECTION 10 ====== -->
+<h2><span class="section-id">10</span>Conclusion et décision</h2>
+
+<table>
+  <tr><th style="width:35%">Critère</th><th>Évaluation</th></tr>
+  <tr><td><strong>Risque résiduel global</strong></td><td><span class="badge badge-yellow">Modéré</span> — Aucun risque critique ou inacceptable identifié</td></tr>
+  <tr><td><strong>Consultation CDP obligatoire ?</strong></td><td>Non — risque résiduel modéré. Consultation volontaire recommandée dans le cadre de l'exemplarité.</td></tr>
+  <tr><td><strong>Le traitement peut-il démarrer / continuer ?</strong></td><td>Oui, sous réserve de traiter les actions urgentes (chatbot) dans les 30 jours</td></tr>
+  <tr><td><strong>Prochaine révision de l'AIPD</strong></td><td>Octobre 2026 (6 mois) ou lors de tout changement significatif du système</td></tr>
+</table>
+
+<div class="warning"><strong>Engagements du responsable du traitement :</strong> Henry Pierre Diouf s'engage à mettre en œuvre le plan d'action ci-dessus selon les échéances définies, et à réviser cette AIPD à chaque évolution significative du système (nouveau traitement, nouveau sous-traitant, changement d'hébergeur, nouvelles fonctionnalités).</div>
+
+<div style="margin-top:2rem;padding:1.5rem;border:1px solid #e5e7eb;border-radius:10px">
+  <p><strong>Responsable du traitement</strong></p>
+  <p style="margin-top:.75rem">Nom : Henry Pierre Diouf</p>
+  <p>Qualité : DPO Master 2 — Fondateur DataProtect Sénégal</p>
+  <p>Date : Avril 2026</p>
+  <p style="margin-top:1.5rem">Signature : _____________________________</p>
+</div>
+
+</div>
+
+<div class="footer-doc">
+  <p>DataProtect SN &mdash; AIPD du système dataprotect-sn.onrender.com &mdash; Version 1.0 &mdash; Avril 2026</p>
+  <p style="margin-top:.3rem">Document confidentiel — Ne pas diffuser publiquement sans retirer les informations sensibles relatives aux mesures de sécurité</p>
+</div>
+</body>
+</html>
