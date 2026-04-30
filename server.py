@@ -57,7 +57,7 @@ async def security_headers(request, call_next):
     return response
 ENV = _os.environ.get("ENV", "development")
 _prod_origins = [
-    "https://dataprotect-sn.up.railway.app",
+    "https://dataprotect-senegal-production.up.railway.app",
     "https://dataprotect-sn.onrender.com",
 ]
 _dev_origins = _prod_origins + ["http://localhost:8080", "http://localhost:10000"]
@@ -245,7 +245,7 @@ async def robots():
     from fastapi.responses import PlainTextResponse
     return PlainTextResponse(
         "User-agent: *\nAllow: /\nDisallow: /admin.html\nDisallow: /api/admin/\n\n"
-        "Sitemap: https://dataprotect-sn.up.railway.app/sitemap.xml\n"
+        "Sitemap: https://dataprotect-senegal-production.up.railway.app/sitemap.xml\n"
     )
 
 @app.get("/sitemap.xml")
@@ -253,13 +253,13 @@ async def sitemap():
     from fastapi.responses import Response
     xml = """<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://dataprotect-sn.up.railway.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://dataprotect-sn.up.railway.app/?page=blog</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://dataprotect-sn.up.railway.app/?page=guide</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://dataprotect-sn.up.railway.app/?page=ressources</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://dataprotect-sn.up.railway.app/?page=comparatif</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://dataprotect-sn.up.railway.app/?page=about</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://dataprotect-sn.up.railway.app/?page=contact</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://dataprotect-senegal-production.up.railway.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://dataprotect-senegal-production.up.railway.app/?page=blog</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://dataprotect-senegal-production.up.railway.app/?page=guide</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dataprotect-senegal-production.up.railway.app/?page=ressources</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dataprotect-senegal-production.up.railway.app/?page=comparatif</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dataprotect-senegal-production.up.railway.app/?page=about</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://dataprotect-senegal-production.up.railway.app/?page=contact</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>"""
     return Response(content=xml, media_type="application/xml")
 
