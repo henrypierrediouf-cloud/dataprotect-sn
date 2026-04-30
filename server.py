@@ -263,8 +263,20 @@ async def sitemap():
 </urlset>"""
     return Response(content=xml, media_type="application/xml")
 
+@app.get("/logo.jpeg")
+async def serve_logo():
+    f = BASE_DIR / "IMG_8714.jpeg"
+    if not f.exists():
+        raise HTTPException(status_code=404)
+    from fastapi.responses import FileResponse
+    return FileResponse(str(f), media_type="image/jpeg", headers={"Cache-Control": "public, max-age=604800"})
+
 @app.get("/favicon.ico")
 async def favicon():
+    f = BASE_DIR / "IMG_8714.jpeg"
+    if f.exists():
+        from fastapi.responses import FileResponse
+        return FileResponse(str(f), media_type="image/jpeg")
     return JSONResponse({})
 
 @app.get("/api/articles")
