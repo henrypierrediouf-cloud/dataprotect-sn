@@ -4,6 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DataProtect Sénégal — Protection des Données Personnelles</title>
+
+<!-- SEO -->
+<meta name="description" content="Plateforme de référence sur la protection des données au Sénégal : guide citoyen, veille juridique, quiz interactif, ressources conformité. Loi 2008-12, RGPD, IA Act.">
+<meta name="keywords" content="protection données Sénégal, Loi 2008-12, RGPD, CDP Sénégal, DPO, données personnelles, conformité, IA Act">
+<meta name="author" content="Henry Pierre Diouf, DPO M2">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#1a6b3a">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="DataProtect Sénégal — Protection des Données Personnelles">
+<meta property="og:description" content="Plateforme de référence : guide citoyen, veille juridique sourcée, quiz, ressources conformité Loi 2008-12, RGPD et IA Act.">
+<meta property="og:url" content="https://dataprotect-sn.up.railway.app">
+<meta property="og:locale" content="fr_SN">
+<meta property="og:site_name" content="DataProtect Sénégal">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DataProtect Sénégal — Protection des Données Personnelles">
+<meta name="twitter:description" content="Guide citoyen, veille juridique, quiz interactif sur la protection des données au Sénégal.">
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DataProtect SN">
+
+<!-- Données structurées -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"DataProtect Sénégal","url":"https://dataprotect-sn.up.railway.app","description":"Plateforme de référence sur la protection des données personnelles au Sénégal","contactPoint":{"@type":"ContactPoint","email":"dataprotect.sn@gmail.com","contactType":"Customer Support","areaServed":"SN","availableLanguage":"French"},"founder":{"@type":"Person","name":"Henry Pierre Diouf","jobTitle":"DPO certifié M2"}}
+</script>
+
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -1646,5 +1678,13 @@ L&rsquo;utilisation de ce site implique l&rsquo;acceptation pleine et entiere de
 <div id="cookie-modal"><div class="cm-box"><h3>Mes preferences cookies</h3><p style="font-size:.76rem;color:var(--muted);margin-bottom:.8rem">Art. 48 Loi 2008-12 et Art. 7 RGPD</p><div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">Necessaires</span><label class="tgl"><input type="checkbox" checked disabled><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Indispensables au fonctionnement.</div></div><div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">Analytiques</span><label class="tgl"><input type="checkbox" id="ck-analytics"><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Comprendre l'usage du site.</div></div><div class="cm-cat"><div class="cm-cat-head"><span class="cm-cat-title">Personnalisation</span><label class="tgl"><input type="checkbox" id="ck-perso"><span class="tgl-s"></span></label></div><div class="cm-cat-desc">Memoriser vos preferences.</div></div><div class="cm-btns"><button class="btn-ck-no" id="ck-modal-refuse">Refuser</button><button class="btn-ck-ok" id="ck-modal-save">Enregistrer</button><button class="btn-ck-ok" id="ck-modal-accept">Accepter tout</button></div></div></div>
 
 <script src="/app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js').catch(function() {});
+    });
+  }
+</script>
+<script defer data-domain="dataprotect-sn.up.railway.app" src="https://plausible.io/js/script.js"></script>
 </body>
 </html>

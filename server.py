@@ -17,8 +17,12 @@ from datetime import datetime, timedelta
 # CONFIGURATION
 # ============================================================
 import os as _os
-COHERE_API_KEY = _os.environ.get("COHERE_API_KEY", "METS_CLE_COHERE_ICI")
-ADMIN_PASSWORD_CLAIR = _os.environ.get("ADMIN_PASSWORD", "dataprotect2025")
+COHERE_API_KEY = _os.environ.get("COHERE_API_KEY", "")
+ADMIN_PASSWORD_CLAIR = _os.environ.get("ADMIN_PASSWORD", "")
+if not ADMIN_PASSWORD_CLAIR:
+    import warnings
+    warnings.warn("ADMIN_PASSWORD non defini — utilisation du mot de passe par defaut. Definissez la variable d'environnement en production.", stacklevel=2)
+    ADMIN_PASSWORD_CLAIR = "dataprotect2025"
 
 # ============================================================
 
@@ -51,11 +55,13 @@ async def security_headers(request, call_next):
     response.headers["X-Frame-Options"] = "DENY"
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     return response
-ALLOWED_ORIGINS = [
+ENV = _os.environ.get("ENV", "development")
+_prod_origins = [
+    "https://dataprotect-sn.up.railway.app",
     "https://dataprotect-sn.onrender.com",
-    "http://localhost:8080",
-    "http://localhost:10000",
 ]
+_dev_origins = _prod_origins + ["http://localhost:8080", "http://localhost:10000"]
+ALLOWED_ORIGINS = _prod_origins if ENV == "production" else _dev_origins
 app.add_middleware(CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
@@ -183,12 +189,16 @@ async def admin_page():
         return HTMLResponse("Erreur : admin.html introuvable", status_code=404)
     return HTMLResponse(f.read_text(encoding="utf-8"))
 
+_ALLOWED_DOCS = {
+    "guide-citoyen-droits.html", "registre-traitements.html",
+    "checklist-loi-2008-12.html", "checklist-rgpd-entreprises-sn.html",
+    "modele-politique-confidentialite.html",
+}
+
 @app.get("/docs/{filename}")
 async def serve_doc(filename: str):
     from fastapi.responses import FileResponse
-    import re
-    # Securite : nom de fichier alphanumérique seulement
-    if not re.match(r'^[\w\-]+\.html$', filename):
+    if filename not in _ALLOWED_DOCS:
         raise HTTPException(status_code=404, detail="Document introuvable")
     f = BASE_DIR / "docs" / filename
     if not f.exists():
@@ -212,7 +222,46 @@ async def serve_js():
     if not f.exists():
         raise HTTPException(status_code=404, detail="app.js introuvable")
     from fastapi.responses import FileResponse
-    return FileResponse(str(f), media_type="application/javascript")
+    return FileResponse(str(f), media_type="application/javascript", headers={"Cache-Control": "public, max-age=3600"})
+
+@app.get("/sw.js")
+async def serve_sw():
+    f = BASE_DIR / "sw.js"
+    if not f.exists():
+        raise HTTPException(status_code=404)
+    from fastapi.responses import FileResponse
+    return FileResponse(str(f), media_type="application/javascript", headers={"Cache-Control": "no-cache"})
+
+@app.get("/manifest.json")
+async def serve_manifest():
+    f = BASE_DIR / "manifest.json"
+    if not f.exists():
+        raise HTTPException(status_code=404)
+    from fastapi.responses import FileResponse
+    return FileResponse(str(f), media_type="application/manifest+json", headers={"Cache-Control": "public, max-age=86400"})
+
+@app.get("/robots.txt")
+async def robots():
+    from fastapi.responses import PlainTextResponse
+    return PlainTextResponse(
+        "User-agent: *\nAllow: /\nDisallow: /admin.html\nDisallow: /api/admin/\n\n"
+        "Sitemap: https://dataprotect-sn.up.railway.app/sitemap.xml\n"
+    )
+
+@app.get("/sitemap.xml")
+async def sitemap():
+    from fastapi.responses import Response
+    xml = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://dataprotect-sn.up.railway.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://dataprotect-sn.up.railway.app/?page=blog</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://dataprotect-sn.up.railway.app/?page=guide</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dataprotect-sn.up.railway.app/?page=ressources</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://dataprotect-sn.up.railway.app/?page=comparatif</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://dataprotect-sn.up.railway.app/?page=about</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://dataprotect-sn.up.railway.app/?page=contact</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+</urlset>"""
+    return Response(content=xml, media_type="application/xml")
 
 @app.get("/favicon.ico")
 async def favicon():
@@ -307,8 +356,8 @@ async def chat(req: ChatRequest, request: Request):
     ip = request.client.host if request.client else "unknown"
     if not check_rate_limit(ip, max_req=10, window=60):
         raise HTTPException(status_code=429, detail="Trop de requetes. Attendez 1 minute.")
-    if not COHERE_API_KEY or COHERE_API_KEY == "METS_CLE_COHERE_ICI":
-        return {"reply": "Chatbot non configure."}
+    if not COHERE_API_KEY:
+        return {"reply": "L'assistant IA n'est pas encore configuré. Pour toute question sur la protection des données, consultez nos ressources ou écrivez à dataprotect.sn@gmail.com — réponse sous 48h."}
     SYSTEM = (
         "Tu es l'assistant IA officiel de DataProtect Senegal, plateforme de reference sur la protection des donnees personnelles au Senegal, fondee par Henry Pierre Diouf, DPO certifie M2 de La Plateforme Numerique Marseille. "
         "REGLES ABSOLUES : "
@@ -331,8 +380,8 @@ async def chat(req: ChatRequest, request: Request):
     except urllib.error.HTTPError as e:
         err = e.read().decode()
         raise HTTPException(status_code=502, detail="Erreur Cohere: " + err[:300])
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        return {"reply": "Une erreur est survenue. Veuillez réessayer ou consulter nos ressources directement. Pour un accompagnement personnalisé : dataprotect.sn@gmail.com"}
 
 def check_admin(request: Request):
     token = request.headers.get("X-Admin-Token", "")
